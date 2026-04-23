@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="description" content="Borna Laser - Nhà cung cấp thiết bị tự động hóa gia công laser công nghiệp tại Việt Nam. Marking, Skinning, Welding, Cutting & tự động hóa phi tiêu chuẩn."/>
+<title>Borna Laser | Thiết Bị Laser Công Nghiệp</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700;800&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet"/>
+<style>
+/* ─── RESET & BASE ─── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Open Sans',sans-serif;color:#222;background:#fff;overflow-x:hidden}
+a{text-decoration:none;color:inherit}
+img{max-width:100%;display:block}
+ul{list-style:none}
+
+/* ─── CSS VARIABLES ─── */
+:root{
+  --blue:#1b5fd4;
+  --blue-dark:#0d3fa0;
+  --blue-light:#e8f0ff;
+  --accent:#e03a2f;
+  --dark:#0a0e1a;
+  --gray:#666;
+  --light:#f5f7fb;
+  --border:#e2e8f0;
+  --radius:6px;
+  --shadow:0 8px 32px rgba(0,0,0,.10);
+  --trans:all .3s ease;
+}
+
+/* ─── TYPOGRAPHY ─── */
+h1,h2,h3,h4{font-family:'Rubik',sans-serif;line-height:1.2}
+
+/* ─── LAYOUT ─── */
+.container{max-width:1200px;margin:0 auto;padding:0 24px}
+.section{padding:90px 0}
+.section-sm{padding:60px 0}
+
+/* ─── NAV ─── */
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;transition:var(--trans)}
+nav.scrolled{background:#fff;box-shadow:0 2px 20px rgba(0,0,0,.1)}
+nav.scrolled .logo span{color:var(--dark)}
+nav.scrolled .logo em{color:var(--blue)}
+nav.scrolled .nav-links a{color:var(--dark)}
+nav.scrolled .nav-cta{background:var(--blue);color:#fff!important}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;height:70px}
+.logo{font-family:'Rubik',sans-serif;font-size:26px;font-weight:800;letter-spacing:1px;cursor:pointer}
+.logo span{color:#fff;transition:var(--trans)}
+.logo em{color:#6fb3ff;font-style:normal}
+.nav-links{display:flex;align-items:center;gap:32px}
+.nav-links a{font-family:'Rubik',sans-serif;font-size:14px;font-weight:500;color:rgba(255,255,255,.9);letter-spacing:.4px;transition:var(--trans);position:relative}
+.nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:var(--blue);transition:var(--trans)}
+.nav-links a:hover::after,.nav-links a.active::after{width:100%}
+.nav-links a:hover{color:#fff}
+.nav-cta{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.4);color:#fff!important;padding:9px 22px;border-radius:40px;font-size:13px;font-weight:600;transition:var(--trans)}
+.nav-cta:hover{background:#fff;color:var(--blue)!important}
+.nav-cta::after{display:none!important}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px}
+.hamburger span{display:block;width:26px;height:2px;background:#fff;border-radius:2px;transition:var(--trans)}
+nav.scrolled .hamburger span{background:var(--dark)}
+
+/* ─── HERO ─── */
+.hero{min-height:100vh;background:linear-gradient(135deg,#040d1f 0%,#0a1a3e 50%,#0d2460 100%);display:flex;align-items:center;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Ccircle cx='30' cy='30' r='1'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")}
+.hero-grid{position:absolute;inset:0;overflow:hidden}
+.hero-grid::before{content:'';position:absolute;inset:-50%;background:repeating-linear-gradient(0deg,transparent,transparent 60px,rgba(255,255,255,.03) 60px,rgba(255,255,255,.03) 61px),repeating-linear-gradient(90deg,transparent,transparent 60px,rgba(255,255,255,.03) 60px,rgba(255,255,255,.03) 61px)}
+.hero-glow{position:absolute;width:600px;height:600px;background:radial-gradient(circle,rgba(27,95,212,.3) 0%,transparent 70%);top:-100px;right:-100px;pointer-events:none}
+.hero-glow2{position:absolute;width:400px;height:400px;background:radial-gradient(circle,rgba(27,95,212,.15) 0%,transparent 70%);bottom:-50px;left:-50px;pointer-events:none}
+.hero-content{position:relative;z-index:2;max-width:700px}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(27,95,212,.2);border:1px solid rgba(27,95,212,.4);color:#6fb3ff;padding:6px 16px;border-radius:40px;font-size:12px;font-weight:600;letter-spacing:1px;text-transform:uppercase;margin-bottom:28px}
+.hero-badge::before{content:'';width:6px;height:6px;background:#6fb3ff;border-radius:50%;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.hero h1{font-size:clamp(36px,5vw,64px);color:#fff;font-weight:800;line-height:1.1;margin-bottom:24px}
+.hero h1 em{font-style:normal;color:#6fb3ff}
+.hero p{font-size:17px;color:rgba(255,255,255,.7);line-height:1.8;margin-bottom:40px;max-width:560px}
+.hero-actions{display:flex;gap:16px;flex-wrap:wrap}
+.btn-primary{display:inline-flex;align-items:center;gap:8px;background:var(--blue);color:#fff;padding:14px 32px;border-radius:40px;font-family:'Rubik',sans-serif;font-weight:600;font-size:15px;transition:var(--trans);border:none;cursor:pointer}
+.btn-primary:hover{background:var(--blue-dark);transform:translateY(-2px);box-shadow:0 12px 30px rgba(27,95,212,.4)}
+.btn-outline{display:inline-flex;align-items:center;gap:8px;background:transparent;color:#fff;padding:14px 32px;border-radius:40px;font-family:'Rubik',sans-serif;font-weight:600;font-size:15px;border:1px solid rgba(255,255,255,.3);transition:var(--trans);cursor:pointer}
+.btn-outline:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.6)}
+.btn-arrow{display:inline-block;transition:transform .3s ease}
+.btn-primary:hover .btn-arrow,.btn-outline:hover .btn-arrow{transform:translateX(4px)}
+.hero-stats{display:flex;gap:48px;margin-top:60px;padding-top:60px;border-top:1px solid rgba(255,255,255,.1);flex-wrap:wrap}
+.hero-stat h3{font-size:42px;color:#fff;font-weight:800;margin-bottom:4px}
+.hero-stat h3 span{color:#6fb3ff}
+.hero-stat p{font-size:13px;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.8px}
+
+/* ─── FEATURES BAR ─── */
+.features-bar{background:var(--dark);padding:28px 0}
+.features-list{display:flex;justify-content:center;gap:48px;flex-wrap:wrap}
+.feature-item{display:flex;align-items:center;gap:10px;color:rgba(255,255,255,.7);font-size:14px;font-weight:500}
+.feature-item svg{color:var(--blue);flex-shrink:0}
+
+/* ─── SECTION HEADER ─── */
+.section-label{display:inline-block;color:var(--blue);font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:12px}
+.section-title{font-size:clamp(28px,3.5vw,42px);color:var(--dark);font-weight:700;margin-bottom:16px}
+.section-title em{font-style:normal;color:var(--blue)}
+.section-desc{font-size:16px;color:var(--gray);line-height:1.8;max-width:560px}
+.section-header{margin-bottom:60px}
+.section-header.center{text-align:center}
+.section-header.center .section-desc{margin:0 auto}
+
+/* ─── PRODUCTS ─── */
+.products{background:var(--light)}
+.products-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:28px}
+.product-card{background:#fff;border-radius:12px;overflow:hidden;box-shadow:var(--shadow);transition:var(--trans);position:relative}
+.product-card:hover{transform:translateY(-6px);box-shadow:0 16px 48px rgba(0,0,0,.15)}
+.product-card-img{height:220px;position:relative;overflow:hidden}
+.product-card-img img{width:100%;height:100%;object-fit:cover;transition:transform .6s ease}
+.product-card:hover .product-card-img img{transform:scale(1.06)}
+.product-card-img-placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px}
+.product-card-body{padding:24px}
+.product-tag{display:inline-block;background:var(--blue-light);color:var(--blue);font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:4px 12px;border-radius:20px;margin-bottom:12px}
+.product-card h3{font-size:18px;font-weight:600;color:var(--dark);margin-bottom:10px}
+.product-card p{font-size:14px;color:var(--gray);line-height:1.7;margin-bottom:18px}
+.product-specs{display:flex;flex-direction:column;gap:6px;margin-bottom:20px}
+.spec-row{display:flex;align-items:center;gap:8px;font-size:13px;color:#555}
+.spec-row svg{color:var(--blue);flex-shrink:0}
+.product-link{display:inline-flex;align-items:center;gap:6px;color:var(--blue);font-size:14px;font-weight:600;font-family:'Rubik',sans-serif;transition:var(--trans)}
+.product-link:hover{gap:10px}
+
+/* ─── ABOUT ─── */
+.about-inner{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+.about-img{position:relative}
+.about-img-main{border-radius:16px;overflow:hidden;aspect-ratio:4/3}
+.about-img-main img{width:100%;height:100%;object-fit:cover}
+.about-img-badge{position:absolute;bottom:-20px;right:-20px;background:var(--blue);color:#fff;padding:24px 28px;border-radius:12px;text-align:center;box-shadow:0 12px 40px rgba(27,95,212,.35)}
+.about-img-badge h3{font-size:36px;font-weight:800;line-height:1}
+.about-img-badge p{font-size:12px;opacity:.85;margin-top:4px;letter-spacing:.5px}
+.about-content p{font-size:15px;color:var(--gray);line-height:1.85;margin-bottom:16px}
+.about-values{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:32px}
+.value-item{display:flex;align-items:flex-start;gap:12px}
+.value-icon{width:40px;height:40px;background:var(--blue-light);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.value-icon svg{color:var(--blue)}
+.value-item h4{font-size:14px;font-weight:600;color:var(--dark);margin-bottom:3px}
+.value-item p{font-size:13px;color:var(--gray);line-height:1.5;margin:0}
+
+/* ─── INDUSTRIES ─── */
+.industries{background:var(--dark)}
+.industries .section-title{color:#fff}
+.industries .section-desc{color:rgba(255,255,255,.6)}
+.industries .section-label{color:#6fb3ff}
+.industries-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px}
+.industry-item{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:28px 20px;text-align:center;transition:var(--trans);cursor:default}
+.industry-item:hover{background:rgba(27,95,212,.2);border-color:rgba(27,95,212,.4);transform:translateY(-4px)}
+.industry-icon{width:56px;height:56px;margin:0 auto 16px;background:rgba(27,95,212,.2);border-radius:12px;display:flex;align-items:center;justify-content:center}
+.industry-icon svg{color:#6fb3ff}
+.industry-item h4{font-size:14px;font-weight:600;color:#fff;line-height:1.4}
+
+/* ─── WHY US ─── */
+.why-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:28px}
+.why-item{padding:32px;border:1px solid var(--border);border-radius:12px;transition:var(--trans);position:relative;overflow:hidden}
+.why-item::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--blue);transform:scaleX(0);transition:var(--trans)}
+.why-item:hover{box-shadow:var(--shadow);border-color:transparent}
+.why-item:hover::before{transform:scaleX(1)}
+.why-num{font-family:'Rubik',sans-serif;font-size:48px;font-weight:800;color:var(--blue-light);line-height:1;margin-bottom:16px}
+.why-item h3{font-size:17px;font-weight:600;color:var(--dark);margin-bottom:10px}
+.why-item p{font-size:14px;color:var(--gray);line-height:1.7}
+
+/* ─── TESTIMONIAL ─── */
+.testimonial{background:linear-gradient(135deg,#040d1f,#0a1a3e)}
+.testimonial .section-title{color:#fff}
+.testimonial .section-label{color:#6fb3ff}
+.testimonial-card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:40px 44px;max-width:760px;margin:0 auto;text-align:center}
+.quote-icon{width:48px;height:48px;background:var(--blue);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 28px}
+.testimonial-card p{font-size:17px;color:rgba(255,255,255,.85);line-height:1.85;font-style:italic;margin-bottom:28px}
+.testimonial-author{display:flex;align-items:center;justify-content:center;gap:14px}
+.author-avatar{width:48px;height:48px;background:var(--blue);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Rubik',sans-serif;font-weight:700;font-size:18px;color:#fff}
+.author-info h4{font-size:15px;color:#fff;font-weight:600;margin-bottom:2px}
+.author-info p{font-size:13px;color:rgba(255,255,255,.5);margin:0}
+
+/* ─── CTA ─── */
+.cta-section{background:var(--blue);padding:80px 0;position:relative;overflow:hidden}
+.cta-section::before{content:'';position:absolute;right:-200px;top:-200px;width:500px;height:500px;background:rgba(255,255,255,.05);border-radius:50%}
+.cta-section::after{content:'';position:absolute;left:-100px;bottom:-100px;width:300px;height:300px;background:rgba(0,0,0,.1);border-radius:50%}
+.cta-inner{position:relative;z-index:2;display:flex;align-items:center;justify-content:space-between;gap:40px;flex-wrap:wrap}
+.cta-content h2{font-size:clamp(24px,3vw,38px);color:#fff;font-weight:700;margin-bottom:10px}
+.cta-content p{color:rgba(255,255,255,.8);font-size:16px;line-height:1.7}
+.btn-white{display:inline-flex;align-items:center;gap:8px;background:#fff;color:var(--blue);padding:14px 36px;border-radius:40px;font-family:'Rubik',sans-serif;font-weight:700;font-size:15px;transition:var(--trans);white-space:nowrap}
+.btn-white:hover{background:var(--dark);color:#fff;transform:translateY(-2px)}
+
+/* ─── CONTACT ─── */
+.contact-inner{display:grid;grid-template-columns:1fr 1.6fr;gap:60px;align-items:start}
+.contact-info h3{font-size:22px;font-weight:600;color:var(--dark);margin-bottom:24px}
+.contact-items{display:flex;flex-direction:column;gap:20px}
+.contact-item{display:flex;align-items:flex-start;gap:14px}
+.contact-item-icon{width:44px;height:44px;background:var(--blue-light);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.contact-item-icon svg{color:var(--blue)}
+.contact-item h4{font-size:14px;font-weight:600;color:var(--dark);margin-bottom:3px}
+.contact-item p{font-size:14px;color:var(--gray);line-height:1.5;margin:0}
+.contact-item a{color:var(--blue)}
+.contact-form{background:var(--light);border-radius:16px;padding:40px}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.form-group{display:flex;flex-direction:column;gap:6px}
+.form-group.full{grid-column:1/-1}
+.form-group label{font-size:13px;font-weight:600;color:var(--dark);letter-spacing:.3px}
+.form-group input,.form-group textarea,.form-group select{background:#fff;border:1px solid var(--border);border-radius:8px;padding:12px 16px;font-family:'Open Sans',sans-serif;font-size:14px;color:var(--dark);transition:var(--trans);outline:none;width:100%}
+.form-group input:focus,.form-group textarea:focus,.form-group select:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(27,95,212,.1)}
+.form-group textarea{min-height:120px;resize:vertical}
+.form-submit{margin-top:8px}
+
+/* ─── FOOTER ─── */
+footer{background:var(--dark);padding:60px 0 28px}
+.footer-inner{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:48px;margin-bottom:48px}
+.footer-brand .logo{margin-bottom:16px}
+.footer-brand p{font-size:14px;color:rgba(255,255,255,.5);line-height:1.7;margin-bottom:20px}
+.footer-col h4{font-size:13px;font-weight:700;color:#fff;letter-spacing:1px;text-transform:uppercase;margin-bottom:18px}
+.footer-col ul li{margin-bottom:10px}
+.footer-col ul li a{font-size:14px;color:rgba(255,255,255,.5);transition:var(--trans)}
+.footer-col ul li a:hover{color:#fff}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.08);padding-top:24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.footer-bottom p{font-size:13px;color:rgba(255,255,255,.35)}
+.social-links{display:flex;gap:12px}
+.social-link{width:36px;height:36px;background:rgba(255,255,255,.08);border-radius:8px;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.5);transition:var(--trans)}
+.social-link:hover{background:var(--blue);color:#fff}
+
+/* ─── MOBILE ─── */
+.mobile-menu{display:none;position:fixed;inset:0;background:#fff;z-index:999;padding:20px 24px;flex-direction:column;gap:0;overflow-y:auto}
+.mobile-menu.open{display:flex}
+.mobile-menu-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:40px;padding-top:10px}
+.mobile-menu .logo span{color:var(--dark)}
+.mobile-nav{display:flex;flex-direction:column;gap:0}
+.mobile-nav a{display:block;padding:16px 0;font-family:'Rubik',sans-serif;font-size:18px;font-weight:500;color:var(--dark);border-bottom:1px solid var(--border);transition:var(--trans)}
+.mobile-nav a:hover{color:var(--blue);padding-left:8px}
+.mobile-cta{margin-top:32px}
+.close-btn{width:40px;height:40px;border:1px solid var(--border);border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;background:none;font-size:20px;color:var(--dark)}
+
+/* ─── RESPONSIVE ─── */
+@media(max-width:1024px){
+  .about-inner{grid-template-columns:1fr;gap:40px}
+  .contact-inner{grid-template-columns:1fr}
+  .footer-inner{grid-template-columns:1fr 1fr}
+}
+@media(max-width:768px){
+  .nav-links{display:none}
+  .hamburger{display:flex}
+  .hero-stats{gap:24px}
+  .hero-stat h3{font-size:32px}
+  .about-values{grid-template-columns:1fr}
+  .form-grid{grid-template-columns:1fr}
+  .footer-inner{grid-template-columns:1fr}
+  .cta-inner{flex-direction:column;text-align:center}
+  .features-list{gap:20px}
+  .section{padding:60px 0}
+}
+@media(max-width:480px){
+  .hero-actions{flex-direction:column}
+  .btn-primary,.btn-outline{justify-content:center}
+  .testimonial-card{padding:28px 24px}
+}
+</style>
+</head>
+<body>
+
+<!-- ─── NAV ─── -->
+<nav id="navbar">
+  <div class="container">
+    <div class="nav-inner">
+      <a href="#" class="logo"><span>BORNA</span><em>LASER</em></a>
+      <div class="nav-links">
+        <a href="#products">Sản phẩm</a>
+        <a href="#about">Về chúng tôi</a>
+        <a href="#industries">Ngành ứng dụng</a>
+        <a href="#why">Tại sao chọn chúng tôi</a>
+        <a href="#contact" class="nav-cta">Liên hệ ngay</a>
+      </div>
+      <div class="hamburger" id="hamburger">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- ─── MOBILE MENU ─── -->
+<div class="mobile-menu" id="mobileMenu">
+  <div class="mobile-menu-header">
+    <a href="#" class="logo"><span>BORNA</span><em>LASER</em></a>
+    <button class="close-btn" id="closeMenu">&#10005;</button>
+  </div>
+  <nav class="mobile-nav">
+    <a href="#products" onclick="closeMobileMenu()">Sản phẩm</a>
+    <a href="#about" onclick="closeMobileMenu()">Về chúng tôi</a>
+    <a href="#industries" onclick="closeMobileMenu()">Ngành ứng dụng</a>
+    <a href="#why" onclick="closeMobileMenu()">Tại sao chọn chúng tôi</a>
+    <a href="#contact" onclick="closeMobileMenu()">Liên hệ</a>
+  </nav>
+  <div class="mobile-cta">
+    <a href="mailto:nghehuyhienvn@gmail.com" class="btn-primary" style="justify-content:center">
+      Gửi email tư vấn <span class="btn-arrow">→</span>
+    </a>
+  </div>
+</div>
+
+<!-- ─── HERO ─── -->
+<section class="hero" id="home">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-glow2"></div>
+  <div class="container">
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span>Chuyên nghiệp • Chính xác • Tận tâm</span>
+      </div>
+      <h1>Thiết bị <em>Laser Công nghiệp</em><br/>chính xác tuyệt đối</h1>
+      <p>Borna Laser cung cấp giải pháp gia công laser toàn diện — từ đánh dấu, tuốt vỏ dây, hàn, cắt đến tự động hóa phi tiêu chuẩn cho nhà máy hiện đại tại Việt Nam.</p>
+      <div class="hero-actions">
+        <a href="#contact" class="btn-primary">Tư vấn miễn phí <span class="btn-arrow">→</span></a>
+        <a href="#products" class="btn-outline">Xem sản phẩm <span class="btn-arrow">→</span></a>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <h3>5<span>+</span></h3>
+          <p>Dòng sản phẩm</p>
+        </div>
+        <div class="hero-stat">
+          <h3>7<span>+</span></h3>
+          <p>Ngành ứng dụng</p>
+        </div>
+        <div class="hero-stat">
+          <h3>2022</h3>
+          <p>Thành lập tại VN</p>
+        </div>
+        <div class="hero-stat">
+          <h3>100<span>%</span></h3>
+          <p>Hỗ trợ kỹ thuật</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FEATURES BAR ─── -->
+<div class="features-bar">
+  <div class="container">
+    <div class="features-list">
+      <div class="feature-item">
+        <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+        Độ chính xác micron
+      </div>
+      <div class="feature-item">
+        <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+        Tư vấn kỹ thuật miễn phí
+      </div>
+      <div class="feature-item">
+        <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+        Linh kiện chính hãng Borna
+      </div>
+      <div class="feature-item">
+        <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+        Bảo hành & hỗ trợ sau bán hàng
+      </div>
+      <div class="feature-item">
+        <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+        Tùy chỉnh theo yêu cầu
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── PRODUCTS ─── -->
+<section class="section products" id="products">
+  <div class="container">
+    <div class="section-header center">
+      <span class="section-label">Dòng sản phẩm</span>
+      <h2 class="section-title">Giải pháp laser <em>toàn diện</em></h2>
+      <p class="section-desc">Từ thiết bị đơn lẻ đến dây chuyền tích hợp hoàn chỉnh — chúng tôi đồng hành cùng khách hàng từ khâu tư vấn đến vận hành.</p>
+    </div>
+    <div class="products-grid">
+
+      <!-- Marking -->
+      <div class="product-card">
+        <div class="product-card-img" style="background:linear-gradient(135deg,#0a1a3e,#1b5fd4)">
+          <div class="product-card-img-placeholder">
+            <svg width="56" height="56" fill="none" viewBox="0 0 24 24" stroke="rgba(255,255,255,0.6)" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
+            <span style="color:rgba(255,255,255,.6);font-size:13px;font-weight:600;letter-spacing:1px">MARKING SERIES</span>
+          </div>
+        </div>
+        <div class="product-card-body">
+          <span class="product-tag">Đánh dấu</span>
+          <h3>Máy Đánh Dấu Laser</h3>
+          <p>UV (355nm), CO2, Fiber — khắc chính xác trên kim loại, nhựa, thủy tinh, linh kiện điện tử.</p>
+          <div class="product-specs">
+            <div class="spec-row"><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg> Đánh dấu + cắt ống tự động</div>
+            <div class="spec-row"><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg> Độ phân giải cao, tốc độ nhanh</div>
+            <div class="spec-row"><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg> Phù hợp sản xuất hàng loạt</div>
+          </div>
+          <a href="#contact" class="product-link">Yêu cầu báo giá <span>→</span></a>
+        </div>
+      </div>
+
+      <!-- Skinning -->
+      <div class="product-card">
+        <div class="product-card-img" style="background:linear-gradient(135deg,#0a1a3e,#0d6efd)">
+          <div class="product-card-img-placeholder">
+            <svg width="56" height="56" fill="none" viewBox="0 0 24 24" stroke="rgba(255,255,255,0.6)" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+            <span style="color:rgba(255,255,255,.6);font-size:13px;font-weight:600;letter-spacing:1px">SKINNING SERIES</span>
+          </div>
+        </div>
+        <div class="product-card-body">
+          <span class="product-tag">Tuốt vỏ dây</span>
+          <h3>Máy Tuốt Vỏ Laser</h3>
+          <p>CO2/UV/YAG tốc độ cao — tuốt vỏ cáp HDMI, Type-C, dữ liệu y tế không tổn hại lõi dẫn điện.</p>
+          <div class="product-specs">
+            <div class="spec-row"><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg> Không tiếp xúc vật lý với lõi</div>
+            <div class="spec-row"><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg> Tốc độ cao, ổn định liên tục</div>
+            <div class="spec-row"><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg> Tuốt tròn, phẳng, nhiều lớp</div>
+          </div>
+          <a href="#contact" class="product-link">Yêu cầu báo giá <span>→</span></a>
+        </div>
+      </div>
+
+      <!-- Welding -->
+      <div class="product-card">
+        <div class="product-card-img" style="background:linear-gradient(135deg,#0a1a3e,#1565c0)">
+          <div class="product-card-img-placeholder">
+            <svg width="56" height="56" fill="none" viewBox="0 0 24 24" stroke="rgba(255,255,255,0.6)" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path stroke-linecap="round" stroke-linejoin="round" d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
+            <span style="color:rgba(255,255,255,.6);font-size:13px;font-weight:600;letter-spacing:1px">WELDING SERIES</span>
+          </div>
+        </div>
+        <div class="product-card-body">
+          <span class="product-tag">Hàn laser</span>
+          <h3>Máy Hàn Laser</h3>
+          <p>Hàn điểm, hàn thiếc laser, hàn CCS — cho linh kiện y tế, đầu nối, pin xe điện độ chính xác micron.</p>
+          <div class="product-specs">
+            <div class="spec-row"><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg> Laser Soldering chính xác</div>
+            <div class="spec-row"><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg> Hàn CCS pin năng lượng mới</div>
+            <div class="spec-row"><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg> Không biến dạng nhiệt</div>
+          </div>
+          <a href="#contact" class="product-link">Yêu cầu báo giá <span>→</span></a>
+        </div>
+      </div>
+
+      <!-- Cutting -->
+      <div class="product-card">
+        <div class="product-card-img" style="background:linear-gradient(135deg,#0a1a3e,#283593)">
+          <div class="product-card-img-placeholder">
+            <svg width="56" height="56" fill="none" viewBox="0 0 24 24" stroke="rgba(255,255,255,0.6)" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M14.121 14.121L19 19m-7-7l7-7m-7 7l-2.879 2.879M12 12L9.121 9.121m0 5.758a3 3 0 10-4.243 4.243 3 3 0 004.243-4.243zm0-5.758a3 3 0 10-4.243-4.243 3 3 0 004.243 4.243z"/></svg>
+            <span style="color:rgba(255,255,255,.6);font-size:13px;font-weight:600;letter-spacing:1px">CUTTING SERIES</span>
+          </div>
+        </div>
+        <div class="product-card-body">
+          <span class="product-tag">Cắt laser</span>
+          <h3>Máy Cắt Laser Tốc Độ Cao</h3>
+          <p>Nền đá cẩm thạch siêu ổn định — cắt kim loại, thủy tinh, đục lỗ vi mô cho ngành pin xe điện.</p>
+          <div class="product-specs">
+            <div class="spec-row"><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg> Nền granite chống rung tuyệt đối</div>
+            <div class="spec-row"><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg> Đục lỗ micro chính xác cao</div>
+            <div class="spec-row"><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg> Tốc độ cắt cao, tiết diện sạch</div>
+          </div>
+          <a href="#contact" class="product-link">Yêu cầu báo giá <span>→</span></a>
+        </div>
+      </div>
+
+      <!-- Automation -->
+      <div class="product-card" style="grid-column:span 1">
+        <div class="product-card-img" style="background:linear-gradient(135deg,#0a1a3e,#4527a0)">
+          <div class="product-card-img-placeholder">
+            <svg width="56" height="56" fill="none" viewBox="0 0 24 24" stroke="rgba(255,255,255,0.6)" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+            <span style="color:rgba(255,255,255,.6);font-size:13px;font-weight:600;letter-spacing:1px">CUSTOM AUTOMATION</span>
+          </div>
+        </div>
+        <div class="product-card-body">
+          <span class="product-tag">Tự động hóa</span>
+          <h3>Tự Động Hóa Phi Tiêu Chuẩn</h3>
+          <p>Dây chuyền tích hợp: giá xả dây, xử lý lõi AOI, xếp dây, hàn kết hợp — trọn gói từ đầu đến cuối.</p>
+          <div class="product-specs">
+            <div class="spec-row"><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg> Thiết kế theo yêu cầu khách hàng</div>
+            <div class="spec-row"><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg> Linh kiện thay thế chính hãng</div>
+            <div class="spec-row"><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg> Hỗ trợ lắp đặt & vận hành</div>
+          </div>
+          <a href="#contact" class="product-link">Yêu cầu báo giá <span>→</span></a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ─── ABOUT ─── -->
+<section class="section" id="about">
+  <div class="container">
+    <div class="about-inner">
+      <div class="about-img">
+        <div class="about-img-main" style="background:linear-gradient(135deg,#040d1f,#1b5fd4);display:flex;align-items:center;justify-content:center;min-height:360px">
+          <div style="text-align:center;color:rgba(255,255,255,.15);font-family:'Rubik',sans-serif">
+            <div style="font-size:80px;font-weight:800;line-height:1">BORNA</div>
+            <div style="font-size:30px;letter-spacing:8px">LASER</div>
+          </div>
+        </div>
+        <div class="about-img-badge">
+          <h3>2022</h3>
+          <p>Thành lập tại Việt Nam</p>
+        </div>
+      </div>
+      <div class="about-content">
+        <span class="section-label">Về chúng tôi</span>
+        <h2 class="section-title">Đối tác laser <em>tin cậy</em> của nhà máy Việt Nam</h2>
+        <p>Công ty TNHH Nghệ Huy Hiên (Vietnam Yihuixuan Co., Ltd.) là nhà phân phối chính thức thiết bị laser công nghiệp Borna tại Việt Nam — đối tác của Suzhou Borna Intelligent Equipment Co., Ltd. tại Côn Sơn, Giang Tô, Trung Quốc.</p>
+        <p>Thành lập năm 2022 tại Cụm công nghiệp Hạp Lĩnh, Bắc Ninh — chúng tôi không chỉ phân phối thiết bị mà còn tư vấn quy trình, lắp đặt, đào tạo vận hành và hỗ trợ kỹ thuật dài hạn.</p>
+        <p><strong>Slogan:</strong> <em>"Tập trung vào tùy chỉnh laser, tận tâm phục vụ khách hàng"</em></p>
+        <div class="about-values">
+          <div class="value-item">
+            <div class="value-icon"><svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg></div>
+            <div><h4>Chính hãng 100%</h4><p>Thiết bị từ Borna Trung Quốc, linh kiện thay thế đảm bảo</p></div>
+          </div>
+          <div class="value-item">
+            <div class="value-icon"><svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg></div>
+            <div><h4>Hỗ trợ nhanh</h4><p>Kỹ thuật viên tại Bắc Ninh, phản hồi trong 24h</p></div>
+          </div>
+          <div class="value-item">
+            <div class="value-icon"><svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/></svg></div>
+            <div><h4>Tùy chỉnh linh hoạt</h4><p>Giải pháp thiết kế theo yêu cầu sản xuất thực tế</p></div>
+          </div>
+          <div class="value-item">
+            <div class="value-icon"><svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg></div>
+            <div><h4>Đội ngũ chuyên sâu</h4><p>Kỹ sư kinh nghiệm, am hiểu ngành sản xuất VN</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── INDUSTRIES ─── -->
+<section class="section industries" id="industries">
+  <div class="container">
+    <div class="section-header center">
+      <span class="section-label">Lĩnh vực ứng dụng</span>
+      <h2 class="section-title">Phục vụ đa dạng <em>ngành công nghiệp</em></h2>
+      <p class="section-desc">Thiết bị Borna Laser được ứng dụng rộng rãi trong nhiều lĩnh vực sản xuất công nghiệp hiện đại.</p>
+    </div>
+    <div class="industries-grid">
+      <div class="industry-item">
+        <div class="industry-icon"><svg width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18"/></svg></div>
+        <h4>Điện tử<br/>tiêu dùng 3C</h4>
+      </div>
+      <div class="industry-item">
+        <div class="industry-icon"><svg width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg></div>
+        <h4>Cáp &amp;<br/>Đầu nối</h4>
+      </div>
+      <div class="industry-item">
+        <div class="industry-icon"><svg width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg></div>
+        <h4>Y tế &amp;<br/>Thẩm mỹ</h4>
+      </div>
+      <div class="industry-item">
+        <div class="industry-icon"><svg width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div>
+        <h4>Pin<br/>Năng lượng mới</h4>
+      </div>
+      <div class="industry-item">
+        <div class="industry-icon"><svg width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10l2-2h7M13 16l2-2h3l2 2m-7-10h4l2 4"/></svg></div>
+        <h4>Phụ tùng<br/>Ô tô</h4>
+      </div>
+      <div class="industry-item">
+        <div class="industry-icon"><svg width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/></svg></div>
+        <h4>Thực phẩm &amp;<br/>Dược phẩm</h4>
+      </div>
+      <div class="industry-item">
+        <div class="industry-icon"><svg width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg></div>
+        <h4>Đồ gia dụng &amp;<br/>Xây dựng</h4>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── WHY US ─── -->
+<section class="section" id="why">
+  <div class="container">
+    <div class="section-header center">
+      <span class="section-label">Lý do chọn chúng tôi</span>
+      <h2 class="section-title">Tại sao chọn <em>Borna Laser?</em></h2>
+    </div>
+    <div class="why-grid">
+      <div class="why-item">
+        <div class="why-num">01</div>
+        <h3>Đối tác chính thức Borna</h3>
+        <p>Đại lý ủy quyền của Suzhou Borna — đảm bảo thiết bị chính hãng, chất lượng ổn định và hỗ trợ kỹ thuật trực tiếp từ nhà sản xuất.</p>
+      </div>
+      <div class="why-item">
+        <div class="why-num">02</div>
+        <h3>Tư vấn kỹ thuật miễn phí</h3>
+        <p>Đội kỹ sư phân tích yêu cầu quy trình của bạn, đề xuất giải pháp tối ưu trước khi ký hợp đồng — không có chi phí ẩn.</p>
+      </div>
+      <div class="why-item">
+        <div class="why-num">03</div>
+        <h3>Linh kiện sẵn có tại kho</h3>
+        <p>Nguồn laser, thấu kính, gương quét và phụ kiện chính hãng luôn có sẵn tại Bắc Ninh — giảm thời gian dừng máy xuống mức tối thiểu.</p>
+      </div>
+      <div class="why-item">
+        <div class="why-num">04</div>
+        <h3>Hỗ trợ sau bán hàng dài hạn</h3>
+        <p>Bảo hành thiết bị, đào tạo vận hành, hỗ trợ sự cố từ xa và tại chỗ — cam kết đồng hành lâu dài cùng khách hàng.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── TESTIMONIAL ─── -->
+<section class="section testimonial">
+  <div class="container">
+    <div class="section-header center">
+      <span class="section-label">Khách hàng nói gì</span>
+      <h2 class="section-title" style="color:#fff">Đánh giá từ <em>khách hàng</em></h2>
+    </div>
+    <div class="testimonial-card">
+      <div class="quote-icon">
+        <svg width="20" height="20" fill="#fff" viewBox="0 0 24 24"><path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/></svg>
+      </div>
+      <p>"Máy tuốt vỏ laser của Borna giúp chúng tôi xử lý cáp dữ liệu Type-C với độ chính xác tuyệt vời. Không còn tình trạng đứt lõi, năng suất tăng gấp đôi so với phương pháp cũ. Đội ngũ Nghệ Huy Hiên hỗ trợ lắp đặt rất chuyên nghiệp."</p>
+      <div class="testimonial-author">
+        <div class="author-avatar">M</div>
+        <div class="author-info">
+          <h4>Nguyễn Văn Minh</h4>
+          <p>Giám đốc sản xuất · Công ty Điện tử Hà Nội</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── CTA ─── -->
+<section class="cta-section">
+  <div class="container">
+    <div class="cta-inner">
+      <div class="cta-content">
+        <h2>Sẵn sàng nâng cấp dây chuyền sản xuất?</h2>
+        <p>Chúng tôi sẽ thiết kế giải pháp laser phù hợp nhất cho quy trình của bạn — hoàn toàn miễn phí tư vấn.</p>
+      </div>
+      <a href="#contact" class="btn-white">Liên hệ tư vấn ngay <span style="margin-left:6px">→</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- ─── CONTACT ─── -->
+<section class="section" id="contact">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-label">Liên hệ</span>
+      <h2 class="section-title">Gửi yêu cầu <em>tư vấn</em></h2>
+      <p class="section-desc">Điền thông tin bên dưới — kỹ thuật viên sẽ liên hệ trong vòng 24 giờ làm việc.</p>
+    </div>
+    <div class="contact-inner">
+      <div class="contact-info">
+        <h3>Thông tin liên hệ</h3>
+        <div class="contact-items">
+          <div class="contact-item">
+            <div class="contact-item-icon"><svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg></div>
+            <div><h4>Địa chỉ</h4><p>Cụm CN Hạp Lĩnh, P. Hạp Lĩnh,<br/>TP. Bắc Ninh, tỉnh Bắc Ninh</p></div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-item-icon"><svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg></div>
+            <div><h4>Email</h4><p><a href="mailto:nghehuyhienvn@gmail.com">nghehuyhienvn@gmail.com</a></p></div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-item-icon"><svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div>
+            <div><h4>Trụ sở Trung Quốc</h4><p>Số 1861, đường Chấn Tân Đông,<br/>Côn Sơn, Giang Tô, Trung Quốc</p></div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-item-icon"><svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg></div>
+            <div><h4>Email Trung Quốc</h4><p><a href="mailto:boernazn@163.com">boernazn@163.com</a></p></div>
+          </div>
+        </div>
+      </div>
+      <div class="contact-form">
+        <form id="contactForm">
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Họ và tên *</label>
+              <input type="text" placeholder="Nguyễn Văn A" required/>
+            </div>
+            <div class="form-group">
+              <label>Tên công ty</label>
+              <input type="text" placeholder="Công ty ABC"/>
+            </div>
+            <div class="form-group">
+              <label>Email *</label>
+              <input type="email" placeholder="email@congty.com" required/>
+            </div>
+            <div class="form-group">
+              <label>Số điện thoại</label>
+              <input type="tel" placeholder="0901 234 567"/>
+            </div>
+            <div class="form-group full">
+              <label>Sản phẩm quan tâm</label>
+              <select>
+                <option value="">-- Chọn sản phẩm --</option>
+                <option>Máy Đánh Dấu Laser (Marking)</option>
+                <option>Máy Tuốt Vỏ Dây (Skinning)</option>
+                <option>Máy Hàn Laser (Welding)</option>
+                <option>Máy Cắt Laser (Cutting)</option>
+                <option>Tự Động Hóa Phi Tiêu Chuẩn</option>
+                <option>Tư vấn tổng thể</option>
+              </select>
+            </div>
+            <div class="form-group full">
+              <label>Mô tả yêu cầu *</label>
+              <textarea placeholder="Mô tả chi tiết vật liệu, quy trình, sản lượng, yêu cầu đặc biệt..." required></textarea>
+            </div>
+          </div>
+          <div class="form-submit">
+            <button type="submit" class="btn-primary" style="width:100%;justify-content:center;border:none;">
+              Gửi yêu cầu tư vấn <span class="btn-arrow">→</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FOOTER ─── -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="logo"><span>BORNA</span><em>LASER</em></div>
+        <p>Công ty TNHH Nghệ Huy Hiên — nhà phân phối chính thức thiết bị laser công nghiệp Borna tại Việt Nam. Thành lập 2022, Bắc Ninh.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Sản phẩm</h4>
+        <ul>
+          <li><a href="#products">Máy Đánh Dấu Laser</a></li>
+          <li><a href="#products">Máy Tuốt Vỏ Dây</a></li>
+          <li><a href="#products">Máy Hàn Laser</a></li>
+          <li><a href="#products">Máy Cắt Laser</a></li>
+          <li><a href="#products">Tự Động Hóa</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Công ty</h4>
+        <ul>
+          <li><a href="#about">Về chúng tôi</a></li>
+          <li><a href="#industries">Ngành ứng dụng</a></li>
+          <li><a href="#why">Tại sao chọn chúng tôi</a></li>
+          <li><a href="#contact">Liên hệ</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Liên hệ</h4>
+        <ul>
+          <li><a href="mailto:nghehuyhienvn@gmail.com">nghehuyhienvn@gmail.com</a></li>
+          <li><a href="#">Hạp Lĩnh, Bắc Ninh</a></li>
+          <li><a href="mailto:boernazn@163.com">boernazn@163.com (CN)</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2022–2025 Công ty TNHH Nghệ Huy Hiên. Bảo lưu mọi quyền.</p>
+      <div class="social-links">
+        <a href="mailto:nghehuyhienvn@gmail.com" class="social-link" title="Email">
+          <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ─── NAV SCROLL
+window.addEventListener('scroll',()=>{
+  const nav=document.getElementById('navbar');
+  nav.classList.toggle('scrolled',window.scrollY>60);
+});
+
+// ─── HAMBURGER
+document.getElementById('hamburger').addEventListener('click',()=>{
+  document.getElementById('mobileMenu').classList.add('open');
+  document.body.style.overflow='hidden';
+});
+document.getElementById('closeMenu').addEventListener('click',()=>closeMobileMenu());
+function closeMobileMenu(){
+  document.getElementById('mobileMenu').classList.remove('open');
+  document.body.style.overflow='';
+}
+
+// ─── SMOOTH SCROLL for nav links
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',e=>{
+    const target=document.querySelector(a.getAttribute('href'));
+    if(target){e.preventDefault();target.scrollIntoView({behavior:'smooth',block:'start'});}
+  });
+});
+
+// ─── ACTIVE NAV LINK
+const sections=document.querySelectorAll('section[id]');
+window.addEventListener('scroll',()=>{
+  let current='';
+  sections.forEach(s=>{
+    if(window.scrollY>=s.offsetTop-120)current=s.id;
+  });
+  document.querySelectorAll('.nav-links a').forEach(a=>{
+    a.classList.toggle('active',a.getAttribute('href')==='#'+current);
+  });
+});
+
+// ─── FORM SUBMIT
+document.getElementById('contactForm').addEventListener('submit',e=>{
+  e.preventDefault();
+  const btn=e.target.querySelector('button[type=submit]');
+  btn.innerHTML='✓ Đã gửi! Chúng tôi sẽ liên hệ sớm.';
+  btn.style.background='#16a34a';
+  btn.disabled=true;
+});
+
+// ─── FADE IN ON SCROLL
+const observer=new IntersectionObserver(entries=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){entry.target.style.opacity='1';entry.target.style.transform='translateY(0)';}
+  });
+},{threshold:.1});
+document.querySelectorAll('.product-card,.why-item,.industry-item,.value-item').forEach(el=>{
+  el.style.opacity='0';el.style.transform='translateY(24px)';el.style.transition='opacity .5s ease,transform .5s ease';
+  observer.observe(el);
+});
+</script>
+</body>
+</html>

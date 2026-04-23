@@ -277,6 +277,22 @@ ul{list-style:none}
   transform:translateY(-6px);
 }
 .p-card:hover::before{opacity:1}
+.p-thumb{
+  width:100%;height:120px;
+  border-radius:8px;
+  overflow:hidden;
+  margin-bottom:12px;
+}
+.p-thumb img{
+  width:100%;height:100%;
+  object-fit:cover;
+  filter:brightness(.75) saturate(.9);
+  transition:transform .4s ease,filter .4s ease;
+}
+.p-card:hover .p-thumb img{
+  transform:scale(1.06);
+  filter:brightness(.9) saturate(1.1);
+}
 .p-icon{
   width:44px;height:44px;
   background:rgba(27,95,212,.2);
@@ -587,29 +603,98 @@ ul{list-style:none}
 /* ═══════════════════════════════════
    RESPONSIVE
 ═══════════════════════════════════ */
+
+/* Tablet landscape 1024px */
 @media(max-width:1024px){
-  .products-grid{grid-template-columns:repeat(3,1fr)}
+  #navbar{padding:0 32px}
+  .slide-inner{padding:0 32px}
+  .products-grid{grid-template-columns:repeat(3,1fr);gap:12px}
   .ind-grid{grid-template-columns:repeat(4,1fr)}
-  .why-row{grid-template-columns:repeat(2,1fr)}
-  .about-grid,.contact-grid{grid-template-columns:1fr}
+  .about-grid{grid-template-columns:1fr;gap:40px}
+  .about-visual{height:280px}
+  .contact-grid{grid-template-columns:1fr;gap:32px}
+  .hero-h1{font-size:52px}
+  .p-thumb{height:100px}
 }
+
+/* Tablet portrait 768px */
 @media(max-width:768px){
   #navbar{padding:0 20px}
   .nav-links{display:none}
   .hamburger{display:flex}
-  .slide-inner{padding:0 20px}
+  .slide-inner{padding:0 16px}
   #fp-dots{display:none}
-  .hero-h1{font-size:36px}
-  .products-grid{grid-template-columns:repeat(2,1fr)}
-  .ind-grid{grid-template-columns:repeat(3,1fr)}
-  .why-row{grid-template-columns:1fr 1fr}
-  .hero-stats{flex-direction:column;gap:16px}
-  .stat{border-right:none;padding-right:0;border-bottom:1px solid rgba(255,255,255,.07);padding-bottom:16px;margin-right:0;margin-bottom:16px}
-  .cta-block{flex-direction:column;text-align:center;padding:32px 20px}
-  .foot{padding:16px 20px;flex-direction:column;gap:6px;text-align:center}
+
+  /* Hero */
+  #s0{align-items:flex-start;padding-top:80px;overflow-y:auto}
+  .hero-h1{font-size:32px;letter-spacing:-.5px}
+  .hero-sub{font-size:15px}
+  .hero-actions{gap:10px}
+  .btn{padding:12px 22px;font-size:14px}
+  .hero-stats{
+    display:grid;grid-template-columns:1fr 1fr;
+    gap:12px;padding-top:20px;
+  }
+  .stat{
+    border-right:none;border-bottom:none;
+    padding:12px;margin:0;
+    background:rgba(255,255,255,.04);
+    border:1px solid rgba(255,255,255,.07);
+    border-radius:10px;
+  }
+  .stat-num{font-size:32px}
+
+  /* Products */
+  #s1{overflow-y:auto;align-items:flex-start;padding-top:80px;padding-bottom:24px}
+  .sec-title{font-size:26px;margin-bottom:20px}
+  .products-grid{grid-template-columns:1fr 1fr;gap:10px}
+  .p-thumb{height:90px}
+  .p-card{padding:16px 14px 14px}
+  .p-card h3{font-size:13px}
+  .p-card p{font-size:11px}
+
+  /* About */
+  #s2{overflow-y:auto;align-items:flex-start;padding-top:80px;padding-bottom:24px}
+  .about-grid{grid-template-columns:1fr;gap:24px}
+  .about-visual{height:200px}
+  .about-badge-card{padding:14px 18px;bottom:-10px;right:-10px}
+  .about-badge-card h3{font-size:24px}
+  .about-badge-card2{top:-10px;left:-10px;padding:10px 14px}
+  .about-values{grid-template-columns:1fr;gap:10px}
+  .about-wordmark{font-size:48px}
+
+  /* Industries */
+  #s3{overflow-y:auto;align-items:flex-start;padding-top:80px;padding-bottom:24px}
+  #s3 .slide-inner > div{grid-template-columns:1fr!important;gap:28px}
+  .ind-grid{grid-template-columns:repeat(3,1fr)!important;gap:10px}
+
+  /* Testimonial */
+  #s4{overflow-y:auto;align-items:flex-start;padding-top:80px;padding-bottom:24px}
+  .testi-text{font-size:16px}
+  .cta-block{flex-direction:column;text-align:center;padding:28px 20px;gap:20px}
+  .cta-block h2{font-size:20px}
+
+  /* Contact */
+  #s5{overflow-y:auto;align-items:flex-start;padding-top:80px;padding-bottom:24px}
+  .contact-grid{grid-template-columns:1fr;gap:24px}
   .form-row{grid-template-columns:1fr}
-  #s1,#s2,#s3{overflow-y:auto;align-items:flex-start;padding-top:90px}
-  #s0{align-items:flex-start;padding-top:90px}
+  .form-wrap{padding:24px 18px}
+
+  /* Footer */
+  .foot{padding:14px 16px;flex-direction:column;gap:6px;text-align:center;font-size:11px}
+}
+
+/* Mobile small 480px */
+@media(max-width:480px){
+  .hero-h1{font-size:28px}
+  .products-grid{grid-template-columns:1fr}
+  .p-thumb{height:140px}
+  .hero-stats{grid-template-columns:1fr 1fr}
+  .ind-grid{grid-template-columns:repeat(2,1fr)!important}
+  .badge{font-size:10px;padding:5px 12px}
+  .testi-wrap{padding:0 4px}
+  .cta-block{padding:22px 16px}
+  .about-visual{height:160px}
 }
 
 /* ═══════════════════════════════════
@@ -706,7 +791,7 @@ ul{list-style:none}
     <div class="products-grid">
 
       <div class="p-card anim">
-        <div class="p-icon"><svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg></div>
+        <div class="p-thumb"><img src="https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=400&q=70&fit=crop" alt="Laser marking machine"/></div>
         <div class="p-tag">Marking</div>
         <h3>Máy Đánh Dấu Laser</h3>
         <p>Laser UV, CO2, Fiber &amp; dây chuyền tự động — khắc mã vạch, QR, UDI, ngày SX trên nhựa, kim loại, thủy tinh, bao bì.</p>
@@ -717,7 +802,7 @@ ul{list-style:none}
       </div>
 
       <div class="p-card anim">
-        <div class="p-icon"><svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg></div>
+        <div class="p-thumb"><img src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=400&q=70&fit=crop" alt="Cable wire stripping laser"/></div>
         <div class="p-tag">Skinning</div>
         <h3>Máy Tuốt Vỏ Laser</h3>
         <p>Công nghệ YAG, CO2, UV — tuốt vỏ dây HDMI, Type-C, USB, dây đồng trục, cáp y tế &amp; ô tô không hại lõi dẫn.</p>
@@ -728,7 +813,7 @@ ul{list-style:none}
       </div>
 
       <div class="p-card anim">
-        <div class="p-icon"><svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path stroke-linecap="round" stroke-linejoin="round" d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg></div>
+        <div class="p-thumb"><img src="https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=400&q=70&fit=crop" alt="Laser welding machine"/></div>
         <div class="p-tag">Welding</div>
         <h3>Máy Hàn Laser</h3>
         <p>Hàn sợi quang, hàn thiếc (đầu bi/dây), hàn xung, hàn QCW — pin năng lượng, bảng CCS, đầu nối điện thoại, linh kiện chính xác.</p>
@@ -739,7 +824,7 @@ ul{list-style:none}
       </div>
 
       <div class="p-card anim">
-        <div class="p-icon"><svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M14.121 14.121L19 19m-7-7l7-7m-7 7l-2.879 2.879M12 12L9.121 9.121m0 5.758a3 3 0 10-4.243 4.243 3 3 0 004.243-4.243zm0-5.758a3 3 0 10-4.243-4.243 3 3 0 004.243 4.243z"/></svg></div>
+        <div class="p-thumb"><img src="https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=400&q=70&fit=crop" alt="Laser cutting machine"/></div>
         <div class="p-tag">Cutting</div>
         <h3>Máy Cắt Laser</h3>
         <p>Cắt chính xác kim loại, thủy tinh, nhựa — nền đá cẩm thạch siêu ổn định cho linh kiện điện tử &amp; pin EV.</p>
@@ -750,7 +835,7 @@ ul{list-style:none}
       </div>
 
       <div class="p-card anim">
-        <div class="p-icon"><svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg></div>
+        <div class="p-thumb"><img src="https://images.unsplash.com/photo-1567789884554-0b844b597180?w=400&q=70&fit=crop" alt="Industrial automation line"/></div>
         <div class="p-tag">Automation</div>
         <h3>Tự Động Hóa Phi Tiêu Chuẩn</h3>
         <p>Dây chuyền xử lý lõi dây, máy排线, hàn kết hợp &amp; linh kiện thay thế: thấu kính quang học, galvanometer (振镜).</p>

@@ -125,8 +125,8 @@ ul{list-style:none}
 ═══════════════════════════════════ */
 .slide-inner{
   width:100%;
-  max-width:1100px;
-  padding:0 60px;
+  max-width:1320px;
+  padding:0 48px;
   position:relative;
   z-index:2;
 }
@@ -254,52 +254,85 @@ ul{list-style:none}
 .products-grid{
   display:grid;
   grid-template-columns:repeat(5,1fr);
-  gap:16px;
+  gap:20px;
 }
+/* ─── PRODUCT CARD — redesign ─── */
 .p-card{
-  background:rgba(255,255,255,.04);
+  background:rgba(255,255,255,.03);
   border:1px solid rgba(255,255,255,.07);
-  border-radius:14px;
-  padding:24px 20px 22px;
+  border-radius:18px;
+  padding:0 0 20px;
   cursor:pointer;
-  transition:background .3s,border-color .3s,transform .3s;
+  transition:transform .4s cubic-bezier(.22,1,.36,1),
+             box-shadow .4s ease,
+             border-color .3s;
   position:relative;overflow:hidden;
+  display:flex;flex-direction:column;
 }
+/* Top shine sweep */
 .p-card::before{
-  content:'';position:absolute;inset:0;
-  background:linear-gradient(135deg,rgba(27,95,212,.15),transparent);
-  opacity:0;transition:opacity .3s;
-  border-radius:14px;
+  content:'';
+  position:absolute;top:0;left:-100%;
+  width:60%;height:100%;
+  background:linear-gradient(105deg,transparent,rgba(255,255,255,.06),transparent);
+  transition:left .55s ease;
+  z-index:1;pointer-events:none;
+}
+/* Blue glow border bottom */
+.p-card::after{
+  content:'';
+  position:absolute;bottom:0;left:0;right:0;
+  height:2px;
+  background:linear-gradient(90deg,transparent,rgba(74,144,226,.7),transparent);
+  opacity:0;transition:opacity .4s;
 }
 .p-card:hover{
-  background:rgba(27,95,212,.12);
-  border-color:rgba(74,144,226,.35);
-  transform:translateY(-6px);
+  transform:translateY(-10px) scale(1.02);
+  box-shadow:0 24px 60px rgba(27,95,212,.3),
+             0 0 0 1px rgba(74,144,226,.25);
+  border-color:rgba(74,144,226,.3);
 }
-.p-card:hover::before{opacity:1}
+.p-card:hover::before{left:140%}
+.p-card:hover::after{opacity:1}
+
+/* Thumb */
 .p-thumb{
-  width:100%;height:120px;
-  border-radius:8px;
+  width:100%;height:140px;
+  border-radius:18px 18px 0 0;
   overflow:hidden;
-  margin-bottom:12px;
+  margin-bottom:16px;
+  position:relative;
 }
+.p-thumb::after{
+  content:'';
+  position:absolute;inset:0;
+  background:linear-gradient(180deg,transparent 50%,rgba(2,11,26,.8));
+  transition:opacity .3s;
+}
+.p-card:hover .p-thumb::after{opacity:.5}
 .p-thumb img{
   width:100%;height:100%;
   object-fit:cover;
-  filter:brightness(.75) saturate(.9);
-  transition:transform .4s ease,filter .4s ease;
+  filter:brightness(.7) saturate(.9);
+  transition:transform .5s cubic-bezier(.22,1,.36,1),filter .5s ease;
 }
 .p-card:hover .p-thumb img{
-  transform:scale(1.06);
-  filter:brightness(.9) saturate(1.1);
+  transform:scale(1.09);
+  filter:brightness(.9) saturate(1.15);
 }
+
+/* Card body padding */
+.p-card-body{padding:0 18px}
+
 .p-icon{
   width:44px;height:44px;
   background:rgba(27,95,212,.2);
   border-radius:10px;
   display:flex;align-items:center;justify-content:center;
-  margin-bottom:16px;
+  margin-bottom:14px;
+  transition:background .3s,transform .3s;
 }
+.p-card:hover .p-icon{background:rgba(27,95,212,.4);transform:scale(1.1) rotate(-5deg)}
 .p-icon svg{color:#7ab8f5}
 .p-tag{
   display:inline-block;
@@ -309,11 +342,21 @@ ul{list-style:none}
   text-transform:uppercase;padding:3px 10px;border-radius:20px;
   margin-bottom:10px;
 }
-.p-card h3{font-size:15px;font-weight:600;margin-bottom:8px;line-height:1.3}
-.p-card p{font-size:12px;color:rgba(255,255,255,.5);line-height:1.6;margin-bottom:14px;font-family:'Open Sans',sans-serif}
+.p-card h3{font-size:14px;font-weight:700;margin-bottom:8px;line-height:1.3}
+.p-card p{font-size:11px;color:rgba(255,255,255,.5);line-height:1.65;margin-bottom:14px;font-family:'Open Sans',sans-serif}
 .p-specs{display:flex;flex-direction:column;gap:5px}
 .p-spec{display:flex;align-items:center;gap:6px;font-size:11px;color:rgba(255,255,255,.45)}
 .p-spec svg{color:#4a90e2;flex-shrink:0}
+
+/* Arrow reveal on hover */
+.p-arrow{
+  display:inline-flex;align-items:center;gap:4px;
+  font-size:11px;font-weight:600;color:#4a90e2;
+  margin-top:14px;
+  opacity:0;transform:translateX(-6px);
+  transition:opacity .3s,transform .3s;
+}
+.p-card:hover .p-arrow{opacity:1;transform:translateX(0)}
 
 /* ═══════════════════════════════════
    SLIDE 2 — ABOUT (2-col)
@@ -931,56 +974,71 @@ ul{list-style:none}
 
       <a class="p-card anim" href="product.html?p=marking" style="display:block;text-decoration:none;color:inherit">
         <div class="p-thumb"><img src="https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=400&q=70&fit=crop" alt="Laser marking machine"/></div>
-        <div class="p-tag">Marking</div>
+        <div class="p-card-body">
+                <div class="p-tag">Marking</div>
         <h3>Máy Đánh Dấu Laser</h3>
         <p>Laser UV, CO2, Fiber &amp; dây chuyền tự động — khắc mã vạch, QR, UDI, ngày SX trên nhựa, kim loại, thủy tinh, bao bì.</p>
         <div class="p-specs">
           <div class="p-spec"><svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>UV 355nm · CO2 · Sợi quang Fiber</div>
           <div class="p-spec"><svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Tích hợp dây chuyền inline</div>
+
+        <span class="p-arrow">Xem chi tiết →</span>        </div><!-- /p-card-body -->
         </div>
       </a>
 
       <a class="p-card anim" href="product.html?p=skinning" style="display:block;text-decoration:none;color:inherit">
         <div class="p-thumb"><img src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=400&q=70&fit=crop" alt="Cable wire stripping laser"/></div>
-        <div class="p-tag">Skinning</div>
+        <div class="p-card-body">
+                <div class="p-tag">Skinning</div>
         <h3>Máy Tuốt Vỏ Laser</h3>
         <p>Công nghệ YAG, CO2, UV — tuốt vỏ dây HDMI, Type-C, USB, dây đồng trục, cáp y tế &amp; ô tô không hại lõi dẫn.</p>
         <div class="p-specs">
           <div class="p-spec"><svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>YAG · CO2 · UV tốc độ cao</div>
           <div class="p-spec"><svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Tuốt vòng, tuốt sơn, cắt chính xác</div>
+
+        <span class="p-arrow">Xem chi tiết →</span>        </div><!-- /p-card-body -->
         </div>
       </a>
 
       <a class="p-card anim" href="product.html?p=welding" style="display:block;text-decoration:none;color:inherit">
         <div class="p-thumb"><img src="https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=400&q=70&fit=crop" alt="Laser welding machine"/></div>
-        <div class="p-tag">Welding</div>
+        <div class="p-card-body">
+                <div class="p-tag">Welding</div>
         <h3>Máy Hàn Laser</h3>
         <p>Hàn sợi quang, hàn thiếc (đầu bi/dây), hàn xung, hàn QCW — pin năng lượng, bảng CCS, đầu nối điện thoại, linh kiện chính xác.</p>
         <div class="p-specs">
           <div class="p-spec"><svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Fiber · Hàn thiếc bi/dây · QCW</div>
           <div class="p-spec"><svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Không biến dạng nhiệt lõi</div>
+
+        <span class="p-arrow">Xem chi tiết →</span>        </div><!-- /p-card-body -->
         </div>
       </a>
 
       <a class="p-card anim" href="product.html?p=cutting" style="display:block;text-decoration:none;color:inherit">
         <div class="p-thumb"><img src="https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=400&q=70&fit=crop" alt="Laser cutting machine"/></div>
-        <div class="p-tag">Cutting</div>
+        <div class="p-card-body">
+                <div class="p-tag">Cutting</div>
         <h3>Máy Cắt Laser</h3>
         <p>Cắt chính xác kim loại, thủy tinh, nhựa — nền đá cẩm thạch siêu ổn định cho linh kiện điện tử &amp; pin EV.</p>
         <div class="p-specs">
           <div class="p-spec"><svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Kim loại · Thủy tinh · Nhựa</div>
           <div class="p-spec"><svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Nền granite chống rung tuyệt đối</div>
+
+        <span class="p-arrow">Xem chi tiết →</span>        </div><!-- /p-card-body -->
         </div>
       </a>
 
       <a class="p-card anim" href="product.html?p=automation" style="display:block;text-decoration:none;color:inherit">
         <div class="p-thumb"><img src="https://images.unsplash.com/photo-1567789884554-0b844b597180?w=400&q=70&fit=crop" alt="Industrial automation line"/></div>
-        <div class="p-tag">Automation</div>
+        <div class="p-card-body">
+                <div class="p-tag">Automation</div>
         <h3>Tự Động Hóa Phi Tiêu Chuẩn</h3>
         <p>Dây chuyền xử lý lõi dây, máy排线, hàn kết hợp &amp; linh kiện thay thế: thấu kính quang học, galvanometer (振镜).</p>
         <div class="p-specs">
           <div class="p-spec"><svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Thiết kế riêng theo yêu cầu</div>
           <div class="p-spec"><svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Linh kiện quang học chính hãng</div>
+
+        <span class="p-arrow">Xem chi tiết →</span>        </div><!-- /p-card-body -->
         </div>
       </a>
 

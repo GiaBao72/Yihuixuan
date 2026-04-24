@@ -904,7 +904,8 @@ ul{list-style:none}
     -webkit-overflow-scrolling:touch;
     scrollbar-width:none;
     will-change:scroll-position;
-    touch-action:pan-x;
+    touch-action:auto;
+    overscroll-behavior-x:contain;
   }
   #ps-right-main::-webkit-scrollbar{display:none}
   /* Mỗi panel thành 1 card full-width */

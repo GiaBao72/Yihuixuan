@@ -332,35 +332,64 @@ ul{list-style:none}
   transition:transform 8s ease,filter .5s ease;
 }
 .ps-panel.active img{transform:scale(1.06)}
-/* gradient overlay */
+/* gradient overlay — đậm hơn để text đọc được */
 .ps-panel::after{
   content:'';
   position:absolute;inset:0;
-  background:linear-gradient(90deg,rgba(3,14,31,.9) 0%,rgba(3,14,31,.3) 40%,transparent 100%);
+  background:linear-gradient(
+    to top,
+    rgba(2,11,26,.92) 0%,
+    rgba(2,11,26,.5) 40%,
+    rgba(2,11,26,.15) 100%
+  );
+  z-index:1;
 }
-/* info badge bottom-right */
-.ps-badge{
-  position:absolute;bottom:40px;right:40px;
-  background:rgba(2,11,26,.75);
-  backdrop-filter:blur(16px);
-  border:1px solid rgba(255,255,255,.1);
-  border-radius:16px;
-  padding:20px 24px;
-  min-width:240px;
-  z-index:3;
-  transform:translateY(12px);opacity:0;
-  transition:transform .4s ease .15s,opacity .4s ease .15s;
+/* info overlay — đè lên ảnh */
+.ps-info{
+  position:absolute;
+  bottom:0;left:0;right:0;
+  padding:40px 44px;
+  z-index:2;
+  transform:translateY(16px);opacity:0;
+  transition:transform .45s ease .1s,opacity .45s ease .1s;
 }
-.ps-panel.active .ps-badge{transform:translateY(0);opacity:1}
-.ps-badge-tag{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#4a90e2;margin-bottom:6px}
-.ps-badge-title{font-size:16px;font-weight:700;margin-bottom:8px}
-.ps-badge-desc{font-size:12px;color:rgba(255,255,255,.55);line-height:1.6;margin-bottom:14px}
-.ps-badge-link{
-  display:inline-flex;align-items:center;gap:6px;
-  font-size:12px;font-weight:700;color:#4a90e2;
-  transition:gap .2s;
+.ps-panel.active .ps-info{transform:translateY(0);opacity:1}
+.ps-info-tag{
+  font-size:10px;font-weight:800;letter-spacing:2px;text-transform:uppercase;
+  color:#4a90e2;margin-bottom:10px;
+  display:flex;align-items:center;gap:8px;
 }
-.ps-badge-link:hover{gap:10px}
+.ps-info-tag::before{
+  content:'';display:inline-block;
+  width:28px;height:2px;background:#4a90e2;border-radius:2px;
+}
+.ps-info-title{
+  font-size:32px;font-weight:800;line-height:1.1;
+  letter-spacing:-.5px;margin-bottom:14px;
+}
+.ps-info-desc{
+  font-size:14px;color:rgba(255,255,255,.7);
+  line-height:1.7;max-width:480px;margin-bottom:22px;
+}
+.ps-info-specs{
+  display:flex;gap:10px;flex-wrap:wrap;margin-bottom:24px;
+}
+.ps-info-spec{
+  background:rgba(74,144,226,.15);
+  border:1px solid rgba(74,144,226,.25);
+  color:#7ab8f5;
+  font-size:11px;font-weight:700;
+  padding:5px 14px;border-radius:20px;
+  letter-spacing:.4px;
+}
+.ps-info-cta{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:13px;font-weight:700;color:#fff;
+  background:var(--blue);
+  padding:10px 24px;border-radius:30px;
+  transition:background .2s,transform .2s;
+}
+.ps-info-cta:hover{background:#1348b0;transform:translateY(-2px)}
 
 .sec-label{
   font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;
@@ -1178,47 +1207,76 @@ ul{list-style:none}
     <div class="ps-right">
       <div class="ps-panel active" id="p-marking">
         <img src="https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=900&q=80&fit=crop" alt="Laser marking"/>
-        <div class="ps-badge">
-          <div class="ps-badge-tag">Marking</div>
-          <div class="ps-badge-title">Máy Đánh Dấu Laser</div>
-          <div class="ps-badge-desc">UV 355nm · CO2 · Fiber — khắc mã vạch, QR, UDI trên nhựa, kim loại, thủy tinh.</div>
-          <span class="ps-badge-link">Xem chi tiết →</span>
+        <div class="ps-info">
+          <div class="ps-info-tag">Marking</div>
+          <div class="ps-info-title">Máy Đánh Dấu Laser</div>
+          <div class="ps-info-desc">Khắc mã vạch, QR code, UDI, ngày sản xuất trên nhựa, kim loại, thủy tinh và bao bì — tốc độ cao, không tiếp xúc.</div>
+          <div class="ps-info-specs">
+            <span class="ps-info-spec">UV 355nm</span>
+            <span class="ps-info-spec">CO2</span>
+            <span class="ps-info-spec">Fiber</span>
+            <span class="ps-info-spec">Inline tự động</span>
+          </div>
+          <a href="product.html?p=marking" class="ps-info-cta">Xem chi tiết →</a>
         </div>
       </div>
       <div class="ps-panel" id="p-skinning">
         <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=900&q=80&fit=crop" alt="Laser skinning"/>
-        <div class="ps-badge">
-          <div class="ps-badge-tag">Skinning</div>
-          <div class="ps-badge-title">Máy Tuốt Vỏ Laser</div>
-          <div class="ps-badge-desc">YAG · CO2 · UV — tuốt vỏ HDMI, Type-C, USB, cáp y tế không hại lõi dẫn.</div>
-          <span class="ps-badge-link">Xem chi tiết →</span>
+        <div class="ps-info">
+          <div class="ps-info-tag">Skinning</div>
+          <div class="ps-info-title">Máy Tuốt Vỏ Laser</div>
+          <div class="ps-info-desc">Tuốt vỏ dây HDMI, Type-C, USB, dây đồng trục, cáp y tế & ô tô — không hại lõi dẫn, độ chính xác cao.</div>
+          <div class="ps-info-specs">
+            <span class="ps-info-spec">YAG</span>
+            <span class="ps-info-spec">CO2</span>
+            <span class="ps-info-spec">UV tốc độ cao</span>
+            <span class="ps-info-spec">Tuốt vòng / sơn</span>
+          </div>
+          <a href="product.html?p=skinning" class="ps-info-cta">Xem chi tiết →</a>
         </div>
       </div>
       <div class="ps-panel" id="p-welding">
         <img src="https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=900&q=80&fit=crop" alt="Laser welding"/>
-        <div class="ps-badge">
-          <div class="ps-badge-tag">Welding</div>
-          <div class="ps-badge-title">Máy Hàn Laser</div>
-          <div class="ps-badge-desc">Fiber · hàn thiếc bi/dây · QCW — pin EV, bảng CCS, đầu nối chính xác.</div>
-          <span class="ps-badge-link">Xem chi tiết →</span>
+        <div class="ps-info">
+          <div class="ps-info-tag">Welding</div>
+          <div class="ps-info-title">Máy Hàn Laser</div>
+          <div class="ps-info-desc">Hàn sợi quang, hàn thiếc đầu bi/dây, hàn xung QCW — pin EV, bảng CCS, đầu nối điện thoại, linh kiện chính xác.</div>
+          <div class="ps-info-specs">
+            <span class="ps-info-spec">Fiber</span>
+            <span class="ps-info-spec">Hàn thiếc bi/dây</span>
+            <span class="ps-info-spec">QCW</span>
+            <span class="ps-info-spec">Không biến dạng nhiệt</span>
+          </div>
+          <a href="product.html?p=welding" class="ps-info-cta">Xem chi tiết →</a>
         </div>
       </div>
       <div class="ps-panel" id="p-cutting">
         <img src="https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=900&q=80&fit=crop" alt="Laser cutting"/>
-        <div class="ps-badge">
-          <div class="ps-badge-tag">Cutting</div>
-          <div class="ps-badge-title">Máy Cắt Laser</div>
-          <div class="ps-badge-desc">Cắt kim loại, thủy tinh, nhựa — nền granite chống rung tuyệt đối.</div>
-          <span class="ps-badge-link">Xem chi tiết →</span>
+        <div class="ps-info">
+          <div class="ps-info-tag">Cutting</div>
+          <div class="ps-info-title">Máy Cắt Laser</div>
+          <div class="ps-info-desc">Cắt chính xác kim loại, thủy tinh, nhựa kỹ thuật — nền đá granite siêu ổn định cho linh kiện điện tử & pin EV.</div>
+          <div class="ps-info-specs">
+            <span class="ps-info-spec">Kim loại</span>
+            <span class="ps-info-spec">Thủy tinh</span>
+            <span class="ps-info-spec">Nhựa kỹ thuật</span>
+            <span class="ps-info-spec">Nền granite</span>
+          </div>
+          <a href="product.html?p=cutting" class="ps-info-cta">Xem chi tiết →</a>
         </div>
       </div>
       <div class="ps-panel" id="p-automation">
         <img src="https://images.unsplash.com/photo-1567789884554-0b844b597180?w=900&q=80&fit=crop" alt="Automation"/>
-        <div class="ps-badge">
-          <div class="ps-badge-tag">Automation</div>
-          <div class="ps-badge-title">Tự Động Hóa Phi Tiêu Chuẩn</div>
-          <div class="ps-badge-desc">Dây chuyền tích hợp theo yêu cầu — linh kiện quang học, galvanometer chính hãng.</div>
-          <span class="ps-badge-link">Xem chi tiết →</span>
+        <div class="ps-info">
+          <div class="ps-info-tag">Automation</div>
+          <div class="ps-info-title">Tự Động Hóa Phi Tiêu Chuẩn</div>
+          <div class="ps-info-desc">Dây chuyền xử lý lõi dây, hàn kết hợp & linh kiện thay thế: thấu kính quang học, galvanometer chính hãng Borna.</div>
+          <div class="ps-info-specs">
+            <span class="ps-info-spec">Thiết kế theo yêu cầu</span>
+            <span class="ps-info-spec">Linh kiện quang học</span>
+            <span class="ps-info-spec">Galvanometer</span>
+          </div>
+          <a href="product.html?p=automation" class="ps-info-cta">Tư vấn giải pháp →</a>
         </div>
       </div>
     </div>
@@ -1765,10 +1823,12 @@ window.addEventListener('scroll', () => {
   }
 
   items.forEach(item => {
-    // hover
-    item.addEventListener('mouseenter', e => {
-      e.preventDefault();
+    item.addEventListener('mouseenter', () => {
       activate(item.dataset.panel);
+    });
+    // click chỉ navigate nếu không phải scroll engine
+    item.addEventListener('click', e => {
+      if (!isMobile()) e.preventDefault(); // desktop: chặn navigate, chỉ highlight
     });
   });
 })();

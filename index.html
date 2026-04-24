@@ -1828,15 +1828,18 @@ document.getElementById('mobClose').addEventListener('click', () => {
 
 // ── Scroll To Top button ────────────────────────────
 const scrollTopBtn = document.getElementById('scrollTop');
-scrollTopBtn.addEventListener('click', () => {
-  if (isMobile()) {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  } else {
-    goTo(0);
-  }
-});
+if (scrollTopBtn) {
+  scrollTopBtn.addEventListener('click', () => {
+    if (isMobile()) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      goTo(0);
+    }
+  });
+}
 // Show/hide: desktop theo current slide, mobile theo scroll position
 function updateScrollTopBtn() {
+  if (!scrollTopBtn) return;
   if (isMobile()) {
     scrollTopBtn.classList.toggle('show', window.scrollY > 300);
   } else {

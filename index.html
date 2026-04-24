@@ -1517,6 +1517,124 @@ body.theme-light .ps-item.active {
   border-color: rgba(200, 130, 22, .18) !important;
   box-shadow: 0 22px 46px rgba(55, 83, 111, .10);
 }
+body.theme-light .ps-left {
+  padding: 72px 52px 72px 72px;
+  border-right: 1px solid rgba(24, 50, 74, .08);
+}
+body.theme-light .ps-list {
+  gap: 12px;
+}
+body.theme-light .ps-item {
+  align-items: stretch;
+  padding: 20px 24px;
+  border-radius: 24px;
+}
+body.theme-light .ps-item::before {
+  width: 4px;
+  border-radius: 0 6px 6px 0;
+  background: linear-gradient(180deg, #d89a35, #7aa8de);
+}
+body.theme-light .ps-item:hover,
+body.theme-light .ps-item.active {
+  transform: translateX(0);
+}
+body.theme-light .ps-item.active {
+  background: linear-gradient(180deg, rgba(255,255,255,.98), rgba(246, 238, 222, .98)) !important;
+  border-color: rgba(200, 130, 22, .22) !important;
+  box-shadow: 0 24px 52px rgba(51, 80, 108, .12);
+}
+body.theme-light .ps-num {
+  color: rgba(122, 168, 222, .86);
+  font-size: 14px;
+  padding-top: 2px;
+}
+body.theme-light .ps-item-tag {
+  color: rgba(176, 111, 18, .70) !important;
+  margin-bottom: 8px;
+}
+body.theme-light .ps-item-name {
+  color: #18324a !important;
+  font-size: 19px;
+  line-height: 1.25;
+}
+body.theme-light .ps-item-arr {
+  align-self: center;
+  color: rgba(24, 50, 74, .24);
+}
+body.theme-light .ps-item:hover .ps-item-arr,
+body.theme-light .ps-item.active .ps-item-arr {
+  color: #c88216;
+}
+body.theme-light .ps-right {
+  min-height: 100vh;
+  padding: 48px;
+  display: flex;
+  align-items: stretch;
+  justify-content: stretch;
+  background: transparent !important;
+}
+body.theme-light .ps-right::before {
+  inset: 48px;
+  border-radius: 34px;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.24), rgba(255,255,255,0) 22%),
+    linear-gradient(180deg, rgba(21, 40, 58, .16) 0%, rgba(21, 40, 58, .06) 42%, rgba(255,255,255,.86) 100%);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.5);
+}
+body.theme-light .ps-img-layer {
+  inset: 48px;
+  border-radius: 34px;
+  background-position: center center;
+  box-shadow: 0 28px 80px rgba(45, 71, 96, .16);
+  filter: saturate(.92) contrast(.98) brightness(.88);
+}
+body.theme-light .ps-info {
+  left: 78px;
+  right: 78px;
+  bottom: 78px;
+  padding: 30px 32px 32px;
+  border-radius: 30px;
+  background: linear-gradient(180deg, rgba(255,255,255,.82), rgba(248, 245, 238, .94));
+  border: 1px solid rgba(255,255,255,.58);
+  box-shadow: 0 24px 56px rgba(46, 73, 98, .16);
+  backdrop-filter: blur(18px);
+}
+body.theme-light .ps-info-tag {
+  color: #b06f12 !important;
+  margin-bottom: 14px;
+}
+body.theme-light .ps-info-tag::before {
+  background: linear-gradient(90deg, #d89a35, #7aa8de);
+}
+body.theme-light .ps-info-title {
+  color: #18324a !important;
+  font-size: clamp(28px, 2.4vw, 36px);
+  margin-bottom: 12px;
+}
+body.theme-light .ps-info-desc {
+  color: rgba(24, 50, 74, .76) !important;
+  max-width: 560px;
+}
+body.theme-light .ps-info-specs {
+  gap: 12px;
+  margin-bottom: 26px;
+}
+body.theme-light .ps-info-spec {
+  background: rgba(255,255,255,.74) !important;
+  border: 1px solid rgba(24, 50, 74, .10) !important;
+  color: #365f87 !important;
+  padding: 8px 14px;
+}
+body.theme-light .ps-info-cta {
+  background: linear-gradient(135deg, #ffffff, #f6ead2) !important;
+  color: #18324a !important;
+  border: 1px solid rgba(200, 130, 22, .18);
+  box-shadow: 0 12px 28px rgba(72, 95, 118, .10);
+}
+body.theme-light .ps-info-cta:hover {
+  background: linear-gradient(135deg, #fffdf8, #f3e2bc) !important;
+  transform: translateY(-1px);
+}
 body.theme-light .ps-item-tag,
 body.theme-light .ps-info-tag,
 body.theme-light .sec-label,
@@ -1610,6 +1728,32 @@ body.theme-light #scrollTop {
   body.theme-light .stat {
     padding: 18px 18px 16px;
     border-radius: 22px;
+  }
+  body.theme-light .ps-left {
+    padding: 32px 20px 22px;
+    border-right: 0;
+  }
+  body.theme-light .ps-item {
+    padding: 18px 18px;
+    border-radius: 20px;
+  }
+  body.theme-light .ps-item-name {
+    font-size: 17px;
+  }
+  body.theme-light .ps-right {
+    padding: 14px 20px 28px;
+  }
+  body.theme-light .ps-right::before,
+  body.theme-light .ps-img-layer {
+    inset: 0;
+    border-radius: 24px;
+  }
+  body.theme-light .ps-info {
+    left: 16px;
+    right: 16px;
+    bottom: 16px;
+    padding: 22px 20px 22px;
+    border-radius: 24px;
   }
 }
 

@@ -839,14 +839,60 @@ ul{list-style:none}
 /* Tablet landscape 1024px */
 @media(max-width:1024px){
   #navbar{padding:0 32px}
-  .slide-inner{padding:0 32px}
+  .slide-inner{padding:0 32px;max-width:100%}
   .products-grid{grid-template-columns:repeat(3,1fr);gap:12px}
   .ind-grid{grid-template-columns:repeat(4,1fr)}
-  .about-grid{grid-template-columns:1fr;gap:40px}
-  .about-visual{height:280px}
-  .contact-grid{grid-template-columns:1fr;gap:32px}
+  .about-grid{grid-template-columns:1fr 1fr;gap:40px}
+  .contact-grid{grid-template-columns:1fr 1fr;gap:32px}
   .hero-h1{font-size:52px}
+  .p-thumb{height:110px}
+  .hero-float-cards{display:none}
+  .pd-grid{gap:40px}
+  .why-row{grid-template-columns:1fr 1fr;gap:14px}
+}
+
+/* Tablet portrait 960px */
+@media(max-width:960px){
+  #navbar{padding:0 28px;height:62px}
+  .slide-inner{padding:0 28px}
+  .hero-h1{font-size:44px;letter-spacing:-1px}
+  .hero-sub{font-size:16px}
+  .hero-stats{gap:0}
+  .stat{padding-right:20px;margin-right:20px}
+  .stat-num{font-size:34px}
+
+  /* Products grid: 2 hàng x 3 col trên tablet portrait */
+  .products-grid{grid-template-columns:repeat(3,1fr);gap:14px}
   .p-thumb{height:100px}
+
+  /* About: stack 1 col */
+  .about-grid{grid-template-columns:1fr;gap:32px}
+  .about-visual{height:240px}
+  .about-values{grid-template-columns:1fr 1fr;gap:12px}
+
+  /* Industries: 4 col */
+  .ind-grid{grid-template-columns:repeat(4,1fr);gap:10px}
+  .why-row{grid-template-columns:1fr 1fr;gap:12px}
+  .s8-grid{grid-template-columns:1fr!important;gap:32px!important}
+
+  /* Product detail slides */
+  .pd-grid{gap:32px}
+  .pd-num{font-size:56px}
+  .pd-title{font-size:26px}
+  .pd-desc{font-size:14px}
+
+  /* Contact */
+  .contact-grid{grid-template-columns:1fr;gap:28px}
+  .form-row{grid-template-columns:1fr 1fr}
+
+  /* Testimonial */
+  .testi-text{font-size:17px}
+  .cta-block{flex-direction:column;text-align:center;gap:20px;padding:32px 24px}
+  .cta-block h2{font-size:22px}
+
+  /* Dots */
+  #fp-dots{right:18px}
+
   .hero-float-cards{display:none}
 }
 
@@ -1116,7 +1162,12 @@ ul{list-style:none}
 
 /* Responsive product slides */
 @media(max-width:1024px){
-  .pd-grid{gap:40px}
+  .pd-grid{gap:36px}
+  .pd-num{font-size:64px}
+}
+@media(max-width:960px){
+  .pd-grid{gap:28px}
+  .pd-media{aspect-ratio:16/9}
 }
 @media(max-width:768px){
   .pd-grid,.pd-grid.reverse{

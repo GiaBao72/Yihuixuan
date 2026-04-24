@@ -13,7 +13,7 @@
    RESET & BASE
 ═══════════════════════════════════ */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html,body{width:100%;height:100%;overflow:hidden;font-family:'Nunito',sans-serif}
+html,body{width:100%;overflow-x:hidden;font-family:'Nunito',sans-serif}
 body{background:#020b1a;color:#fff}
 a{text-decoration:none;color:inherit}
 ul{list-style:none}
@@ -34,26 +34,26 @@ ul{list-style:none}
    FULL-PAGE SCROLL WRAPPER
 ═══════════════════════════════════ */
 #fp-wrapper{
-  position:fixed;
-  top:0;left:0;
-  width:100%;height:100%;
-  overflow:hidden;
+  position:relative;
+  overflow:visible;
+  height:auto;
+  width:100%;
 }
 
 /* The vertical strip that moves */
 #fp-track{
-  display:flex;
+  display:block;
   flex-direction:column;
   width:100%;
-  will-change:transform;
-  transition:transform var(--slide-dur) var(--ease);
+  will-change:auto;
 }
 
-/* Each slide = 100vh */
+/* Each slide = min 100vh, auto height */
 .fp-slide{
   flex:none;
   width:100%;
-  height:100vh;
+  min-height:100vh;
+  height:auto;
   position:relative;
   overflow:hidden;
   display:flex;
@@ -103,14 +103,7 @@ ul{list-style:none}
    PROGRESS DOTS
 ═══════════════════════════════════ */
 #fp-dots{
-  position:fixed;
-  right:28px;
-  top:50%;
-  transform:translateY(-50%);
-  z-index:500;
-  display:flex;
-  flex-direction:column;
-  gap:12px;
+  display:none !important;
 }
 .fp-dot{
   width:7px;height:7px;
@@ -133,11 +126,10 @@ ul{list-style:none}
   z-index:2;
 }
 
-/* Animated entry per element */
+/* Animated entry per element — always visible (no fullpage scroll engine) */
 .fp-slide .anim{
-  opacity:0;
-  transform:translateY(36px);
-  transition:opacity .7s var(--ease),transform .7s var(--ease);
+  opacity:1;
+  transform:none;
 }
 .fp-slide.visible .anim{opacity:1;transform:translateY(0)}
 .fp-slide .anim:nth-child(1){transition-delay:.05s}
@@ -1074,7 +1066,7 @@ ul{list-style:none}
     <a href="#" data-go="7">Về chúng tôi</a>
     <a href="#" data-go="8">Ngành ứng dụng</a>
     <a href="#" data-go="9">Đánh giá</a>
-    <a href="index-2.html" class="nav-switch" title="Xem bản scroll thường">⇅ Scroll</a>
+    <a href="index.html" class="nav-switch" title="Xem bản fullpage scroll">⇅ Fullpage</a>
     <a href="#" class="nav-cta" data-go="10">Liên hệ →</a>
   </div>
   <div class="hamburger" id="hamBtn"><span></span><span></span><span></span></div>
@@ -1665,124 +1657,14 @@ ul{list-style:none}
 
 <script>
 /* ═══════════════════════════════════
-   FULL-PAGE SCROLL ENGINE
+   NATURAL SCROLL — UI helpers only
 ═══════════════════════════════════ */
-const TOTAL = 11;
-let current = 0;
-let isAnimating = false;
-let animTimer = null;
-
-// Detect mobile — disable fullpage scroll engine
-const isMobile = () => window.innerWidth <= 768;
-
-const track = document.getElementById('fp-track');
-const dots = document.querySelectorAll('.fp-dot');
-const slides = document.querySelectorAll('.fp-slide');
 const navbar = document.getElementById('navbar');
 
-function finishAnim() {
-  isAnimating = false;
-  if (animTimer) { clearTimeout(animTimer); animTimer = null; }
-}
-
-function goTo(idx, force) {
-  if (isMobile()) return; // mobile: scroll tự nhiên, không dùng engine
-  if (idx < 0 || idx >= TOTAL) return;
-  if (!force && (idx === current || isAnimating)) return;
-  // Reset any stuck animation state
-  finishAnim();
-  isAnimating = true;
-  current = idx;
-
-  // Move track
-  track.style.transform = `translateY(-${idx * 100}vh)`;
-
-  // Update dots
-  dots.forEach((d,i) => d.classList.toggle('active', i === idx));
-
-  // Update nav links
-  document.querySelectorAll('.nav-links a[data-go]').forEach(a => {
-    a.classList.toggle('active', +a.dataset.go === idx);
-  });
-
-  // Navbar solid after slide 0
-  navbar.classList.toggle('solid', idx > 0);
-
-  // Mark visible for animation
-  slides.forEach((s,i) => s.classList.toggle('visible', i === idx));
-  updateScrollTopBtn();
-  // Release lock after transition + buffer — use transitionend as primary
-  animTimer = setTimeout(finishAnim, 1050);
-}
-
-// transitionend as reliable unlock
-track.addEventListener('transitionend', finishAnim);
-
-// Init — mark first slide visible
-slides[0].classList.add('visible');
-navbar.classList.remove('solid');
-
-// Mobile: mark tất cả slides visible ngay (không dùng scroll engine)
-if (isMobile()) {
-  slides.forEach(s => s.classList.add('visible'));
-}
-
-// ── Wheel ──────────────────────────────────────────
-let lastWheel = 0;
-window.addEventListener('wheel', e => {
-  if (isMobile()) return;
-  const now = Date.now();
-  if (now - lastWheel < 900) return; // cooldown 900ms
-  if (isAnimating) return;
-  lastWheel = now;
-  if (e.deltaY > 0) goTo(current + 1);
-  else goTo(current - 1);
+// ── Navbar solid on scroll ──────────────────────────
+window.addEventListener('scroll', () => {
+  navbar.classList.toggle('solid', window.scrollY > 10);
 }, { passive: true });
-
-// ── Touch ──────────────────────────────────────────
-let touchStartY = 0;
-let lastTouch = 0;
-window.addEventListener('touchstart', e => {
-  if (isMobile()) return;
-  touchStartY = e.touches[0].clientY;
-}, { passive: true });
-window.addEventListener('touchend', e => {
-  if (isMobile()) return;
-  const now = Date.now();
-  if (now - lastTouch < 900 || isAnimating) return;
-  const dy = touchStartY - e.changedTouches[0].clientY;
-  if (Math.abs(dy) < 30) return;
-  lastTouch = now;
-  if (dy > 0) goTo(current + 1);
-  else goTo(current - 1);
-}, { passive: true });
-
-// ── Keyboard ───────────────────────────────────────
-window.addEventListener('keydown', e => {
-  if (isMobile()) return;
-  if (e.key === 'ArrowDown' || e.key === 'PageDown') goTo(current + 1);
-  if (e.key === 'ArrowUp' || e.key === 'PageUp') goTo(current - 1);
-});
-
-// ── Dot clicks ─────────────────────────────────────
-dots.forEach(d => d.addEventListener('click', () => goTo(+d.dataset.go, true)));
-
-// ── Nav link clicks ────────────────────────────────
-// Only bind nav-links and mob-menu links (not product slide buttons)
-document.querySelectorAll('#navbar [data-go], #mobMenu [data-go]').forEach(el => {
-  el.addEventListener('click', e => {
-    e.preventDefault();
-    const idx = +el.dataset.go;
-    document.getElementById('mobMenu').classList.remove('open');
-    if (isMobile()) {
-      // Mobile: scroll đến slide tương ứng
-      const target = slides[idx];
-      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    } else {
-      goTo(idx, true); // force=true: nav click luôn hoạt động dù đang animate
-    }
-  });
-});
 
 // ── Mobile menu ────────────────────────────────────
 document.getElementById('hamBtn').addEventListener('click', () => {
@@ -1795,27 +1677,12 @@ document.getElementById('mobClose').addEventListener('click', () => {
 // ── Scroll To Top button ────────────────────────────
 const scrollTopBtn = document.getElementById('scrollTop');
 scrollTopBtn.addEventListener('click', () => {
-  if (isMobile()) {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  } else {
-    goTo(0);
-  }
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 });
-// Show/hide: desktop theo current slide, mobile theo scroll position
-function updateScrollTopBtn() {
-  if (isMobile()) {
-    scrollTopBtn.classList.toggle('show', window.scrollY > 300);
-  } else {
-    scrollTopBtn.classList.toggle('show', current > 0);
-  }
-}
-window.addEventListener('scroll', updateScrollTopBtn, { passive: true });
-
-// ── Mobile: navbar solid on scroll ─────────────────
 window.addEventListener('scroll', () => {
-  if (!isMobile()) return;
-  navbar.classList.toggle('solid', window.scrollY > 10);
+  scrollTopBtn.classList.toggle('show', window.scrollY > 300);
 }, { passive: true });
+
 // ── Split screen product switcher ──────────────────
 (function(){
   const items = document.querySelectorAll('.ps-item');
@@ -1833,48 +1700,7 @@ window.addEventListener('scroll', () => {
   });
 })();
 
-// ── YouTube autoplay on slide ─────────────────────
-// sp1 = index 6 (slides: s0,s1,sp1..sp5,s7,s8,s9,s10 → sp1 = index 2)
-(function() {
-  const YT_SLIDE_ID = 'sp1';
-  const iframeEl = document.getElementById('yt-marking');
-  if (!iframeEl) return;
-
-  // postMessage helpers
-  function ytCmd(cmd) {
-    try {
-      iframeEl.contentWindow.postMessage(JSON.stringify({ event:'command', func:cmd, args:[] }), '*');
-    } catch(e) {}
-  }
-
-  // Find slide index of sp1
-  const slideArr = Array.from(slides);
-  const sp1Index = slideArr.findIndex(s => s.id === YT_SLIDE_ID);
-
-  // Hook into goTo
-  const _origGoTo = goTo;
-  // Override: after goTo, check if sp1 is active
-  track.addEventListener('transitionend', () => {
-    if (current === sp1Index) {
-      ytCmd('playVideo');
-    } else {
-      ytCmd('pauseVideo');
-    }
-  });
-
-  // Mobile: use IntersectionObserver
-  if (typeof IntersectionObserver !== 'undefined') {
-    const sp1El = document.getElementById(YT_SLIDE_ID);
-    const obs = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) ytCmd('playVideo');
-        else ytCmd('pauseVideo');
-      });
-    }, { threshold: 0.5 });
-    if (sp1El) obs.observe(sp1El);
-  }
-})();
-
+// ── Form submit ─────────────────────────────────────
 document.getElementById('cForm').addEventListener('submit', e => {
   e.preventDefault();
   const btn = e.target.querySelector('button[type=submit]');

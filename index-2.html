@@ -99,6 +99,9 @@ ul{list-style:none}
 .nav-cta:hover{background:#1348b0;transform:translateY(-1px)}
 .nav-switch{font-size:12px;font-weight:600;color:rgba(255,255,255,.5);border:1px solid rgba(255,255,255,.15);padding:6px 14px;border-radius:20px;transition:all .2s;}
 .nav-switch:hover{color:#fff;border-color:rgba(255,255,255,.4);}
+.lang-toggle{background:none;border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.75);font-size:12px;font-weight:600;padding:5px 12px;border-radius:20px;cursor:pointer;letter-spacing:.3px;transition:all .2s;font-family:'Rubik',sans-serif;}
+.lang-toggle:hover{border-color:rgba(255,255,255,.5);color:#fff;}
+.lang-toggle.zh-active{background:rgba(255,193,7,.15);border-color:rgba(255,193,7,.5);color:#ffc107;}
 
 /* ═══════════════════════════════════
    PROGRESS DOTS
@@ -1109,6 +1112,7 @@ ul{list-style:none}
     <a href="#" data-go="8">Ngành ứng dụng</a>
     <a href="#" data-go="9">Đánh giá</a>
     <a href="index.html" class="nav-switch" title="Xem bản fullpage scroll">⇅ Fullpage</a>
+    <button id="langToggle" class="lang-toggle" title="切换语言 / Đổi ngôn ngữ">🇨🇳 中文</button>
     <a href="#" class="nav-cta" data-go="10">Liên hệ →</a>
   </div>
   <div class="hamburger" id="hamBtn"><span></span><span></span><span></span></div>
@@ -1772,6 +1776,382 @@ document.getElementById('cForm').addEventListener('submit', e => {
   btn.style.background = '#16a34a';
   btn.disabled = true;
 });
+
+// ── i18n Language Toggle ──────────────────────────────
+(function(){
+  const DICT = {
+    vi: {
+      nav_home: 'Trang chủ', nav_products: 'Sản phẩm', nav_about: 'Về chúng tôi',
+      nav_industries: 'Ngành ứng dụng', nav_reviews: 'Đánh giá', nav_contact: 'Liên hệ →',
+      mob_home: 'Trang chủ', mob_products: 'Sản phẩm', mob_marking: '↳ Đánh Dấu Laser',
+      mob_skinning: '↳ Tuốt Vỏ Dây', mob_welding: '↳ Hàn Laser', mob_cutting: '↳ Cắt Laser',
+      mob_automation: '↳ Tự Động Hóa', mob_about: 'Về chúng tôi', mob_industries: 'Ngành ứng dụng',
+      mob_reviews: 'Đánh giá', mob_contact: 'Liên hệ',
+      badge: 'Tập trung vào tùy chỉnh laser · Phục vụ bằng cả trái tim',
+      hero_h1: 'Thiết bị <em>Laser</em><br/>Công nghiệp<br/>chính xác tuyệt đối',
+      hero_sub: 'Suzhou Borna &amp; Vietnam Yihuixuan (Nghệ Huy Hiên) — cung cấp thiết bị laser công nghiệp, tự động hóa và giải pháp xử lý quy trình hoàn chỉnh cho nhà máy hiện đại tại Việt Nam.',
+      btn_consult: 'Tư vấn miễn phí <span class="btn-arr">→</span>',
+      btn_products: 'Xem sản phẩm <span class="btn-arr">→</span>',
+      stat_lines: 'Dòng sản phẩm', stat_industries: 'Ngành ứng dụng',
+      stat_founded: 'Thành lập tại VN', stat_support: 'Hỗ trợ kỹ thuật',
+      sec_products: 'Dòng sản phẩm',
+      products_title: 'Giải pháp laser <em>toàn diện</em>',
+      item_marking: 'Máy Đánh Dấu Laser', item_skinning: 'Máy Tuốt Vỏ Laser',
+      item_welding: 'Máy Hàn Laser', item_cutting: 'Máy Cắt Laser',
+      item_automation: 'Tự Động Hóa Phi Tiêu Chuẩn',
+      sp1_label: 'Marking Series',
+      sp1_title: 'Máy Đánh Dấu<br/><em>Laser</em>',
+      sp1_desc: 'Khắc mã vạch, QR code, UDI, số serial, ngày sản xuất lên nhựa, kim loại, thủy tinh, bao bì — đạt tiêu chuẩn truy xuất nguồn gốc cho điện tử, y tế, dược phẩm.',
+      sp1_f1: 'Laser UV 355nm — khắc lạnh, không biến màu nhựa',
+      sp1_f2: 'Laser CO2 — bao bì, thủy tinh, gỗ, vải',
+      sp1_f3: 'Laser Fiber (sợi quang) — kim loại, linh kiện điện tử',
+      sp1_f4: 'Tích hợp inline vào dây chuyền sản xuất',
+      sp1_a1:'Điện tử 3C',sp1_a2:'Y tế &amp; UDI',sp1_a3:'Dược phẩm',sp1_a4:'Ô tô',sp1_a5:'Thực phẩm',
+      sp1_cta: 'Xem chi tiết sản phẩm →',
+      sp2_label: 'Skinning Series',
+      sp2_title: 'Máy Tuốt Vỏ<br/><em>Laser</em>',
+      sp2_desc: 'Tuốt vỏ cáp HDMI, Type-C, USB, dây đồng trục, cáp y tế &amp; ô tô với độ chính xác ±0.01mm — không làm hỏng lõi dẫn điện, không tạo ba-via.',
+      sp2_f1: 'CO2 / UV / YAG — tốc độ cao, không tiếp xúc cơ học',
+      sp2_f2: 'Tuốt vòng, tuốt sơn cách điện, cắt khoanh chính xác',
+      sp2_f3: 'Xử lý dây từ Ø0.1mm đến Ø10mm',
+      sp2_f4: 'Tích hợp cảm biến kiểm tra lõi sau tuốt',
+      sp2_a1:'Cáp dữ liệu',sp2_a2:'Đầu nối',sp2_a3:'Y tế',sp2_a4:'Ô tô',sp2_a5:'Năng lượng',
+      sp2_cta: 'Xem chi tiết sản phẩm →',
+      sp3_label: 'Welding Series',
+      sp3_title: 'Máy Hàn<br/><em>Laser</em>',
+      sp3_desc: 'Hàn điểm chính xác cho pin năng lượng, bảng CCS, đầu nối điện thoại, linh kiện nhỏ — không biến dạng nhiệt, không cần chất trợ dung, đạt độ bền cao.',
+      sp3_f1: 'Hàn sợi quang Fiber — công suất cao, vùng ảnh hưởng nhiệt nhỏ',
+      sp3_f2: 'Hàn thiếc laser (đầu bi / dây) — linh kiện SMD, PCB',
+      sp3_f3: 'Hàn QCW / xung — kim loại mỏng, bạch kim, vàng',
+      sp3_f4: 'Hàn CCS — bản cực pin EV, module lưu trữ điện',
+      sp3_a1:'Pin EV',sp3_a2:'Bảng mạch PCB',sp3_a3:'Đầu nối',sp3_a4:'Y tế',sp3_a5:'Đồ trang sức',
+      sp3_cta: 'Xem chi tiết sản phẩm →',
+      sp4_label: 'Cutting Series',
+      sp4_title: 'Máy Cắt<br/><em>Laser</em>',
+      sp4_desc: 'Cắt chính xác kim loại, thủy tinh borosilicate, FPC, nhựa kỹ thuật — nền đá cẩm thạch tự nhiên siêu ổn định, lý tưởng cho linh kiện điện tử &amp; pin EV yêu cầu dung sai cực nhỏ.',
+      sp4_f1: 'Cắt kim loại mỏng — inox, nhôm, đồng, titan',
+      sp4_f2: 'Cắt &amp; đục lỗ vi mô thủy tinh, ceramic',
+      sp4_f3: 'Nền granite chống rung — lặp lại ±2μm',
+      sp4_f4: 'Tốc độ cắt cao, mép cắt không cần gia công lại',
+      sp4_a1:'Điện tử',sp4_a2:'Pin EV',sp4_a3:'Bán dẫn',sp4_a4:'Quang học',sp4_a5:'Y tế',
+      sp4_cta: 'Xem chi tiết sản phẩm →',
+      sp5_label: 'Custom Automation',
+      sp5_title: 'Tự Động Hóa<br/><em>Phi Tiêu Chuẩn</em>',
+      sp5_desc: 'Thiết kế và chế tạo dây chuyền tự động hoàn toàn theo yêu cầu — từ xả dây, xử lý lõi, xếp cáp, đến hàn laser tích hợp. Linh kiện quang học chính hãng sẵn có tại kho Bắc Ninh.',
+      sp5_f1: 'Dây chuyền xử lý lõi dây tích hợp đầu cuối',
+      sp5_f2: 'Máy xếp dây (排线机) tốc độ cao',
+      sp5_f3: 'Nguồn laser, thấu kính, galvanometer (振镜) chính hãng',
+      sp5_f4: 'Tư vấn — thiết kế — lắp đặt — đào tạo vận hành',
+      sp5_a1:'Cáp &amp; Dây điện',sp5_a2:'Điện tử',sp5_a3:'Ô tô',sp5_a4:'Năng lượng',sp5_a5:'Tất cả ngành',
+      sp5_cta1: 'Tư vấn giải pháp →', sp5_cta2: 'Xem chi tiết sản phẩm →',
+      about_label: 'Về chúng tôi',
+      about_title: 'Đối tác laser <em>tin cậy</em><br/>của nhà máy Việt Nam',
+      about_p1: '<strong>Suzhou Borna Intelligent Equipment Co., Ltd.</strong> (苏州博尔纳智能装备有限公司) — nhà sản xuất thiết bị laser &amp; tự động hóa hàng đầu tại Côn Sơn, Giang Tô, Trung Quốc.',
+      about_p2: '<strong>Vietnam Yihuixuan Co., Ltd.</strong> (越南艺辉轩责任有限公司) — thành lập 2022 tại Bắc Ninh để trực tiếp kết nối thị trường Việt Nam. Cung cấp thiết bị, giải pháp quy trình và chế tạo thiết bị hoàn chỉnh.',
+      about_badge_founded: 'Thành lập tại VN',
+      about_core_label: 'Giá trị cốt lõi',
+      about_core_quote: '"Tùy chỉnh laser · Tận tâm phục vụ"',
+      av1_title: 'Giá trị cốt lõi', av1_desc: '"Tập trung vào tùy chỉnh laser, phục vụ khách hàng bằng cả trái tim"',
+      av2_title: 'Thiết bị đa dạng', av2_desc: 'Marking · Skinning · Welding · Cutting · Tự động hóa phi tiêu chuẩn',
+      av3_title: 'Thị trường đa ngành', av3_desc: '3C tiêu dùng, điện tử, y tế, thực phẩm, mỹ phẩm, ô tô, gia dụng',
+      av4_title: 'Kết nối trực tiếp', av4_desc: 'Vietnam Yihuixuan — cầu nối giữa Borna TQ và nhà máy Việt Nam',
+      ind_label: 'Ngành ứng dụng',
+      ind_title: 'Phục vụ đa dạng<br/><em>ngành công nghiệp</em>',
+      ind1:'Điện tử 3C', ind2:'Cáp & Đầu nối', ind3:'Y tế & Thẩm mỹ',
+      ind4:'Pin xe điện', ind5:'Dược phẩm', ind6:'Ô tô & Gia dụng',
+      why_label: 'Tại sao chọn chúng tôi',
+      why_title: '4 lý do <em>khác biệt</em>',
+      why1_title: 'Đối tác chính thức Borna', why1_desc: 'Đại lý ủy quyền của Suzhou Borna — thiết bị chính hãng, hỗ trợ kỹ thuật trực tiếp từ nhà sản xuất.',
+      why2_title: 'Tư vấn kỹ thuật miễn phí', why2_desc: 'Đội kỹ sư phân tích quy trình, đề xuất giải pháp tối ưu trước khi ký hợp đồng.',
+      why3_title: 'Linh kiện sẵn có tại kho', why3_desc: 'Nguồn laser, thấu kính, gương quét chính hãng tại Bắc Ninh — giảm thời gian dừng máy.',
+      why4_title: 'Hỗ trợ sau bán hàng dài hạn', why4_desc: 'Bảo hành, đào tạo, hỗ trợ sự cố từ xa và tại chỗ — cam kết đồng hành lâu dài.',
+      testi_text: '"Máy tuốt vỏ laser của Borna giúp chúng tôi xử lý cáp Type-C với độ chính xác tuyệt vời. Không còn tình trạng đứt lõi, năng suất tăng gấp đôi. Đội ngũ Nghệ Huy Hiên hỗ trợ lắp đặt rất chuyên nghiệp."',
+      testi_name: 'Nguyễn Văn Minh', testi_role: 'Giám đốc sản xuất · Công ty Điện tử Hà Nội',
+      cta_title: 'Sẵn sàng nâng cấp dây chuyền?',
+      cta_desc: 'Tư vấn miễn phí — chúng tôi thiết kế giải pháp laser phù hợp nhất cho quy trình của bạn.',
+      cta_btn: 'Liên hệ ngay <span class="btn-arr">→</span>',
+      contact_label: 'Liên hệ',
+      contact_title: 'Gửi yêu cầu<br/><em>tư vấn ngay</em>',
+      ci1_title: 'Địa chỉ', ci1_val: 'Cụm CN Hạp Lĩnh, P. Hạp Lĩnh, TP. Bắc Ninh',
+      ci2_title: 'Email Việt Nam',
+      ci3_title: 'Trụ sở Trung Quốc', ci3_val: 'Côn Sơn, Giang Tô',
+      form_name: 'Họ và tên *', form_name_ph: 'Nguyễn Văn A',
+      form_company: 'Công ty', form_company_ph: 'Công ty ABC',
+      form_email: 'Email *', form_email_ph: 'email@congty.com',
+      form_phone: 'Điện thoại', form_phone_ph: '0901 234 567',
+      form_product: 'Sản phẩm quan tâm', form_product_ph: '-- Chọn sản phẩm --',
+      form_desc: 'Mô tả yêu cầu *', form_desc_ph: 'Vật liệu, quy trình, sản lượng, yêu cầu đặc biệt...',
+      form_submit: 'Gửi yêu cầu tư vấn <span class="btn-arr">→</span>',
+      footer_copy: '© 2022–2025 Công ty TNHH Nghệ Huy Hiên. Bảo lưu mọi quyền.',
+      footer_addr: 'Hạp Lĩnh, Bắc Ninh',
+    },
+    zh: {
+      nav_home: '首页', nav_products: '产品系列', nav_about: '关于我们',
+      nav_industries: '应用行业', nav_reviews: '客户评价', nav_contact: '联系我们 →',
+      mob_home: '首页', mob_products: '产品系列', mob_marking: '↳ 激光打标机',
+      mob_skinning: '↳ 激光剥线机', mob_welding: '↳ 激光焊接机', mob_cutting: '↳ 激光切割机',
+      mob_automation: '↳ 非标自动化', mob_about: '关于我们', mob_industries: '应用行业',
+      mob_reviews: '客户评价', mob_contact: '联系我们',
+      badge: '专注激光定制 · 全心服务客户',
+      hero_h1: '工业<em>激光</em>设备<br/>精密卓越<br/>品质保障',
+      hero_sub: '苏州博尔纳 &amp; 越南艺辉轩 — 为越南现代化工厂提供工业激光设备、自动化解决方案及完整工艺处理方案。',
+      btn_consult: '免费咨询 <span class="btn-arr">→</span>',
+      btn_products: '查看产品 <span class="btn-arr">→</span>',
+      stat_lines: '产品系列', stat_industries: '应用行业',
+      stat_founded: '在越成立', stat_support: '技术支持',
+      sec_products: '产品系列',
+      products_title: '全方位激光<em>解决方案</em>',
+      item_marking: '激光打标机', item_skinning: '激光剥线机',
+      item_welding: '激光焊接机', item_cutting: '激光切割机',
+      item_automation: '非标自动化设备',
+      sp1_label: '打标系列',
+      sp1_title: '激光<br/><em>打标机</em>',
+      sp1_desc: '在塑料、金属、玻璃、包装材料上打印条形码、二维码、UDI、序列号、生产日期 — 符合电子、医疗、医药行业溯源标准。',
+      sp1_f1: 'UV 355nm激光 — 冷加工，不变色',
+      sp1_f2: 'CO2激光 — 包装、玻璃、木材、布料',
+      sp1_f3: '光纤激光(Fiber) — 金属、电子元件',
+      sp1_f4: '集成到生产线在线标记',
+      sp1_a1:'3C消费电子',sp1_a2:'医疗&amp;UDI',sp1_a3:'医药',sp1_a4:'汽车',sp1_a5:'食品',
+      sp1_cta: '查看产品详情 →',
+      sp2_label: '剥线系列',
+      sp2_title: '激光<br/><em>剥线机</em>',
+      sp2_desc: '精密剥除 HDMI、Type-C、USB、同轴线缆、医疗及汽车电缆，精度 ±0.01mm — 不伤导芯，无毛刺。',
+      sp2_f1: 'CO2 / UV / YAG — 高速非接触加工',
+      sp2_f2: '环切、漆膜剥除、精密截断',
+      sp2_f3: '处理线径 Ø0.1mm 至 Ø10mm',
+      sp2_f4: '集成剥后线芯检测传感器',
+      sp2_a1:'数据线缆',sp2_a2:'连接器',sp2_a3:'医疗',sp2_a4:'汽车',sp2_a5:'能源',
+      sp2_cta: '查看产品详情 →',
+      sp3_label: '焊接系列',
+      sp3_title: '激光<br/><em>焊接机</em>',
+      sp3_desc: '精密点焊用于储能电池、CCS汇流排、手机连接器、微型零件 — 无热变形，无焊剂，高强度焊接。',
+      sp3_f1: '光纤激光焊接 — 高功率，热影响区小',
+      sp3_f2: '激光锡焊(锡球/锡丝) — SMD元件、PCB',
+      sp3_f3: 'QCW/脉冲焊接 — 薄金属、铂、金',
+      sp3_f4: 'CCS焊接 — EV电池极片、储能模组',
+      sp3_a1:'EV电池',sp3_a2:'PCB电路板',sp3_a3:'连接器',sp3_a4:'医疗',sp3_a5:'珠宝',
+      sp3_cta: '查看产品详情 →',
+      sp4_label: '切割系列',
+      sp4_title: '激光<br/><em>切割机</em>',
+      sp4_desc: '精密切割金属、硼硅玻璃、FPC、工程塑料 — 天然大理石超稳定底座，适用于要求极小公差的电子元件及EV电池。',
+      sp4_f1: '薄金属切割 — 不锈钢、铝、铜、钛',
+      sp4_f2: '玻璃、陶瓷微孔加工',
+      sp4_f3: '花岗岩减振底座 — 重复精度 ±2μm',
+      sp4_f4: '高速切割，切边无需二次加工',
+      sp4_a1:'电子',sp4_a2:'EV电池',sp4_a3:'半导体',sp4_a4:'光学',sp4_a5:'医疗',
+      sp4_cta: '查看产品详情 →',
+      sp5_label: '自动化系列',
+      sp5_title: '非标<br/><em>自动化设备</em>',
+      sp5_desc: '全定制自动化生产线设计制造 — 从放线、线芯处理、排线到集成激光焊接。博尔纳原厂光学零部件现货供应于北宁仓库。',
+      sp5_f1: '含端头处理的全集成线芯处理线',
+      sp5_f2: '高速排线机(排线机)',
+      sp5_f3: '博尔纳原厂激光器、场镜、振镜(振镜)',
+      sp5_f4: '咨询 — 设计 — 安装 — 操作培训',
+      sp5_a1:'线缆&amp;电线',sp5_a2:'电子',sp5_a3:'汽车',sp5_a4:'能源',sp5_a5:'全行业',
+      sp5_cta1: '咨询解决方案 →', sp5_cta2: '查看产品详情 →',
+      about_label: '关于我们',
+      about_title: '越南工厂的<em>可靠</em><br/>激光合作伙伴',
+      about_p1: '<strong>苏州博尔纳智能装备有限公司</strong> (Suzhou Borna Intelligent Equipment Co., Ltd.) — 位于江苏昆山的顶级激光设备及自动化制造商。',
+      about_p2: '<strong>越南艺辉轩责任有限公司</strong> (Vietnam Yihuixuan Co., Ltd.) — 2022年在北宁省成立，直接连接越南市场，提供设备、工艺方案和完整设备制造。',
+      about_badge_founded: '在越成立',
+      about_core_label: '核心价值',
+      about_core_quote: '"专注激光定制 · 全心服务"',
+      av1_title: '核心价值', av1_desc: '"专注激光定制，全心全意服务每一位客户"',
+      av2_title: '多元化设备', av2_desc: '打标 · 剥线 · 焊接 · 切割 · 非标自动化',
+      av3_title: '多行业市场', av3_desc: '3C消费电子、电子、医疗、食品、美妆、汽车、家电',
+      av4_title: '直连合作', av4_desc: '越南艺辉轩 — 博尔纳中国与越南工厂之间的桥梁',
+      ind_label: '应用行业',
+      ind_title: '服务<em>多元化行业</em>',
+      ind1:'3C消费电子', ind2:'线缆连接器', ind3:'医疗美容',
+      ind4:'新能源汽车', ind5:'医药', ind6:'汽车家电',
+      why_label: '为什么选择我们',
+      why_title: '4个<em>差异化优势</em>',
+      why1_title: '博尔纳官方授权合作商', why1_desc: '苏州博尔纳授权经销商 — 原厂设备，直接获得制造商技术支持。',
+      why2_title: '免费技术咨询', why2_desc: '工程师团队分析工艺流程，签约前提供最优解决方案。',
+      why3_title: '零部件现货供应', why3_desc: '博尔纳原厂激光器、场镜、振镜现货于北宁仓库 — 减少停机时间。',
+      why4_title: '长期售后服务保障', why4_desc: '保修、培训、远程及现场故障支持 — 承诺长期陪伴。',
+      testi_text: '"博尔纳激光剥线机帮助我们以极高精度处理Type-C线缆，不再出现断芯问题，产能翻倍。艺辉轩团队的安装服务非常专业。"',
+      testi_name: 'Nguyễn Văn Minh', testi_role: '生产总监 · 河内电子公司',
+      cta_title: '准备好升级生产线了吗？',
+      cta_desc: '免费咨询 — 我们为您的生产工艺量身定制最优激光解决方案。',
+      cta_btn: '立即联系 <span class="btn-arr">→</span>',
+      contact_label: '联系我们',
+      contact_title: '提交<br/><em>咨询请求</em>',
+      ci1_title: '地址', ci1_val: '越南北宁市哈领坊哈领工业区',
+      ci2_title: '越南邮箱',
+      ci3_title: '中国总部', ci3_val: '江苏昆山',
+      form_name: '姓名 *', form_name_ph: '张三',
+      form_company: '公司', form_company_ph: 'ABC公司',
+      form_email: '邮箱 *', form_email_ph: 'email@company.com',
+      form_phone: '电话', form_phone_ph: '+86 / +84 xxx',
+      form_product: '感兴趣的产品', form_product_ph: '-- 请选择产品 --',
+      form_desc: '需求描述 *', form_desc_ph: '材料、工艺、产能、特殊要求...',
+      form_submit: '提交咨询请求 <span class="btn-arr">→</span>',
+      footer_copy: '© 2022–2025 越南艺辉轩责任有限公司。版权所有。',
+      footer_addr: '北宁省哈领坊',
+    }
+  };
+
+  let lang = localStorage.getItem('borna_lang') || 'vi';
+  const btn = document.getElementById('langToggle');
+
+  function applyLang(l) {
+    const d = DICT[l];
+    const set = (sel, key, attr) => {
+      const el = document.querySelector(sel);
+      if (!el || !d[key]) return;
+      if (attr) el.setAttribute(attr, d[key]);
+      else el.innerHTML = d[key];
+    };
+
+    // Navbar
+    set('#navbar .nav-links a[data-go="0"]','nav_home');
+    set('#navbar .nav-links a[data-go="1"]','nav_products');
+    set('#navbar .nav-links a[data-go="7"]','nav_about');
+    set('#navbar .nav-links a[data-go="8"]','nav_industries');
+    set('#navbar .nav-links a[data-go="9"]','nav_reviews');
+    set('#navbar .nav-cta','nav_contact');
+
+    // Mobile menu
+    set('#mobMenu a[data-go="0"]','mob_home');
+    set('#mobMenu a[data-go="1"]','mob_products');
+    set('#mobMenu a[data-go="2"]','mob_marking');
+    set('#mobMenu a[data-go="3"]','mob_skinning');
+    set('#mobMenu a[data-go="4"]','mob_welding');
+    set('#mobMenu a[data-go="5"]','mob_cutting');
+    set('#mobMenu a[data-go="6"]','mob_automation');
+    set('#mobMenu a[data-go="7"]','mob_about');
+    set('#mobMenu a[data-go="8"]','mob_industries');
+    set('#mobMenu a[data-go="9"]','mob_reviews');
+    set('#mobMenu a[data-go="10"]','mob_contact');
+
+    // Slide 0 - Hero
+    set('#s0 .badge','badge');
+    set('#s0 .hero-h1','hero_h1');
+    set('#s0 .hero-sub','hero_sub');
+    set('#s0 .btn-fill','btn_consult');
+    set('#s0 .btn-ghost','btn_products');
+    const stats = document.querySelectorAll('#s0 .stat-lbl');
+    if(stats[0]) stats[0].textContent = d.stat_lines;
+    if(stats[1]) stats[1].textContent = d.stat_industries;
+    if(stats[2]) stats[2].textContent = d.stat_founded;
+    if(stats[3]) stats[3].textContent = d.stat_support;
+
+    // Slide 1 - Products grid
+    set('#s1 .sec-label','sec_products');
+    set('#s1 .sec-title','products_title');
+    const psNames = document.querySelectorAll('#s1 .ps-item-name');
+    const nameKeys = ['item_marking','item_skinning','item_welding','item_cutting','item_automation'];
+    psNames.forEach((el,i) => { if(d[nameKeys[i]]) el.textContent = d[nameKeys[i]]; });
+
+    // sp slides
+    [1,2,3,4,5].forEach(n => {
+      const id = `#sp${n}`;
+      set(`${id} .sec-label`, `sp${n}_label`);
+      set(`${id} .pd-title`, `sp${n}_title`);
+      set(`${id} .pd-desc`, `sp${n}_desc`);
+      const feats = document.querySelectorAll(`${id} .pd-feat`);
+      ['f1','f2','f3','f4'].forEach((f,i) => {
+        if(feats[i] && d[`sp${n}_${f}`]) feats[i].innerHTML = '<span class="pd-feat-dot"></span>' + d[`sp${n}_${f}`];
+      });
+      const apps = document.querySelectorAll(`${id} .pd-app`);
+      ['a1','a2','a3','a4','a5'].forEach((a,i) => {
+        if(apps[i] && d[`sp${n}_${a}`]) apps[i].innerHTML = d[`sp${n}_${a}`];
+      });
+      if (n < 5) {
+        const cta = document.querySelector(`${id} .pd-cta-row a`);
+        if(cta && d[`sp${n}_cta`]) cta.innerHTML = d[`sp${n}_cta`];
+      } else {
+        const btns = document.querySelectorAll(`${id} .pd-cta-row a`);
+        if(btns[0] && d.sp5_cta1) btns[0].innerHTML = d.sp5_cta1;
+        if(btns[1] && d.sp5_cta2) btns[1].innerHTML = d.sp5_cta2;
+      }
+    });
+
+    // Slide 7 - About
+    set('#s7 .sec-label','about_label');
+    set('#s7 .sec-title','about_title');
+    set('#s7 .about-badge-card p','about_badge_founded');
+    set('#s7 .about-badge-card2 p','about_core_label');
+    set('#s7 .about-badge-card2 h4','about_core_quote');
+    const aboutPs = document.querySelectorAll('#s7 .about-content > p');
+    if(aboutPs[0]) aboutPs[0].innerHTML = d.about_p1;
+    if(aboutPs[1]) aboutPs[1].innerHTML = d.about_p2;
+    const avItems = document.querySelectorAll('#s7 .av-item');
+    [['av1_title','av1_desc'],['av2_title','av2_desc'],['av3_title','av3_desc'],['av4_title','av4_desc']].forEach(([tk,dk],i)=>{
+      if(!avItems[i]) return;
+      const h = avItems[i].querySelector('h4'); const p = avItems[i].querySelector('p');
+      if(h&&d[tk]) h.textContent = d[tk];
+      if(p&&d[dk]) p.textContent = d[dk];
+    });
+
+    // Slide 8 - Industries & Why
+    const s8labels = document.querySelectorAll('#s8 .sec-label');
+    if(s8labels[0]) s8labels[0].textContent = d.ind_label;
+    if(s8labels[1]) s8labels[1].textContent = d.why_label;
+    const s8titles = document.querySelectorAll('#s8 .sec-title');
+    if(s8titles[0]) s8titles[0].innerHTML = d.ind_title;
+    if(s8titles[1]) s8titles[1].innerHTML = d.why_title;
+    const indItems = document.querySelectorAll('#s8 .ind-item h4');
+    ['ind1','ind2','ind3','ind4','ind5','ind6'].forEach((k,i)=>{ if(indItems[i]&&d[k]) indItems[i].textContent=d[k]; });
+    const whyItems = document.querySelectorAll('#s8 .anim h4');
+    const whyDescs = document.querySelectorAll('#s8 .anim p');
+    [['why1_title','why1_desc'],['why2_title','why2_desc'],['why3_title','why3_desc'],['why4_title','why4_desc']].forEach(([tk,dk],i)=>{
+      if(whyItems[i]&&d[tk]) whyItems[i].textContent=d[tk];
+      if(whyDescs[i]&&d[dk]) whyDescs[i].textContent=d[dk];
+    });
+
+    // Slide 9 - Testimonial & CTA
+    set('#s9 .testi-text','testi_text');
+    const testiH = document.querySelector('#s9 .testi-info h4');
+    const testiP = document.querySelector('#s9 .testi-info p');
+    if(testiH) testiH.textContent = d.testi_name;
+    if(testiP) testiP.textContent = d.testi_role;
+    set('#s9 .cta-block h2','cta_title');
+    set('#s9 .cta-block p','cta_desc');
+    set('#s9 .cta-block .btn-fill','cta_btn');
+
+    // Slide 10 - Contact
+    set('#s10 .sec-label','contact_label');
+    set('#s10 .sec-title','contact_title');
+    const ciTitles = document.querySelectorAll('#s10 .ci-item h4');
+    if(ciTitles[0]) ciTitles[0].textContent = d.ci1_title;
+    if(ciTitles[1]) ciTitles[1].textContent = d.ci2_title;
+    if(ciTitles[2]) ciTitles[2].textContent = d.ci3_title;
+    const ciVals = document.querySelectorAll('#s10 .ci-item p');
+    if(ciVals[0]) ciVals[0].textContent = d.ci1_val;
+    if(ciVals[2]) ciVals[2].innerHTML = d.ci3_val + ' · <a href="mailto:boernazn@163.com">boernazn@163.com</a>';
+    const fgs = document.querySelectorAll('#s10 .fg label');
+    const fgPhs = document.querySelectorAll('#s10 .fg input, #s10 .fg textarea');
+    const labelKeys = ['form_name','form_company','form_email','form_phone','form_product','form_desc'];
+    const phKeys = ['form_name_ph','form_company_ph','form_email_ph','form_phone_ph',null,'form_desc_ph'];
+    fgs.forEach((el,i)=>{ if(d[labelKeys[i]]) el.textContent=d[labelKeys[i]]; });
+    fgPhs.forEach((el,i)=>{ if(phKeys[i]&&d[phKeys[i]]) el.setAttribute('placeholder',d[phKeys[i]]); });
+    const selEl = document.querySelector('#s10 select option[value=""]');
+    if(selEl) selEl.textContent = d.form_product_ph;
+    const submitBtn = document.querySelector('#s10 button[type=submit]');
+    if(submitBtn && !submitBtn.disabled) submitBtn.innerHTML = d.form_submit;
+    const footSpans = document.querySelectorAll('#s10 .foot span');
+    if(footSpans[0]) footSpans[0].textContent = d.footer_copy;
+    if(footSpans[1]) footSpans[1].innerHTML = d.footer_addr + ' · <a href="mailto:nghehuyhienvn@gmail.com">nghehuyhienvn@gmail.com</a>';
+
+    // Toggle button
+    if(l === 'zh') {
+      btn.textContent = '🇻🇳 Tiếng Việt';
+      btn.classList.add('zh-active');
+      document.documentElement.lang = 'zh';
+    } else {
+      btn.textContent = '🇨🇳 中文';
+      btn.classList.remove('zh-active');
+      document.documentElement.lang = 'vi';
+    }
+    lang = l;
+    localStorage.setItem('borna_lang', l);
+  }
+
+  btn.addEventListener('click', () => applyLang(lang === 'vi' ? 'zh' : 'vi'));
+  if(lang === 'zh') applyLang('zh');
+})();
 
 // ── Mobile Carousel — Slide 1 ps-right ───────────────
 (function(){

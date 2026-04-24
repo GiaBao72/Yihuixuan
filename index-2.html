@@ -1770,6 +1770,45 @@ document.getElementById('mobClose').addEventListener('click', () => {
   document.getElementById('mobMenu').classList.remove('open');
 });
 
+// ── Section navigation (desktop + mobile) ───────────
+const slides = Array.from(document.querySelectorAll('.fp-slide'));
+
+function goToSection(idx) {
+  const target = slides[idx];
+  if (!target) return;
+  target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// Navbar, mobile menu, action buttons, and progress dots
+const goLinks = document.querySelectorAll('[data-go]');
+goLinks.forEach(el => {
+  el.addEventListener('click', e => {
+    e.preventDefault();
+    const idx = Number(el.dataset.go);
+    if (Number.isNaN(idx)) return;
+    document.getElementById('mobMenu').classList.remove('open');
+    goToSection(idx);
+  });
+});
+
+// ── Scroll state sync for nav + dots ────────────────
+const navGoLinks = document.querySelectorAll('#navbar .nav-links a[data-go]');
+const fpDots = document.querySelectorAll('.fp-dot');
+
+if (typeof IntersectionObserver !== 'undefined' && slides.length) {
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      const idx = slides.indexOf(entry.target);
+      if (idx < 0) return;
+      navGoLinks.forEach(a => a.classList.toggle('active', Number(a.dataset.go) === idx));
+      fpDots.forEach(d => d.classList.toggle('active', Number(d.dataset.go) === idx));
+    });
+  }, { threshold: 0.55 });
+
+  slides.forEach(slide => observer.observe(slide));
+}
+
 // ── Scroll To Top button ────────────────────────────
 const scrollTopBtn = document.getElementById('scrollTop');
 if (scrollTopBtn) {

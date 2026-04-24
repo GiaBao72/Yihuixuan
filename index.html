@@ -1454,6 +1454,7 @@ ul{list-style:none}
 const TOTAL = 11;
 let current = 0;
 let isAnimating = false;
+let animTimer = null;
 
 // Detect mobile — disable fullpage scroll engine
 const isMobile = () => window.innerWidth <= 768;
@@ -1463,9 +1464,17 @@ const dots = document.querySelectorAll('.fp-dot');
 const slides = document.querySelectorAll('.fp-slide');
 const navbar = document.getElementById('navbar');
 
-function goTo(idx) {
+function finishAnim() {
+  isAnimating = false;
+  if (animTimer) { clearTimeout(animTimer); animTimer = null; }
+}
+
+function goTo(idx, force) {
   if (isMobile()) return; // mobile: scroll tự nhiên, không dùng engine
-  if (idx < 0 || idx >= TOTAL || idx === current || isAnimating) return;
+  if (idx < 0 || idx >= TOTAL) return;
+  if (!force && (idx === current || isAnimating)) return;
+  // Reset any stuck animation state
+  finishAnim();
   isAnimating = true;
   current = idx;
 
@@ -1486,8 +1495,12 @@ function goTo(idx) {
   // Mark visible for animation
   slides.forEach((s,i) => s.classList.toggle('visible', i === idx));
   updateScrollTopBtn();
-  setTimeout(() => { isAnimating = false; }, 1000);
+  // Release lock after transition + buffer — use transitionend as primary
+  animTimer = setTimeout(finishAnim, 1050);
 }
+
+// transitionend as reliable unlock
+track.addEventListener('transitionend', finishAnim);
 
 // Init — mark first slide visible
 slides[0].classList.add('visible');
@@ -1499,28 +1512,31 @@ if (isMobile()) {
 }
 
 // ── Wheel ──────────────────────────────────────────
-let wheelCooldown = false;
+let lastWheel = 0;
 window.addEventListener('wheel', e => {
-  if (isMobile() || wheelCooldown || isAnimating) return;
-  wheelCooldown = true;
-  setTimeout(() => wheelCooldown = false, 1200);
+  if (isMobile()) return;
+  const now = Date.now();
+  if (now - lastWheel < 900) return; // cooldown 900ms
+  if (isAnimating) return;
+  lastWheel = now;
   if (e.deltaY > 0) goTo(current + 1);
   else goTo(current - 1);
 }, { passive: true });
 
 // ── Touch ──────────────────────────────────────────
 let touchStartY = 0;
-let touchCooldown = false;
+let lastTouch = 0;
 window.addEventListener('touchstart', e => {
   if (isMobile()) return;
   touchStartY = e.touches[0].clientY;
 }, { passive: true });
 window.addEventListener('touchend', e => {
-  if (isMobile() || touchCooldown || isAnimating) return;
+  if (isMobile()) return;
+  const now = Date.now();
+  if (now - lastTouch < 900 || isAnimating) return;
   const dy = touchStartY - e.changedTouches[0].clientY;
   if (Math.abs(dy) < 30) return;
-  touchCooldown = true;
-  setTimeout(() => touchCooldown = false, 1200);
+  lastTouch = now;
   if (dy > 0) goTo(current + 1);
   else goTo(current - 1);
 }, { passive: true });
@@ -1533,10 +1549,11 @@ window.addEventListener('keydown', e => {
 });
 
 // ── Dot clicks ─────────────────────────────────────
-dots.forEach(d => d.addEventListener('click', () => goTo(+d.dataset.go)));
+dots.forEach(d => d.addEventListener('click', () => goTo(+d.dataset.go, true)));
 
 // ── Nav link clicks ────────────────────────────────
-document.querySelectorAll('[data-go]').forEach(el => {
+// Only bind nav-links and mob-menu links (not product slide buttons)
+document.querySelectorAll('#navbar [data-go], #mobMenu [data-go]').forEach(el => {
   el.addEventListener('click', e => {
     e.preventDefault();
     const idx = +el.dataset.go;
@@ -1546,7 +1563,7 @@ document.querySelectorAll('[data-go]').forEach(el => {
       const target = slides[idx];
       if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
     } else {
-      goTo(idx);
+      goTo(idx, true); // force=true: nav click luôn hoạt động dù đang animate
     }
   });
 });

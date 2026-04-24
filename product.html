@@ -81,6 +81,16 @@ img{display:block;max-width:100%}
   cursor:pointer;font-size:18px;color:rgba(255,255,255,.6);
 }
 
+/* Lang toggle */
+.lang-toggle{
+  background:none;border:1px solid rgba(255,255,255,.2);
+  color:rgba(255,255,255,.75);font-size:12px;font-weight:600;
+  padding:5px 12px;border-radius:20px;cursor:pointer;
+  letter-spacing:.3px;transition:all .2s;font-family:'Rubik',sans-serif;
+}
+.lang-toggle:hover{border-color:rgba(255,255,255,.5);color:#fff;}
+.lang-toggle.zh-active{background:rgba(255,193,7,.15);border-color:rgba(255,193,7,.5);color:#ffc107;}
+
 /* ═══════════════════════════════════
    PAGE WRAPPER
 ═══════════════════════════════════ */
@@ -434,10 +444,12 @@ footer a{color:rgba(74,144,226,.7)}
 <nav id="navbar">
   <a href="index.html" class="logo">BORNA<em>LASER</em></a>
   <div class="nav-links">
-    <a href="index.html#products">Sản phẩm</a>
-    <a href="index.html#about">Về chúng tôi</a>
-    <a href="index.html#industries">Ngành ứng dụng</a>
-    <a href="index.html#contact" class="nav-cta">Liên hệ →</a>
+    <a href="index.html" data-i18n="nav_home">Trang chủ</a>
+    <a href="index.html#products" data-i18n="nav_products">Sản phẩm</a>
+    <a href="index.html#about" data-i18n="nav_about">Về chúng tôi</a>
+    <a href="index.html#industries" data-i18n="nav_industries">Ngành ứng dụng</a>
+    <button id="langToggle" class="lang-toggle" title="切换语言 / Đổi ngôn ngữ">🇨🇳 中文</button>
+    <a href="index.html#contact" class="nav-cta" data-i18n="nav_contact">Liên hệ →</a>
   </div>
   <div class="hamburger" id="hamBtn"><span></span><span></span><span></span></div>
 </nav>
@@ -445,11 +457,11 @@ footer a{color:rgba(74,144,226,.7)}
 <!-- MOBILE MENU -->
 <div class="mob-menu" id="mobMenu">
   <div class="mob-close" id="mobClose">✕</div>
-  <a href="index.html">Trang chủ</a>
-  <a href="index.html#products">Sản phẩm</a>
-  <a href="index.html#about">Về chúng tôi</a>
-  <a href="index.html#industries">Ngành ứng dụng</a>
-  <a href="index.html#contact">Liên hệ</a>
+  <a href="index.html" data-i18n="mob_home">Trang chủ</a>
+  <a href="index.html#products" data-i18n="mob_products">Sản phẩm</a>
+  <a href="index.html#about" data-i18n="mob_about">Về chúng tôi</a>
+  <a href="index.html#industries" data-i18n="mob_industries">Ngành ứng dụng</a>
+  <a href="index.html#contact" data-i18n="mob_contact">Liên hệ</a>
 </div>
 
 <!-- LIGHTBOX -->
@@ -463,9 +475,9 @@ footer a{color:rgba(74,144,226,.7)}
 
   <!-- Breadcrumb -->
   <div class="breadcrumb">
-    <a href="index.html">Trang chủ</a>
+    <a href="index.html" data-i18n="nav_home">Trang chủ</a>
     <span>›</span>
-    <a href="index.html">Sản phẩm</a>
+    <a href="index.html" data-i18n="nav_products">Sản phẩm</a>
     <span>›</span>
     <span id="bc-name">Chi tiết sản phẩm</span>
   </div>
@@ -490,25 +502,25 @@ footer a{color:rgba(74,144,226,.7)}
       <p class="prod-sub" id="prod-sub">Model line</p>
       <p class="prod-desc" id="prod-desc">Mô tả sản phẩm</p>
 
-      <div class="prod-specs-title">Thông số kỹ thuật</div>
+      <div class="prod-specs-title" data-i18n-el="prod_specs_title">Thông số kỹ thuật</div>
       <div class="specs-table" id="specs-table"></div>
 
-      <div class="prod-feats-title" style="margin-top:24px">Tính năng nổi bật</div>
+      <div class="prod-feats-title" style="margin-top:24px" data-i18n-el="prod_feats_title">Tính năng nổi bật</div>
       <div class="feat-list" id="feat-list"></div>
 
       <div class="prod-apps" id="prod-apps"></div>
 
       <div class="prod-cta">
-        <a href="index.html#contact" class="btn btn-fill">Yêu cầu báo giá →</a>
-        <a href="index.html" class="btn btn-ghost">← Quay lại</a>
+        <a href="index.html#contact" class="btn btn-fill" data-i18n-el="btn_quote">Yêu cầu báo giá →</a>
+        <a href="index.html" class="btn btn-ghost" data-i18n-el="btn_back">← Quay lại</a>
       </div>
     </div>
   </div>
 
   <!-- Other Products -->
   <div class="other-products">
-    <div class="section-label">Khám phá thêm</div>
-    <h2 class="section-title">Sản phẩm <em>khác</em></h2>
+    <div class="section-label" data-i18n-el="other_label">Khám phá thêm</div>
+    <h2 class="section-title" data-i18n-el="other_title">Sản phẩm <em>khác</em></h2>
     <div class="other-grid" id="other-grid"></div>
   </div>
 
@@ -516,17 +528,17 @@ footer a{color:rgba(74,144,226,.7)}
   <div class="cta-banner">
     <div class="cta-inner">
       <div>
-        <h2>Cần tư vấn giải pháp laser?</h2>
-        <p>Đội kỹ sư Nghệ Huy Hiên sẵn sàng phân tích quy trình và đề xuất thiết bị phù hợp nhất.</p>
+        <h2 data-i18n-el="cta_h2">Cần tư vấn giải pháp laser?</h2>
+        <p data-i18n-el="cta_p">Đội kỹ sư Nghệ Huy Hiên sẵn sàng phân tích quy trình và đề xuất thiết bị phù hợp nhất.</p>
       </div>
-      <a href="index.html#contact" class="btn btn-fill" style="white-space:nowrap">Liên hệ ngay →</a>
+      <a href="index.html#contact" class="btn btn-fill" style="white-space:nowrap" data-i18n-el="cta_btn">Liên hệ ngay →</a>
     </div>
   </div>
 
 </div><!-- /page-wrap -->
 
 <footer>
-  <span>&copy; 2022–2025 Công ty TNHH Nghệ Huy Hiên. Bảo lưu mọi quyền.</span>
+  <span data-i18n-el="footer_copy">&copy; 2022–2025 Công ty TNHH Nghệ Huy Hiên. Bảo lưu mọi quyền.</span>
   <span>Hạp Lĩnh, Bắc Ninh · <a href="mailto:nghehuyhienvn@gmail.com">nghehuyhienvn@gmail.com</a></span>
 </footer>
 
@@ -811,6 +823,189 @@ document.getElementById('hamBtn').addEventListener('click', () => {
 document.getElementById('mobClose').addEventListener('click', () => {
   document.getElementById('mobMenu').classList.remove('open');
 });
+
+/* ═══════════════════════════════════
+   I18N — BILINGUAL VI / ZH
+═══════════════════════════════════ */
+(function(){
+  const DICT = {
+    vi: {
+      nav_home:'Trang chủ', nav_products:'Sản phẩm', nav_about:'Về chúng tôi',
+      nav_industries:'Ngành ứng dụng', nav_contact:'Liên hệ →',
+      mob_home:'Trang chủ', mob_products:'Sản phẩm', mob_about:'Về chúng tôi',
+      mob_industries:'Ngành ứng dụng', mob_contact:'Liên hệ',
+      prod_specs_title:'Thông số kỹ thuật',
+      prod_feats_title:'Tính năng nổi bật',
+      btn_quote:'Yêu cầu báo giá →',
+      btn_back:'← Quay lại',
+      other_label:'Khám phá thêm',
+      other_title:'Sản phẩm <em>khác</em>',
+      cta_h2:'Cần tư vấn giải pháp laser?',
+      cta_p:'Đội kỹ sư Nghệ Huy Hiên sẵn sàng phân tích quy trình và đề xuất thiết bị phù hợp nhất.',
+      cta_btn:'Liên hệ ngay →',
+      footer_copy:'© 2022–2025 Công ty TNHH Nghệ Huy Hiên. Bảo lưu mọi quyền.',
+    },
+    zh: {
+      nav_home:'首页', nav_products:'产品系列', nav_about:'关于我们',
+      nav_industries:'应用行业', nav_contact:'联系我们 →',
+      mob_home:'首页', mob_products:'产品系列', mob_about:'关于我们',
+      mob_industries:'应用行业', mob_contact:'联系我们',
+      prod_specs_title:'技术参数',
+      prod_feats_title:'主要特点',
+      btn_quote:'申请报价 →',
+      btn_back:'← 返回',
+      other_label:'探索更多',
+      other_title:'其他<em>产品</em>',
+      cta_h2:'需要激光解决方案咨询？',
+      cta_p:'艺辉轩工程师团队随时分析您的工艺流程，推荐最适合的设备。',
+      cta_btn:'立即联系 →',
+      footer_copy:'© 2022–2025 越南艺辉轩责任有限公司。版权所有。',
+    }
+  };
+
+  /* Products ZH translation */
+  const PRODUCTS_ZH = {
+    marking: {
+      series:'打标系列', num:'01',
+      name:'激光<em>打标机</em>', sub:'UV 355nm · CO2 · Fiber — 自动化在线集成',
+      desc:'在塑料、金属、玻璃及包装材料上打印条形码、二维码、UDI、序列号、生产日期 — 符合电子、医疗、医药行业溯源标准。高速、非接触、无磨损。',
+      badge:'Marking Series',
+    },
+    skinning: {
+      series:'剥线系列', num:'02',
+      name:'激光<em>剥线机</em>', sub:'CO2 · UV · YAG — 高速非接触',
+      desc:'精密剥除 HDMI、Type-C、USB、同轴线缆、医疗及汽车电缆，精度 ±0.01mm — 不伤导芯，无毛刺。',
+      badge:'Skinning Series',
+    },
+    welding: {
+      series:'焊接系列', num:'03',
+      name:'激光<em>焊接机</em>', sub:'Fiber · 锡球/锡丝 · CCS',
+      desc:'精密点焊用于储能电池、CCS汇流排、手机连接器、微型零件 — 无热变形，无焊剂，高强度焊接。',
+      badge:'Welding Series',
+    },
+    cutting: {
+      series:'切割系列', num:'04',
+      name:'激光<em>切割机</em>', sub:'金属 · 玻璃 · FPC',
+      desc:'精密切割金属、硼硅玻璃、FPC、工程塑料 — 天然大理石超稳定底座，适用于要求极小公差的电子元件及EV电池。',
+      badge:'Cutting Series',
+    },
+    automation: {
+      series:'自动化系列', num:'05',
+      name:'非标<em>自动化设备</em>', sub:'按需定制设计',
+      desc:'全定制自动化生产线设计制造 — 从放线、线芯处理、排线到集成激光焊接。博尔纳原厂光学零部件现货供应于北宁仓库。',
+      badge:'Automation Series',
+    },
+  };
+
+  /* Other cards ZH */
+  const OTHER_ZH = {
+    marking:  { tag:'Marking',    name:'激光打标机',      desc:'UV · CO2 · Fiber — 自动化集成' },
+    skinning: { tag:'Skinning',   name:'激光剥线机',      desc:'CO2 · UV · YAG — 高速' },
+    welding:  { tag:'Welding',    name:'激光焊接机',      desc:'Fiber · 锡焊 · CCS' },
+    cutting:  { tag:'Cutting',    name:'激光切割机',      desc:'金属 · 玻璃 · FPC' },
+    automation:{ tag:'Automation',name:'非标自动化设备',  desc:'按需定制' },
+  };
+
+  let lang = localStorage.getItem('borna_lang') || 'vi';
+  const btn = document.getElementById('langToggle');
+
+  function applyLang(l) {
+    const d = DICT[l];
+    const set = (sel, key) => {
+      const el = document.querySelector(sel);
+      if (el && d[key]) el.innerHTML = d[key];
+    };
+
+    // Navbar
+    set('#navbar .nav-links a[href="index.html"]', 'nav_home');
+    set('#navbar .nav-links a[href="index.html#products"]', 'nav_products');
+    set('#navbar .nav-links a[href="index.html#about"]', 'nav_about');
+    set('#navbar .nav-links a[href="index.html#industries"]', 'nav_industries');
+    set('#navbar .nav-cta', 'nav_contact');
+
+    // Mobile menu
+    set('#mobMenu a[href="index.html"]', 'mob_home');
+    set('#mobMenu a[href="index.html#products"]', 'mob_products');
+    set('#mobMenu a[href="index.html#about"]', 'mob_about');
+    set('#mobMenu a[href="index.html#industries"]', 'mob_industries');
+    set('#mobMenu a[href="index.html#contact"]', 'mob_contact');
+
+    // Breadcrumb
+    const bcLinks = document.querySelectorAll('.breadcrumb a');
+    if (bcLinks[0]) bcLinks[0].innerHTML = d.nav_home;
+    if (bcLinks[1]) bcLinks[1].innerHTML = d.nav_products;
+
+    // Static labels via data-i18n-el
+    document.querySelectorAll('[data-i18n-el]').forEach(el => {
+      const key = el.getAttribute('data-i18n-el');
+      if (d[key]) el.innerHTML = d[key];
+    });
+
+    // Product hero (if ZH data exists for current product)
+    const currentKey = (new URLSearchParams(location.search).get('p')) || 'marking';
+    if (l === 'zh' && PRODUCTS_ZH[currentKey]) {
+      const pz = PRODUCTS_ZH[currentKey];
+      const el = k => document.getElementById(k);
+      if (el('prod-series')) el('prod-series').textContent = pz.series;
+      if (el('prod-name'))   el('prod-name').innerHTML   = pz.name;
+      if (el('prod-sub'))    el('prod-sub').textContent  = pz.sub;
+      if (el('prod-desc'))   el('prod-desc').textContent = pz.desc;
+      if (el('gallery-badge')) el('gallery-badge').textContent = pz.badge;
+      // update page title
+      document.title = `Borna Laser | ${pz.name.replace(/<[^>]+>/g,'')}`;
+      if (el('bc-name')) el('bc-name').textContent = pz.name.replace(/<[^>]+>/g,'');
+    } else if (l === 'vi') {
+      // Re-render VI from PRODUCTS data
+      renderProduct(currentKey);
+    }
+
+    // Other products cards — re-render with translated names
+    if (l === 'zh') {
+      const otherEl = document.getElementById('other-grid');
+      if (otherEl) {
+        otherEl.innerHTML = Object.entries(OTHER_ZH)
+          .filter(([k]) => k !== currentKey)
+          .map(([k, o]) => `
+            <a class="other-card" href="product.html?p=${k}">
+              <div class="other-card-img"><img src="${PRODUCTS[k]?.media?.find(m=>m.type==='img')?.src || PRODUCTS[k]?.media?.[1]?.src || ''}" alt="${o.name}" loading="lazy"/></div>
+              <div class="other-card-body">
+                <div class="other-card-tag">${o.tag}</div>
+                <div class="other-card-name">${o.name}</div>
+                <div class="other-card-desc">${o.desc}</div>
+              </div>
+            </a>
+          `).join('');
+      }
+    } else {
+      // Re-render VI other cards
+      const otherEl = document.getElementById('other-grid');
+      if (otherEl) renderProduct(currentKey); // renderProduct already handles other-grid
+    }
+
+    // Specs & features are data-driven — no translation needed (keys stay in English)
+    // But we can update feat-list if ZH data has feats array (optional)
+
+    // Footer
+    const footEl = document.querySelector('footer span:first-child');
+    if (footEl) footEl.innerHTML = d.footer_copy;
+
+    // Toggle button state
+    if (l === 'zh') {
+      btn.textContent = '🇻🇳 Tiếng Việt';
+      btn.classList.add('zh-active');
+      document.documentElement.lang = 'zh';
+    } else {
+      btn.textContent = '🇨🇳 中文';
+      btn.classList.remove('zh-active');
+      document.documentElement.lang = 'vi';
+    }
+    lang = l;
+    localStorage.setItem('borna_lang', l);
+  }
+
+  btn.addEventListener('click', () => applyLang(lang === 'vi' ? 'zh' : 'vi'));
+  if (lang === 'zh') applyLang('zh');
+})();
 </script>
 </body>
 </html>

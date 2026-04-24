@@ -1160,46 +1160,46 @@ ul{list-style:none}
         <h2 class="sec-title anim" style="margin-bottom:0">Giải pháp laser <em>toàn diện</em></h2>
       </div>
       <div class="ps-list">
-        <a class="ps-item active anim" href="product.html?p=marking" data-panel="p-marking">
+        <div class="ps-item active anim" data-panel="p-marking">
           <span class="ps-num">01</span>
           <div class="ps-item-text">
             <div class="ps-item-tag">Marking</div>
             <div class="ps-item-name">Máy Đánh Dấu Laser</div>
           </div>
           <span class="ps-item-arr">→</span>
-        </a>
-        <a class="ps-item anim" href="product.html?p=skinning" data-panel="p-skinning">
+        </div>
+        <div class="ps-item anim" data-panel="p-skinning">
           <span class="ps-num">02</span>
           <div class="ps-item-text">
             <div class="ps-item-tag">Skinning</div>
             <div class="ps-item-name">Máy Tuốt Vỏ Laser</div>
           </div>
           <span class="ps-item-arr">→</span>
-        </a>
-        <a class="ps-item anim" href="product.html?p=welding" data-panel="p-welding">
+        </div>
+        <div class="ps-item anim" data-panel="p-welding">
           <span class="ps-num">03</span>
           <div class="ps-item-text">
             <div class="ps-item-tag">Welding</div>
             <div class="ps-item-name">Máy Hàn Laser</div>
           </div>
           <span class="ps-item-arr">→</span>
-        </a>
-        <a class="ps-item anim" href="product.html?p=cutting" data-panel="p-cutting">
+        </div>
+        <div class="ps-item anim" data-panel="p-cutting">
           <span class="ps-num">04</span>
           <div class="ps-item-text">
             <div class="ps-item-tag">Cutting</div>
             <div class="ps-item-name">Máy Cắt Laser</div>
           </div>
           <span class="ps-item-arr">→</span>
-        </a>
-        <a class="ps-item anim" href="product.html?p=automation" data-panel="p-automation">
+        </div>
+        <div class="ps-item anim" data-panel="p-automation">
           <span class="ps-num">05</span>
           <div class="ps-item-text">
             <div class="ps-item-tag">Automation</div>
             <div class="ps-item-name">Tự Động Hóa Phi Tiêu Chuẩn</div>
           </div>
           <span class="ps-item-arr">→</span>
-        </a>
+        </div>
       </div>
     </div>
 
@@ -1823,13 +1823,8 @@ window.addEventListener('scroll', () => {
   }
 
   items.forEach(item => {
-    item.addEventListener('mouseenter', () => {
-      activate(item.dataset.panel);
-    });
-    // click chỉ navigate nếu không phải scroll engine
-    item.addEventListener('click', e => {
-      if (!isMobile()) e.preventDefault(); // desktop: chặn navigate, chỉ highlight
-    });
+    item.addEventListener('mouseenter', () => activate(item.dataset.panel));
+    item.addEventListener('click', () => activate(item.dataset.panel));
   });
 })();
 

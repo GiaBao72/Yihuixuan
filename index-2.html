@@ -312,48 +312,37 @@ ul{list-style:none}
   color:#4a90e2;transform:translateX(4px)
 }
 
-/* RIGHT — visual panel */
+/* RIGHT — visual panel (redesign: bg-image swap) */
 .ps-right{
   position:relative;overflow:hidden;
-  width:100%;height:100%;
-  min-height:100vh;
+  background-size:cover;background-position:center;background-repeat:no-repeat;
 }
-.ps-panel{
-  position:absolute;inset:0;
-  opacity:0;
-  display:flex;align-items:center;justify-content:center;
-}
-.ps-panel.active{opacity:1}
-.ps-panel img{
-  position:absolute;inset:0;
-  width:100%;height:100%;object-fit:cover;
-  filter:brightness(.55) saturate(.85);
-}
-/* gradient overlay */
-.ps-panel::after{
+/* Gradient overlay via pseudo */
+.ps-right::before{
   content:'';
-  position:absolute;inset:0;
-  background:linear-gradient(
-    to top,
-    rgba(2,11,26,.92) 0%,
-    rgba(2,11,26,.5) 40%,
-    rgba(2,11,26,.15) 100%
-  );
-  z-index:1;
+  position:absolute;inset:0;z-index:1;
+  background:linear-gradient(to top,rgba(2,11,26,.9) 0%,rgba(2,11,26,.45) 45%,rgba(2,11,26,.1) 100%);
   pointer-events:none;
 }
-/* info overlay */
-.ps-info{
-  position:absolute;
-  bottom:0;left:0;right:0;
-  padding:40px 44px;
-  z-index:2;
+/* Crossfade layer */
+.ps-img-layer{
+  position:absolute;inset:0;z-index:0;
+  background-size:cover;background-position:center;background-repeat:no-repeat;
   opacity:0;
-  transform:translateY(20px);
+  transition:opacity .6s ease;
 }
-.ps-panel.active .ps-info{
-  /* GSAP handle */
+.ps-img-layer.active{opacity:1;}
+/* panels ẩn hoàn toàn */
+.ps-panel{display:none!important;}
+/* Info text */
+.ps-info{
+  position:absolute;bottom:0;left:0;right:0;
+  padding:40px 44px;z-index:3;
+  opacity:0;transform:translateY(20px);
+  transition:opacity .4s ease, transform .4s ease;
+  pointer-events:none;
 }
+.ps-info.active{opacity:1;transform:translateY(0);pointer-events:auto;}
 .ps-info-tag{
   font-size:10px;font-weight:800;letter-spacing:2px;text-transform:uppercase;
   color:#4a90e2;margin-bottom:10px;
@@ -1205,80 +1194,72 @@ ul{list-style:none}
     </div>
 
     <!-- RIGHT: visual panels -->
-    <div class="ps-right">
-      <div class="ps-panel active" id="p-marking">
-        <img src="https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=900&q=80&fit=crop" alt="Laser marking"/>
-        <div class="ps-info">
-          <div class="ps-info-tag">Marking</div>
-          <div class="ps-info-title">Máy Đánh Dấu Laser</div>
-          <div class="ps-info-desc">Khắc mã vạch, QR code, UDI, ngày sản xuất trên nhựa, kim loại, thủy tinh và bao bì — tốc độ cao, không tiếp xúc.</div>
-          <div class="ps-info-specs">
-            <span class="ps-info-spec">UV 355nm</span>
-            <span class="ps-info-spec">CO2</span>
-            <span class="ps-info-spec">Fiber</span>
-            <span class="ps-info-spec">Inline tự động</span>
-          </div>
-          <a href="product.html?p=marking" class="ps-info-cta">Xem chi tiết →</a>
+    <div class="ps-right" id="ps-right-main">
+      <!-- Image layers (crossfade) -->
+      <div class="ps-img-layer active" id="img-marking"  style="background-image:url('https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=900&q=80&fit=crop')"></div>
+      <div class="ps-img-layer"        id="img-skinning" style="background-image:url('https://images.unsplash.com/photo-1518770660439-4636190af475?w=900&q=80&fit=crop')"></div>
+      <div class="ps-img-layer"        id="img-welding"  style="background-image:url('https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=900&q=80&fit=crop')"></div>
+      <div class="ps-img-layer"        id="img-cutting"  style="background-image:url('https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=900&q=80&fit=crop')"></div>
+      <div class="ps-img-layer"        id="img-automation" style="background-image:url('https://images.unsplash.com/photo-1567789884554-0b844b597180?w=900&q=80&fit=crop')"></div>
+      <!-- Info overlays -->
+      <div class="ps-info active" id="info-marking">
+        <div class="ps-info-tag">Marking</div>
+        <div class="ps-info-title">Máy Đánh Dấu Laser</div>
+        <div class="ps-info-desc">Khắc mã vạch, QR code, UDI, ngày sản xuất trên nhựa, kim loại, thủy tinh và bao bì — tốc độ cao, không tiếp xúc.</div>
+        <div class="ps-info-specs">
+          <span class="ps-info-spec">UV 355nm</span>
+          <span class="ps-info-spec">CO2</span>
+          <span class="ps-info-spec">Fiber</span>
+          <span class="ps-info-spec">Inline tự động</span>
         </div>
+        <a href="product.html?p=marking" class="ps-info-cta">Xem chi tiết →</a>
       </div>
-      <div class="ps-panel" id="p-skinning">
-        <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=900&q=80&fit=crop" alt="Laser skinning"/>
-        <div class="ps-info">
-          <div class="ps-info-tag">Skinning</div>
-          <div class="ps-info-title">Máy Tuốt Vỏ Laser</div>
-          <div class="ps-info-desc">Tuốt vỏ dây HDMI, Type-C, USB, dây đồng trục, cáp y tế & ô tô — không hại lõi dẫn, độ chính xác cao.</div>
-          <div class="ps-info-specs">
-            <span class="ps-info-spec">YAG</span>
-            <span class="ps-info-spec">CO2</span>
-            <span class="ps-info-spec">UV tốc độ cao</span>
-            <span class="ps-info-spec">Tuốt vòng / sơn</span>
-          </div>
-          <a href="product.html?p=skinning" class="ps-info-cta">Xem chi tiết →</a>
+      <div class="ps-info" id="info-skinning">
+        <div class="ps-info-tag">Skinning</div>
+        <div class="ps-info-title">Máy Tuốt Vỏ Laser</div>
+        <div class="ps-info-desc">Tuốt vỏ dây HDMI, Type-C, USB, dây đồng trục, cáp y tế & ô tô — không hại lõi dẫn, độ chính xác cao.</div>
+        <div class="ps-info-specs">
+          <span class="ps-info-spec">YAG</span>
+          <span class="ps-info-spec">CO2</span>
+          <span class="ps-info-spec">UV tốc độ cao</span>
+          <span class="ps-info-spec">Tuốt vòng / sơn</span>
         </div>
+        <a href="product.html?p=skinning" class="ps-info-cta">Xem chi tiết →</a>
       </div>
-      <div class="ps-panel" id="p-welding">
-        <img src="https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=900&q=80&fit=crop" alt="Laser welding"/>
-        <div class="ps-info">
-          <div class="ps-info-tag">Welding</div>
-          <div class="ps-info-title">Máy Hàn Laser</div>
-          <div class="ps-info-desc">Hàn sợi quang, hàn thiếc đầu bi/dây, hàn xung QCW — pin EV, bảng CCS, đầu nối điện thoại, linh kiện chính xác.</div>
-          <div class="ps-info-specs">
-            <span class="ps-info-spec">Fiber</span>
-            <span class="ps-info-spec">Hàn thiếc bi/dây</span>
-            <span class="ps-info-spec">QCW</span>
-            <span class="ps-info-spec">Không biến dạng nhiệt</span>
-          </div>
-          <a href="product.html?p=welding" class="ps-info-cta">Xem chi tiết →</a>
+      <div class="ps-info" id="info-welding">
+        <div class="ps-info-tag">Welding</div>
+        <div class="ps-info-title">Máy Hàn Laser</div>
+        <div class="ps-info-desc">Hàn sợi quang, hàn thiếc đầu bi/dây, hàn xung QCW — pin EV, bảng CCS, đầu nối điện thoại, linh kiện chính xác.</div>
+        <div class="ps-info-specs">
+          <span class="ps-info-spec">Fiber</span>
+          <span class="ps-info-spec">Hàn thiếc bi/dây</span>
+          <span class="ps-info-spec">QCW</span>
+          <span class="ps-info-spec">Không biến dạng nhiệt</span>
         </div>
+        <a href="product.html?p=welding" class="ps-info-cta">Xem chi tiết →</a>
       </div>
-      <div class="ps-panel" id="p-cutting">
-        <img src="https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=900&q=80&fit=crop" alt="Laser cutting"/>
-        <div class="ps-info">
-          <div class="ps-info-tag">Cutting</div>
-          <div class="ps-info-title">Máy Cắt Laser</div>
-          <div class="ps-info-desc">Cắt chính xác kim loại, thủy tinh, nhựa kỹ thuật — nền đá granite siêu ổn định cho linh kiện điện tử & pin EV.</div>
-          <div class="ps-info-specs">
-            <span class="ps-info-spec">Kim loại</span>
-            <span class="ps-info-spec">Thủy tinh</span>
-            <span class="ps-info-spec">Nhựa kỹ thuật</span>
-            <span class="ps-info-spec">Nền granite</span>
-          </div>
-          <a href="product.html?p=cutting" class="ps-info-cta">Xem chi tiết →</a>
+      <div class="ps-info" id="info-cutting">
+        <div class="ps-info-tag">Cutting</div>
+        <div class="ps-info-title">Máy Cắt Laser</div>
+        <div class="ps-info-desc">Cắt chính xác kim loại, thủy tinh, nhựa kỹ thuật — nền đá granite siêu ổn định cho linh kiện điện tử & pin EV.</div>
+        <div class="ps-info-specs">
+          <span class="ps-info-spec">Kim loại</span>
+          <span class="ps-info-spec">Thủy tinh</span>
+          <span class="ps-info-spec">Nhựa kỹ thuật</span>
+          <span class="ps-info-spec">Nền granite</span>
         </div>
+        <a href="product.html?p=cutting" class="ps-info-cta">Xem chi tiết →</a>
       </div>
-      <div class="ps-panel" id="p-automation">
-        <img src="https://images.unsplash.com/photo-1567789884554-0b844b597180?w=900&q=80&fit=crop" alt="Automation"/>
-        <div class="ps-info">
-          <div class="ps-info-tag">Automation</div>
-          <div class="ps-info-title">Tự Động Hóa Phi Tiêu Chuẩn</div>
-          <div class="ps-info-desc">Dây chuyền xử lý lõi dây, hàn kết hợp & linh kiện thay thế: thấu kính quang học, galvanometer chính hãng Borna.</div>
-          <div class="ps-info-specs">
-            <span class="ps-info-spec">Thiết kế theo yêu cầu</span>
-            <span class="ps-info-spec">Linh kiện quang học</span>
-            <span class="ps-info-spec">Galvanometer</span>
-          </div>
-          <a href="product.html?p=automation" class="ps-info-cta">Tư vấn giải pháp →</a>
+      <div class="ps-info" id="info-automation">
+        <div class="ps-info-tag">Automation</div>
+        <div class="ps-info-title">Tự Động Hóa Phi Tiêu Chuẩn</div>
+        <div class="ps-info-desc">Dây chuyền xử lý lõi dây, hàn kết hợp & linh kiện thay thế: thấu kính quang học, galvanometer chính hãng Borna.</div>
+        <div class="ps-info-specs">
+          <span class="ps-info-spec">Thiết kế theo yêu cầu</span>
+          <span class="ps-info-spec">Linh kiện quang học</span>
+          <span class="ps-info-spec">Galvanometer</span>
         </div>
+        <a href="product.html?p=automation" class="ps-info-cta">Tư vấn giải pháp →</a>
       </div>
     </div>
 
@@ -1687,48 +1668,33 @@ window.addEventListener('scroll', () => {
   scrollTopBtn.classList.toggle('show', window.scrollY > 300);
 }, { passive: true });
 
-// ── Split screen product switcher (GSAP) ──────────────
+// ── Split screen product switcher (bg-image swap) ──────
 (function(){
   const items = document.querySelectorAll('.ps-item');
-  const panels = document.querySelectorAll('.ps-panel');
-  if (!items.length || !panels.length) return;
+  if (!items.length) return;
 
-  let current = null;
+  const map = {
+    'p-marking':    { img:'img-marking',    info:'info-marking' },
+    'p-skinning':   { img:'img-skinning',   info:'info-skinning' },
+    'p-welding':    { img:'img-welding',    info:'info-welding' },
+    'p-cutting':    { img:'img-cutting',    info:'info-cutting' },
+    'p-automation': { img:'img-automation', info:'info-automation' },
+  };
+
+  let current = 'p-marking';
 
   function activate(panelId) {
     if (current === panelId) return;
-    current = panelId;
+    const prev = map[current];
+    const next = map[panelId];
+    if (!prev || !next) return;
 
-    panels.forEach(p => {
-      const info = p.querySelector('.ps-info');
-      if (p.id === panelId) {
-        gsap.set(p, { zIndex: 2 });
-        gsap.to(p, { opacity: 1, duration: 0.55, ease: 'power2.out' });
-        const img = p.querySelector('img');
-        if (img) {
-          gsap.fromTo(img, { scale: 1.08 }, { scale: 1.0, duration: 8, ease: 'power1.out' });
-        }
-        if (info) {
-          gsap.fromTo(info,
-            { opacity: 0, y: 20 },
-            { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out', delay: 0.15 }
-          );
-        }
-      } else {
-        gsap.to(p, { opacity: 0, duration: 0.4, ease: 'power2.in',
-          onComplete: () => gsap.set(p, { zIndex: 1 })
-        });
-        if (info) gsap.to(info, { opacity: 0, y: 20, duration: 0.3 });
-      }
-    });
-
+    document.getElementById(prev.img)?.classList.remove('active');
+    document.getElementById(next.img)?.classList.add('active');
+    document.getElementById(prev.info)?.classList.remove('active');
+    document.getElementById(next.info)?.classList.add('active');
     items.forEach(i => i.classList.toggle('active', i.dataset.panel === panelId));
-  }
-
-  const firstPanel = items[0]?.dataset.panel;
-  if (firstPanel) {
-    panels.forEach(p => gsap.set(p, { opacity: 0, zIndex: 1 }));
-    activate(firstPanel);
+    current = panelId;
   }
 
   items.forEach(item => {

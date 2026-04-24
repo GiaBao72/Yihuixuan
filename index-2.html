@@ -790,6 +790,7 @@ ul{list-style:none}
   display:flex;align-items:center;justify-content:center;
   cursor:pointer;font-size:18px;color:rgba(255,255,255,.6);
 }
+.mob-lang-toggle{font-size:15px;padding:10px 16px;border-radius:999px}
 
 /* ═══════════════════════════════════
    RESPONSIVE
@@ -1177,6 +1178,7 @@ ul{list-style:none}
 <!-- MOBILE MENU -->
 <div class="mob-menu" id="mobMenu">
   <div class="mob-close" id="mobClose">✕</div>
+  <button id="langToggleMob" class="lang-toggle mob-lang-toggle" title="切换语言 / Đổi ngôn ngữ">🇨🇳 中文</button>
   <a href="#" data-go="0" class="mob-nav-link">Trang chủ</a>
   <a href="#" data-go="1" class="mob-nav-link">Sản phẩm</a>
   <a href="#" data-go="2" class="mob-nav-link">↳ Đánh Dấu Laser</a>
@@ -2035,6 +2037,7 @@ document.getElementById('cForm').addEventListener('submit', e => {
 
   let lang = localStorage.getItem('borna_lang') || 'vi';
   const btn = document.getElementById('langToggle');
+  const mobBtn = document.getElementById('langToggleMob');
 
   function applyLang(l) {
     const d = DICT[l];
@@ -2177,20 +2180,23 @@ document.getElementById('cForm').addEventListener('submit', e => {
     if(footSpans[1]) footSpans[1].innerHTML = d.footer_addr + ' · <a href="mailto:nghehuyhienvn@gmail.com">nghehuyhienvn@gmail.com</a>';
 
     // Toggle button
-    if(l === 'zh') {
-      btn.textContent = '🇻🇳 Tiếng Việt';
-      btn.classList.add('zh-active');
-      document.documentElement.lang = 'zh';
-    } else {
-      btn.textContent = '🇨🇳 中文';
-      btn.classList.remove('zh-active');
-      document.documentElement.lang = 'vi';
-    }
+    [btn, mobBtn].forEach(toggleBtn => {
+      if(!toggleBtn) return;
+      if(l === 'zh') {
+        toggleBtn.textContent = '🇻🇳 Tiếng Việt';
+        toggleBtn.classList.add('zh-active');
+      } else {
+        toggleBtn.textContent = '🇨🇳 中文';
+        toggleBtn.classList.remove('zh-active');
+      }
+    });
+    document.documentElement.lang = (l === 'zh') ? 'zh' : 'vi';
     lang = l;
     localStorage.setItem('borna_lang', l);
   }
 
-  btn.addEventListener('click', () => applyLang(lang === 'vi' ? 'zh' : 'vi'));
+  if(btn) btn.addEventListener('click', () => applyLang(lang === 'vi' ? 'zh' : 'vi'));
+  if(mobBtn) mobBtn.addEventListener('click', () => applyLang(lang === 'vi' ? 'zh' : 'vi'));
   if(lang === 'zh') applyLang('zh');
 })();
 

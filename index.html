@@ -617,16 +617,37 @@ ul{list-style:none}
   .p-thumb{height:100px}
 }
 
-/* Tablet portrait 768px */
+/* Tablet portrait 768px — disable fullpage scroll, dùng scroll tự nhiên */
 @media(max-width:768px){
+  /* Reset overflow để body cuộn bình thường */
+  html,body{overflow:auto!important;height:auto!important}
+
+  /* Bỏ fixed wrapper */
+  #fp-wrapper{position:static!important;overflow:visible!important;height:auto!important}
+  #fp-track{display:block!important;transform:none!important;transition:none!important;width:100%!important}
+
+  /* Mỗi slide thành block thông thường */
+  .fp-slide{
+    position:static!important;
+    height:auto!important;
+    min-height:100svh;
+    overflow:visible!important;
+    display:flex;
+    align-items:flex-start;
+    padding-top:80px;
+    padding-bottom:40px;
+  }
+
+  /* Dots ẩn */
+  #fp-dots{display:none!important}
+
   #navbar{padding:0 20px}
   .nav-links{display:none}
   .hamburger{display:flex}
   .slide-inner{padding:0 16px}
-  #fp-dots{display:none}
 
   /* Hero */
-  #s0{align-items:flex-start;padding-top:80px;overflow-y:auto}
+  #s0{}
   .hero-h1{font-size:32px;letter-spacing:-.5px}
   .hero-sub{font-size:15px}
   .hero-actions{gap:10px}
@@ -645,7 +666,6 @@ ul{list-style:none}
   .stat-num{font-size:32px}
 
   /* Products */
-  #s1{overflow-y:auto;align-items:flex-start;padding-top:80px;padding-bottom:24px}
   .sec-title{font-size:26px;margin-bottom:20px}
   .products-grid{grid-template-columns:1fr 1fr;gap:10px}
   .p-thumb{height:90px}
@@ -654,7 +674,6 @@ ul{list-style:none}
   .p-card p{font-size:11px}
 
   /* About */
-  #s2{overflow-y:auto;align-items:flex-start;padding-top:80px;padding-bottom:24px}
   .about-grid{grid-template-columns:1fr;gap:24px}
   .about-visual{height:200px}
   .about-badge-card{padding:14px 18px;bottom:-10px;right:-10px}
@@ -663,9 +682,12 @@ ul{list-style:none}
   .about-values{grid-template-columns:1fr;gap:10px}
   .about-wordmark{font-size:48px}
 
-#s8{overflow-y:auto;align-items:flex-start;padding-top:80px;padding-bottom:24px}
-  #s9{overflow-y:auto;align-items:flex-start;padding-top:80px;padding-bottom:24px}
-  #s10{overflow-y:auto;align-items:flex-start;padding-top:80px;padding-bottom:24px}
+  .testi-text{font-size:16px}
+  .cta-block{flex-direction:column;text-align:center;padding:28px 20px;gap:20px}
+  .cta-block h2{font-size:20px}
+  .contact-grid{grid-template-columns:1fr;gap:24px}
+  .form-row{grid-template-columns:1fr}
+  .form-wrap{padding:24px 18px}
 
   /* Footer */
   .foot{padding:14px 16px;flex-direction:column;gap:6px;text-align:center;font-size:11px}
@@ -1339,12 +1361,16 @@ const TOTAL = 11;
 let current = 0;
 let isAnimating = false;
 
+// Detect mobile — disable fullpage scroll engine
+const isMobile = () => window.innerWidth <= 768;
+
 const track = document.getElementById('fp-track');
 const dots = document.querySelectorAll('.fp-dot');
 const slides = document.querySelectorAll('.fp-slide');
 const navbar = document.getElementById('navbar');
 
 function goTo(idx) {
+  if (isMobile()) return; // mobile: scroll tự nhiên, không dùng engine
   if (idx < 0 || idx >= TOTAL || idx === current || isAnimating) return;
   isAnimating = true;
   current = idx;
@@ -1376,7 +1402,7 @@ navbar.classList.remove('solid');
 // ── Wheel ──────────────────────────────────────────
 let wheelCooldown = false;
 window.addEventListener('wheel', e => {
-  if (wheelCooldown || isAnimating) return;
+  if (isMobile() || wheelCooldown || isAnimating) return;
   wheelCooldown = true;
   setTimeout(() => wheelCooldown = false, 1200);
   if (e.deltaY > 0) goTo(current + 1);
@@ -1387,10 +1413,11 @@ window.addEventListener('wheel', e => {
 let touchStartY = 0;
 let touchCooldown = false;
 window.addEventListener('touchstart', e => {
+  if (isMobile()) return;
   touchStartY = e.touches[0].clientY;
 }, { passive: true });
 window.addEventListener('touchend', e => {
-  if (touchCooldown || isAnimating) return;
+  if (isMobile() || touchCooldown || isAnimating) return;
   const dy = touchStartY - e.changedTouches[0].clientY;
   if (Math.abs(dy) < 30) return;
   touchCooldown = true;
@@ -1401,6 +1428,7 @@ window.addEventListener('touchend', e => {
 
 // ── Keyboard ───────────────────────────────────────
 window.addEventListener('keydown', e => {
+  if (isMobile()) return;
   if (e.key === 'ArrowDown' || e.key === 'PageDown') goTo(current + 1);
   if (e.key === 'ArrowUp' || e.key === 'PageUp') goTo(current - 1);
 });
@@ -1412,9 +1440,15 @@ dots.forEach(d => d.addEventListener('click', () => goTo(+d.dataset.go)));
 document.querySelectorAll('[data-go]').forEach(el => {
   el.addEventListener('click', e => {
     e.preventDefault();
-    goTo(+el.dataset.go);
-    // Close mobile menu if open
+    const idx = +el.dataset.go;
     document.getElementById('mobMenu').classList.remove('open');
+    if (isMobile()) {
+      // Mobile: scroll đến slide tương ứng
+      const target = slides[idx];
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } else {
+      goTo(idx);
+    }
   });
 });
 
@@ -1426,7 +1460,11 @@ document.getElementById('mobClose').addEventListener('click', () => {
   document.getElementById('mobMenu').classList.remove('open');
 });
 
-// ── Form submit ────────────────────────────────────
+// ── Mobile: navbar solid on scroll ─────────────────
+window.addEventListener('scroll', () => {
+  if (!isMobile()) return;
+  navbar.classList.toggle('solid', window.scrollY > 10);
+}, { passive: true });
 document.getElementById('cForm').addEventListener('submit', e => {
   e.preventDefault();
   const btn = e.target.querySelector('button[type=submit]');

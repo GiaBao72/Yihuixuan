@@ -341,8 +341,13 @@ ul{list-style:none}
   opacity:0;transform:translateY(20px);
   transition:opacity .4s ease, transform .4s ease;
   pointer-events:none;
+  visibility:hidden;
 }
-.ps-info.active{opacity:1;transform:translateY(0);pointer-events:auto;}
+.ps-info.active{
+  opacity:1;transform:translateY(0);
+  pointer-events:auto;
+  visibility:visible;
+}
 .ps-info-tag{
   font-size:10px;font-weight:800;letter-spacing:2px;text-transform:uppercase;
   color:#4a90e2;margin-bottom:10px;

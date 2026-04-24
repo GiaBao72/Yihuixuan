@@ -386,15 +386,21 @@ ul{list-style:none}
 .ps-img-layer.active{opacity:1;}
 /* panels ẩn hoàn toàn — chỉ dùng để lưu data */
 .ps-panel{display:none!important;}
-/* Info text nằm thẳng trong ps-right */
+/* Info text */
 .ps-info{
   position:absolute;bottom:0;left:0;right:0;
   padding:40px 44px;z-index:3;
   opacity:0;transform:translateY(20px);
   transition:opacity .4s ease, transform .4s ease;
   pointer-events:none;
+  visibility:hidden;
 }
-.ps-info.active{opacity:1;transform:translateY(0);pointer-events:auto;}
+.ps-info.active{
+  opacity:1;transform:translateY(0);
+  pointer-events:auto;
+  visibility:visible;
+}
+.ps-info-tag{
   font-size:10px;font-weight:800;letter-spacing:2px;text-transform:uppercase;
   color:#4a90e2;margin-bottom:10px;
   display:flex;align-items:center;gap:8px;

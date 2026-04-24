@@ -240,7 +240,7 @@ ul{list-style:none}
 /* ═══════════════════════════════════
    SLIDE 1 — SPLIT SCREEN PRODUCTS
 ═══════════════════════════════════ */
-#s1{background:#030e1f;padding:0;overflow:hidden}
+#s1{background:#030e1f;padding:0;overflow:hidden;position:relative}
 #s1 .orb1{width:600px;height:600px;top:-200px;left:-100px;background:radial-gradient(circle,rgba(27,95,212,.2),transparent 70%)}
 
 /* Split layout */
@@ -880,6 +880,9 @@ ul{list-style:none}
     padding-bottom:40px;
   }
 
+  /* Isolate hero and slide 1 layers on mobile to avoid cross-slide overlap */
+  #s0,#s1{position:relative!important;overflow:hidden!important}
+
   /* Dots ẩn */
   #fp-dots{display:none!important}
 
@@ -929,7 +932,12 @@ ul{list-style:none}
   .about-wordmark{font-size:48px}
 
   /* Products split screen → ẩn left, right làm horizontal swipe carousel */
-  .ps-wrap{grid-template-columns:1fr;height:auto}
+  .ps-wrap{
+    grid-template-columns:1fr;
+    height:auto;
+    position:relative;
+    inset:auto;
+  }
   .ps-left{display:none}
   .ps-right{
     height:auto;position:relative;

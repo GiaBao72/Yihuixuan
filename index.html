@@ -1078,7 +1078,7 @@ ul{list-style:none}
   <div class="slide-inner">
     <div class="pd-grid">
       <div class="pd-media anim">
-        <iframe src="https://www.youtube.com/embed/__KAQzgCbyU?rel=0&modestbranding=1&autoplay=0" allowfullscreen loading="lazy"></iframe>
+        <iframe id="yt-marking" src="https://www.youtube.com/embed/__KAQzgCbyU?rel=0&modestbranding=1&autoplay=0&mute=1&enablejsapi=1" allow="autoplay; encrypted-media" allowfullscreen loading="lazy"></iframe>
         <div class="pd-media-badge">▶ Video demo</div>
       </div>
       <div class="pd-content">
@@ -1598,6 +1598,48 @@ window.addEventListener('scroll', () => {
   if (!isMobile()) return;
   navbar.classList.toggle('solid', window.scrollY > 10);
 }, { passive: true });
+// ── YouTube autoplay on slide ─────────────────────
+// sp1 = index 6 (slides: s0,s1,sp1..sp5,s7,s8,s9,s10 → sp1 = index 2)
+(function() {
+  const YT_SLIDE_ID = 'sp1';
+  const iframeEl = document.getElementById('yt-marking');
+  if (!iframeEl) return;
+
+  // postMessage helpers
+  function ytCmd(cmd) {
+    try {
+      iframeEl.contentWindow.postMessage(JSON.stringify({ event:'command', func:cmd, args:[] }), '*');
+    } catch(e) {}
+  }
+
+  // Find slide index of sp1
+  const slideArr = Array.from(slides);
+  const sp1Index = slideArr.findIndex(s => s.id === YT_SLIDE_ID);
+
+  // Hook into goTo
+  const _origGoTo = goTo;
+  // Override: after goTo, check if sp1 is active
+  track.addEventListener('transitionend', () => {
+    if (current === sp1Index) {
+      ytCmd('playVideo');
+    } else {
+      ytCmd('pauseVideo');
+    }
+  });
+
+  // Mobile: use IntersectionObserver
+  if (typeof IntersectionObserver !== 'undefined') {
+    const sp1El = document.getElementById(YT_SLIDE_ID);
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) ytCmd('playVideo');
+        else ytCmd('pauseVideo');
+      });
+    }, { threshold: 0.5 });
+    if (sp1El) obs.observe(sp1El);
+  }
+})();
+
 document.getElementById('cForm').addEventListener('submit', e => {
   e.preventDefault();
   const btn = e.target.querySelector('button[type=submit]');

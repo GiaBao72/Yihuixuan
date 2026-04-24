@@ -665,6 +665,10 @@ ul{list-style:none}
   }
   .stat-num{font-size:32px}
 
+  /* Hiện tất cả .anim trên mobile — không dùng goTo nên slides không có class visible */
+  .fp-slide .anim{opacity:1!important;transform:none!important;transition:none!important}
+  .fp-slide.visible .anim{opacity:1!important;transform:none!important}
+
   /* Products */
   .sec-title{font-size:26px;margin-bottom:20px}
   .products-grid{grid-template-columns:1fr 1fr;gap:10px}
@@ -1400,6 +1404,11 @@ function goTo(idx) {
 // Init — mark first slide visible
 slides[0].classList.add('visible');
 navbar.classList.remove('solid');
+
+// Mobile: mark tất cả slides visible ngay (không dùng scroll engine)
+if (isMobile()) {
+  slides.forEach(s => s.classList.add('visible'));
+}
 
 // ── Wheel ──────────────────────────────────────────
 let wheelCooldown = false;

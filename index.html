@@ -237,7 +237,7 @@ ul{list-style:none}
 /* ═══════════════════════════════════
    SLIDE 1 — SPLIT SCREEN PRODUCTS
 ═══════════════════════════════════ */
-#s1{background:#030e1f;padding:0}
+#s1{background:#030e1f;padding:0;overflow:hidden}
 #s1 .orb1{width:600px;height:600px;top:-200px;left:-100px;background:radial-gradient(circle,rgba(27,95,212,.2),transparent 70%)}
 
 /* Split layout */
@@ -245,7 +245,8 @@ ul{list-style:none}
   display:grid;
   grid-template-columns:1fr 1fr;
   width:100%;height:100%;
-  position:relative;z-index:2;
+  position:absolute;inset:0;
+  z-index:2;
   align-items:stretch;
 }
 
@@ -319,8 +320,6 @@ ul{list-style:none}
 /* RIGHT — visual panel */
 .ps-right{
   position:relative;overflow:hidden;
-  min-height:100%;
-  height:100vh;
 }
 .ps-panel{
   position:absolute;inset:0;

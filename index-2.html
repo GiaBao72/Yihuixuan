@@ -8,6 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800;900&display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <style>
 /* ═══════════════════════════════════
    RESET & BASE
@@ -314,21 +315,21 @@ ul{list-style:none}
 /* RIGHT — visual panel */
 .ps-right{
   position:relative;overflow:hidden;
+  width:100%;height:100%;
+  min-height:100vh;
 }
 .ps-panel{
   position:absolute;inset:0;
   opacity:0;
-  transition:opacity .5s ease;
   display:flex;align-items:center;justify-content:center;
 }
 .ps-panel.active{opacity:1}
 .ps-panel img{
+  position:absolute;inset:0;
   width:100%;height:100%;object-fit:cover;
   filter:brightness(.55) saturate(.85);
-  transition:transform 8s ease,filter .5s ease;
 }
-.ps-panel.active img{transform:scale(1.06)}
-/* gradient overlay — đậm hơn để text đọc được */
+/* gradient overlay */
 .ps-panel::after{
   content:'';
   position:absolute;inset:0;
@@ -339,17 +340,20 @@ ul{list-style:none}
     rgba(2,11,26,.15) 100%
   );
   z-index:1;
+  pointer-events:none;
 }
-/* info overlay — đè lên ảnh */
+/* info overlay */
 .ps-info{
   position:absolute;
   bottom:0;left:0;right:0;
   padding:40px 44px;
   z-index:2;
-  transform:translateY(16px);opacity:0;
-  transition:transform .45s ease .1s,opacity .45s ease .1s;
+  opacity:0;
+  transform:translateY(20px);
 }
-.ps-panel.active .ps-info{transform:translateY(0);opacity:1}
+.ps-panel.active .ps-info{
+  /* GSAP handle */
+}
 .ps-info-tag{
   font-size:10px;font-weight:800;letter-spacing:2px;text-transform:uppercase;
   color:#4a90e2;margin-bottom:10px;
@@ -1683,20 +1687,53 @@ window.addEventListener('scroll', () => {
   scrollTopBtn.classList.toggle('show', window.scrollY > 300);
 }, { passive: true });
 
-// ── Split screen product switcher ──────────────────
+// ── Split screen product switcher (GSAP) ──────────────
 (function(){
   const items = document.querySelectorAll('.ps-item');
   const panels = document.querySelectorAll('.ps-panel');
-  if (!items.length) return;
+  if (!items.length || !panels.length) return;
+
+  let current = null;
 
   function activate(panelId) {
+    if (current === panelId) return;
+    current = panelId;
+
+    panels.forEach(p => {
+      const info = p.querySelector('.ps-info');
+      if (p.id === panelId) {
+        gsap.set(p, { zIndex: 2 });
+        gsap.to(p, { opacity: 1, duration: 0.55, ease: 'power2.out' });
+        const img = p.querySelector('img');
+        if (img) {
+          gsap.fromTo(img, { scale: 1.08 }, { scale: 1.0, duration: 8, ease: 'power1.out' });
+        }
+        if (info) {
+          gsap.fromTo(info,
+            { opacity: 0, y: 20 },
+            { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out', delay: 0.15 }
+          );
+        }
+      } else {
+        gsap.to(p, { opacity: 0, duration: 0.4, ease: 'power2.in',
+          onComplete: () => gsap.set(p, { zIndex: 1 })
+        });
+        if (info) gsap.to(info, { opacity: 0, y: 20, duration: 0.3 });
+      }
+    });
+
     items.forEach(i => i.classList.toggle('active', i.dataset.panel === panelId));
-    panels.forEach(p => p.classList.toggle('active', p.id === panelId));
+  }
+
+  const firstPanel = items[0]?.dataset.panel;
+  if (firstPanel) {
+    panels.forEach(p => gsap.set(p, { opacity: 0, zIndex: 1 }));
+    activate(firstPanel);
   }
 
   items.forEach(item => {
     item.addEventListener('mouseenter', () => activate(item.dataset.panel));
-    item.addEventListener('click', () => activate(item.dataset.panel));
+    item.addEventListener('click',      () => activate(item.dataset.panel));
   });
 })();
 

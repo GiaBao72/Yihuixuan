@@ -1180,6 +1180,146 @@ ul{list-style:none}
    TOUCH — disable body scroll on mobile
    (we handle with JS)
 ═══════════════════════════════════ */
+
+/* ── Theme Toggle + Light Mode ───────── */
+.theme-toggle {
+  background: linear-gradient(135deg, rgba(255,255,255,.1), rgba(255,255,255,.04));
+  border: 1px solid rgba(255,255,255,.16);
+  color: rgba(255,255,255,.88);
+  font-family: 'Nunito', sans-serif;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: .5px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: transform .2s ease, border-color .2s ease, background .2s ease, color .2s ease, box-shadow .2s ease;
+  white-space: nowrap;
+  box-shadow: 0 10px 24px rgba(0,0,0,.12);
+}
+.theme-toggle:hover {
+  transform: translateY(-1px);
+  border-color: rgba(255,255,255,.32);
+  background: linear-gradient(135deg, rgba(255,255,255,.16), rgba(255,255,255,.06));
+}
+.theme-toggle.light-active {
+  background: linear-gradient(135deg, #fff3bf, #ffd166);
+  border-color: rgba(180,120,0,.22);
+  color: #6f4b00;
+  box-shadow: 0 14px 30px rgba(255, 193, 7, .22);
+}
+body.theme-light {
+  background: linear-gradient(180deg, #f7efe4 0%, #f4f8fb 36%, #eef5fb 100%);
+  color: #16314c;
+}
+body.theme-light #navbar.solid,
+body.theme-light #navbar {
+  background: rgba(247, 241, 231, .82);
+  backdrop-filter: blur(18px);
+  border-color: rgba(22, 49, 76, .08);
+}
+body.theme-light .logo,
+body.theme-light .hero-h1,
+body.theme-light .sec-title,
+body.theme-light .pd-title,
+body.theme-light .testi-info h4,
+body.theme-light .cta-block h2,
+body.theme-light .contact-card h4,
+body.theme-light .fg label,
+body.theme-light .stat-no,
+body.theme-light .ps-info-title,
+body.theme-light .ps-item-name,
+body.theme-light .about-badge-card2 h4,
+body.theme-light .ind-item h4,
+body.theme-light .foot,
+body.theme-light .ci-item h4 {
+  color: #16314c !important;
+}
+body.theme-light .logo em,
+body.theme-light .hero-h1 em,
+body.theme-light .sec-title em,
+body.theme-light .pd-title em,
+body.theme-light .nav-links a.active,
+body.theme-light .nav-links a:hover,
+body.theme-light .fp-dot.active {
+  color: #d58b18 !important;
+}
+body.theme-light .nav-links a,
+body.theme-light .nav-switch,
+body.theme-light .hero-sub,
+body.theme-light .stat-lbl,
+body.theme-light .pd-desc,
+body.theme-light .testi-text,
+body.theme-light .about-content p,
+body.theme-light .ci-item p,
+body.theme-light .foot span,
+body.theme-light .fg input,
+body.theme-light .fg textarea,
+body.theme-light .fg select,
+body.theme-light .ps-info-desc,
+body.theme-light .ps-info-spec,
+body.theme-light .scroll-hint,
+body.theme-light .av-item p,
+body.theme-light .anim p {
+  color: rgba(22, 49, 76, .72) !important;
+}
+body.theme-light .btn-fill,
+body.theme-light .nav-cta {
+  background: linear-gradient(135deg, #d58b18, #f0b549) !important;
+  color: #fff !important;
+  box-shadow: 0 16px 32px rgba(213, 139, 24, .22);
+}
+body.theme-light .btn-ghost,
+body.theme-light .lang-toggle,
+body.theme-light .nav-switch,
+body.theme-light .ps-info-cta,
+body.theme-light .theme-toggle {
+  background: rgba(255,255,255,.72);
+  border-color: rgba(22, 49, 76, .12);
+  color: #16314c !important;
+}
+body.theme-light .badge,
+body.theme-light .pd-media-badge,
+body.theme-light .ps-item-tag,
+body.theme-light .ps-info-tag,
+body.theme-light .sec-label,
+body.theme-light .about-badge-card,
+body.theme-light .about-badge-card2,
+body.theme-light .pd-app,
+body.theme-light .ps-info-spec,
+body.theme-light .ind-item,
+body.theme-light .av-item,
+body.theme-light .why-card,
+body.theme-light .stat-card,
+body.theme-light .testi-wrap,
+body.theme-light .cta-block,
+body.theme-light .contact-card,
+body.theme-light .contact-form,
+body.theme-light .ps-item,
+body.theme-light .ps-info,
+body.theme-light .mob-menu {
+  background: rgba(255,255,255,.72) !important;
+  border-color: rgba(22, 49, 76, .1) !important;
+  color: #16314c !important;
+  box-shadow: 0 22px 60px rgba(39, 74, 108, .12);
+}
+body.theme-light .grid-bg {
+  background:
+    repeating-linear-gradient(0deg, transparent, transparent 70px, rgba(27, 62, 91, .045) 70px, rgba(27, 62, 91, .045) 71px),
+    repeating-linear-gradient(90deg, transparent, transparent 70px, rgba(27, 62, 91, .045) 70px, rgba(27, 62, 91, .045) 71px);
+}
+body.theme-light .orb { opacity: .32; }
+body.theme-light .scroll-hint-line {
+  background: linear-gradient(to bottom, rgba(22,49,76,.3), transparent);
+}
+body.theme-light .fp-dot {
+  background: rgba(22,49,76,.18);
+}
+body.theme-light #zaloChat,
+body.theme-light #scrollTop {
+  box-shadow: 0 20px 40px rgba(39, 74, 108, .16);
+}
+
 </style>
 </head>
 <body>
@@ -1195,6 +1335,7 @@ ul{list-style:none}
     <a href="#" data-go="9">Đánh giá</a>
     <a href="index.html" class="nav-switch" title="Xem bản fullpage scroll">⇅ Fullpage</a>
     <button id="langToggle" class="lang-toggle" title="切换语言 / Đổi ngôn ngữ">🇨🇳 中文</button>
+    <button id="themeToggle" class="theme-toggle" title="切换为浅色界面" aria-pressed="false">☾ 深色</button>
     <a href="#" class="nav-cta" data-go="10">Liên hệ →</a>
   </div>
   <div class="hamburger" id="hamBtn"><span></span><span></span><span></span></div>
@@ -1221,6 +1362,7 @@ ul{list-style:none}
   <a href="#" data-go="0" class="mob-nav-link">Trang chủ</a>
   <a href="#" data-go="1" class="mob-nav-link">Sản phẩm</a>
   <button id="langToggleMob" class="lang-toggle mob-lang-toggle" title="切换语言 / Đổi ngôn ngữ">🇨🇳 中文</button>
+  <button id="themeToggleMob" class="theme-toggle mob-lang-toggle" title="切换为浅色界面" aria-pressed="false">☾ 深色</button>
 </div>
 
 <!-- FULL-PAGE WRAPPER -->
@@ -2105,7 +2247,28 @@ document.getElementById('cForm').addEventListener('submit', e => {
     }
   };
 
-  let lang = localStorage.getItem('borna_lang') || 'vi';
+  
+const themeButtons = [document.getElementById('themeToggle'), document.getElementById('themeToggleMob')].filter(Boolean);
+let theme = localStorage.getItem('borna_theme') || 'dark';
+
+function applyTheme(nextTheme) {
+  theme = nextTheme;
+  document.body.classList.toggle('theme-light', nextTheme === 'light');
+  themeButtons.forEach(toggleBtn => {
+    toggleBtn.textContent = nextTheme === 'light' ? '☀ 浅色' : '☾ 深色';
+    toggleBtn.classList.toggle('light-active', nextTheme === 'light');
+    toggleBtn.setAttribute('aria-pressed', nextTheme === 'light' ? 'true' : 'false');
+    toggleBtn.setAttribute('title', nextTheme === 'light' ? '切换为深色界面' : '切换为浅色界面');
+  });
+  localStorage.setItem('borna_theme', nextTheme);
+}
+
+themeButtons.forEach(toggleBtn => {
+  toggleBtn.addEventListener('click', () => applyTheme(theme === 'light' ? 'dark' : 'light'));
+});
+applyTheme(theme);
+
+let lang = localStorage.getItem('borna_lang') || 'vi';
   const btn = document.getElementById('langToggle');
   const mobBtn = document.getElementById('langToggleMob');
 

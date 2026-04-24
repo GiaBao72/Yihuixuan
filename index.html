@@ -235,10 +235,132 @@ ul{list-style:none}
 .stat-lbl{font-size:12px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.8px}
 
 /* ═══════════════════════════════════
-   SLIDE 1 — PRODUCT GRID (5 products)
+   SLIDE 1 — SPLIT SCREEN PRODUCTS
 ═══════════════════════════════════ */
-#s1{background:#030e1f}
+#s1{background:#030e1f;padding:0}
 #s1 .orb1{width:600px;height:600px;top:-200px;left:-100px;background:radial-gradient(circle,rgba(27,95,212,.2),transparent 70%)}
+
+/* Split layout */
+.ps-wrap{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  width:100%;height:100%;
+  position:relative;z-index:2;
+}
+
+/* LEFT — product list */
+.ps-left{
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  padding:60px 56px 60px 72px;
+  border-right:1px solid rgba(255,255,255,.07);
+  position:relative;
+  z-index:2;
+}
+.ps-header{margin-bottom:40px}
+
+/* Product list items */
+.ps-list{display:flex;flex-direction:column;gap:6px}
+.ps-item{
+  display:flex;align-items:center;gap:20px;
+  padding:18px 22px;
+  border-radius:14px;
+  cursor:pointer;
+  border:1px solid transparent;
+  transition:background .35s ease,border-color .35s ease,transform .3s ease;
+  position:relative;overflow:hidden;
+  text-decoration:none;color:inherit;
+}
+.ps-item::before{
+  content:'';
+  position:absolute;left:0;top:0;bottom:0;
+  width:3px;border-radius:0 3px 3px 0;
+  background:var(--blue2);
+  transform:scaleY(0);transform-origin:center;
+  transition:transform .35s ease;
+}
+.ps-item:hover,.ps-item.active{
+  background:rgba(27,95,212,.1);
+  border-color:rgba(74,144,226,.2);
+  transform:translateX(6px);
+}
+.ps-item:hover::before,.ps-item.active::before{transform:scaleY(1)}
+.ps-item.active{background:rgba(27,95,212,.15);border-color:rgba(74,144,226,.3)}
+
+.ps-num{
+  font-size:13px;font-weight:800;color:rgba(74,144,226,.5);
+  letter-spacing:1px;min-width:28px;
+  transition:color .3s;
+}
+.ps-item:hover .ps-num,.ps-item.active .ps-num{color:#4a90e2}
+.ps-item-text{flex:1}
+.ps-item-tag{
+  font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;
+  color:rgba(255,255,255,.35);margin-bottom:3px;
+  transition:color .3s;
+}
+.ps-item:hover .ps-item-tag,.ps-item.active .ps-item-tag{color:#4a90e2}
+.ps-item-name{
+  font-size:17px;font-weight:700;color:rgba(255,255,255,.75);
+  line-height:1.2;
+  transition:color .3s;
+}
+.ps-item:hover .ps-item-name,.ps-item.active .ps-item-name{color:#fff}
+.ps-item-arr{
+  font-size:18px;color:rgba(255,255,255,.2);
+  transition:color .3s,transform .3s;
+}
+.ps-item:hover .ps-item-arr,.ps-item.active .ps-item-arr{
+  color:#4a90e2;transform:translateX(4px)
+}
+
+/* RIGHT — visual panel */
+.ps-right{
+  position:relative;overflow:hidden;
+}
+.ps-panel{
+  position:absolute;inset:0;
+  opacity:0;
+  transition:opacity .5s ease;
+  display:flex;align-items:center;justify-content:center;
+}
+.ps-panel.active{opacity:1}
+.ps-panel img{
+  width:100%;height:100%;object-fit:cover;
+  filter:brightness(.55) saturate(.85);
+  transition:transform 8s ease,filter .5s ease;
+}
+.ps-panel.active img{transform:scale(1.06)}
+/* gradient overlay */
+.ps-panel::after{
+  content:'';
+  position:absolute;inset:0;
+  background:linear-gradient(90deg,rgba(3,14,31,.9) 0%,rgba(3,14,31,.3) 40%,transparent 100%);
+}
+/* info badge bottom-right */
+.ps-badge{
+  position:absolute;bottom:40px;right:40px;
+  background:rgba(2,11,26,.75);
+  backdrop-filter:blur(16px);
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:16px;
+  padding:20px 24px;
+  min-width:240px;
+  z-index:3;
+  transform:translateY(12px);opacity:0;
+  transition:transform .4s ease .15s,opacity .4s ease .15s;
+}
+.ps-panel.active .ps-badge{transform:translateY(0);opacity:1}
+.ps-badge-tag{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#4a90e2;margin-bottom:6px}
+.ps-badge-title{font-size:16px;font-weight:700;margin-bottom:8px}
+.ps-badge-desc{font-size:12px;color:rgba(255,255,255,.55);line-height:1.6;margin-bottom:14px}
+.ps-badge-link{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:12px;font-weight:700;color:#4a90e2;
+  transition:gap .2s;
+}
+.ps-badge-link:hover{gap:10px}
 
 .sec-label{
   font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;
@@ -731,6 +853,15 @@ ul{list-style:none}
   .about-values{grid-template-columns:1fr;gap:10px}
   .about-wordmark{font-size:48px}
 
+  /* Products split screen → stack dọc trên mobile */
+  .ps-wrap{grid-template-columns:1fr;height:auto}
+  .ps-left{padding:28px 16px 20px;border-right:none;border-bottom:1px solid rgba(255,255,255,.07)}
+  .ps-header{margin-bottom:20px}
+  .ps-right{height:280px;position:relative}
+  .ps-item{padding:12px 14px;gap:14px}
+  .ps-item-name{font-size:14px}
+  .ps-badge{display:none}
+
   /* Slide 8 — Industries + Why: xếp dọc trên mobile */
   .s8-grid{
     grid-template-columns:1fr!important;
@@ -988,86 +1119,110 @@ ul{list-style:none}
   </div>
 </section>
 
-<!-- ═══ SLIDE 1 — PRODUCTS ═══ -->
+<!-- ═══ SLIDE 1 — SPLIT SCREEN PRODUCTS ═══ -->
 <section class="fp-slide" id="s1">
-  <div class="grid-bg"></div>
   <div class="orb orb1"></div>
-  <div class="slide-inner">
-    <div class="sec-label anim">Dòng sản phẩm</div>
-    <h2 class="sec-title anim">Giải pháp laser <em>toàn diện</em></h2>
-    <div class="products-grid">
+  <div class="ps-wrap">
 
-      <a class="p-card anim" href="product.html?p=marking" style="display:block;text-decoration:none;color:inherit">
-        <div class="p-thumb"><img src="https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=400&q=70&fit=crop" alt="Laser marking machine"/></div>
-        <div class="p-card-body">
-                <div class="p-tag">Marking</div>
-        <h3>Máy Đánh Dấu Laser</h3>
-        <p>Laser UV, CO2, Fiber &amp; dây chuyền tự động — khắc mã vạch, QR, UDI, ngày SX trên nhựa, kim loại, thủy tinh, bao bì.</p>
-        <div class="p-specs">
-          <div class="p-spec"><svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>UV 355nm · CO2 · Sợi quang Fiber</div>
-          <div class="p-spec"><svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Tích hợp dây chuyền inline</div>
-
-        <span class="p-arrow">Xem chi tiết →</span>        </div><!-- /p-card-body -->
-        </div>
-      </a>
-
-      <a class="p-card anim" href="product.html?p=skinning" style="display:block;text-decoration:none;color:inherit">
-        <div class="p-thumb"><img src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=400&q=70&fit=crop" alt="Cable wire stripping laser"/></div>
-        <div class="p-card-body">
-                <div class="p-tag">Skinning</div>
-        <h3>Máy Tuốt Vỏ Laser</h3>
-        <p>Công nghệ YAG, CO2, UV — tuốt vỏ dây HDMI, Type-C, USB, dây đồng trục, cáp y tế &amp; ô tô không hại lõi dẫn.</p>
-        <div class="p-specs">
-          <div class="p-spec"><svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>YAG · CO2 · UV tốc độ cao</div>
-          <div class="p-spec"><svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Tuốt vòng, tuốt sơn, cắt chính xác</div>
-
-        <span class="p-arrow">Xem chi tiết →</span>        </div><!-- /p-card-body -->
-        </div>
-      </a>
-
-      <a class="p-card anim" href="product.html?p=welding" style="display:block;text-decoration:none;color:inherit">
-        <div class="p-thumb"><img src="https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=400&q=70&fit=crop" alt="Laser welding machine"/></div>
-        <div class="p-card-body">
-                <div class="p-tag">Welding</div>
-        <h3>Máy Hàn Laser</h3>
-        <p>Hàn sợi quang, hàn thiếc (đầu bi/dây), hàn xung, hàn QCW — pin năng lượng, bảng CCS, đầu nối điện thoại, linh kiện chính xác.</p>
-        <div class="p-specs">
-          <div class="p-spec"><svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Fiber · Hàn thiếc bi/dây · QCW</div>
-          <div class="p-spec"><svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Không biến dạng nhiệt lõi</div>
-
-        <span class="p-arrow">Xem chi tiết →</span>        </div><!-- /p-card-body -->
-        </div>
-      </a>
-
-      <a class="p-card anim" href="product.html?p=cutting" style="display:block;text-decoration:none;color:inherit">
-        <div class="p-thumb"><img src="https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=400&q=70&fit=crop" alt="Laser cutting machine"/></div>
-        <div class="p-card-body">
-                <div class="p-tag">Cutting</div>
-        <h3>Máy Cắt Laser</h3>
-        <p>Cắt chính xác kim loại, thủy tinh, nhựa — nền đá cẩm thạch siêu ổn định cho linh kiện điện tử &amp; pin EV.</p>
-        <div class="p-specs">
-          <div class="p-spec"><svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Kim loại · Thủy tinh · Nhựa</div>
-          <div class="p-spec"><svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Nền granite chống rung tuyệt đối</div>
-
-        <span class="p-arrow">Xem chi tiết →</span>        </div><!-- /p-card-body -->
-        </div>
-      </a>
-
-      <a class="p-card anim" href="product.html?p=automation" style="display:block;text-decoration:none;color:inherit">
-        <div class="p-thumb"><img src="https://images.unsplash.com/photo-1567789884554-0b844b597180?w=400&q=70&fit=crop" alt="Industrial automation line"/></div>
-        <div class="p-card-body">
-                <div class="p-tag">Automation</div>
-        <h3>Tự Động Hóa Phi Tiêu Chuẩn</h3>
-        <p>Dây chuyền xử lý lõi dây, máy排线, hàn kết hợp &amp; linh kiện thay thế: thấu kính quang học, galvanometer (振镜).</p>
-        <div class="p-specs">
-          <div class="p-spec"><svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Thiết kế riêng theo yêu cầu</div>
-          <div class="p-spec"><svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Linh kiện quang học chính hãng</div>
-
-        <span class="p-arrow">Xem chi tiết →</span>        </div><!-- /p-card-body -->
-        </div>
-      </a>
-
+    <!-- LEFT: danh sách sản phẩm -->
+    <div class="ps-left">
+      <div class="ps-header">
+        <div class="sec-label anim">Dòng sản phẩm</div>
+        <h2 class="sec-title anim" style="margin-bottom:0">Giải pháp laser <em>toàn diện</em></h2>
+      </div>
+      <div class="ps-list">
+        <a class="ps-item active anim" href="product.html?p=marking" data-panel="p-marking">
+          <span class="ps-num">01</span>
+          <div class="ps-item-text">
+            <div class="ps-item-tag">Marking</div>
+            <div class="ps-item-name">Máy Đánh Dấu Laser</div>
+          </div>
+          <span class="ps-item-arr">→</span>
+        </a>
+        <a class="ps-item anim" href="product.html?p=skinning" data-panel="p-skinning">
+          <span class="ps-num">02</span>
+          <div class="ps-item-text">
+            <div class="ps-item-tag">Skinning</div>
+            <div class="ps-item-name">Máy Tuốt Vỏ Laser</div>
+          </div>
+          <span class="ps-item-arr">→</span>
+        </a>
+        <a class="ps-item anim" href="product.html?p=welding" data-panel="p-welding">
+          <span class="ps-num">03</span>
+          <div class="ps-item-text">
+            <div class="ps-item-tag">Welding</div>
+            <div class="ps-item-name">Máy Hàn Laser</div>
+          </div>
+          <span class="ps-item-arr">→</span>
+        </a>
+        <a class="ps-item anim" href="product.html?p=cutting" data-panel="p-cutting">
+          <span class="ps-num">04</span>
+          <div class="ps-item-text">
+            <div class="ps-item-tag">Cutting</div>
+            <div class="ps-item-name">Máy Cắt Laser</div>
+          </div>
+          <span class="ps-item-arr">→</span>
+        </a>
+        <a class="ps-item anim" href="product.html?p=automation" data-panel="p-automation">
+          <span class="ps-num">05</span>
+          <div class="ps-item-text">
+            <div class="ps-item-tag">Automation</div>
+            <div class="ps-item-name">Tự Động Hóa Phi Tiêu Chuẩn</div>
+          </div>
+          <span class="ps-item-arr">→</span>
+        </a>
+      </div>
     </div>
+
+    <!-- RIGHT: visual panels -->
+    <div class="ps-right">
+      <div class="ps-panel active" id="p-marking">
+        <img src="https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=900&q=80&fit=crop" alt="Laser marking"/>
+        <div class="ps-badge">
+          <div class="ps-badge-tag">Marking</div>
+          <div class="ps-badge-title">Máy Đánh Dấu Laser</div>
+          <div class="ps-badge-desc">UV 355nm · CO2 · Fiber — khắc mã vạch, QR, UDI trên nhựa, kim loại, thủy tinh.</div>
+          <span class="ps-badge-link">Xem chi tiết →</span>
+        </div>
+      </div>
+      <div class="ps-panel" id="p-skinning">
+        <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=900&q=80&fit=crop" alt="Laser skinning"/>
+        <div class="ps-badge">
+          <div class="ps-badge-tag">Skinning</div>
+          <div class="ps-badge-title">Máy Tuốt Vỏ Laser</div>
+          <div class="ps-badge-desc">YAG · CO2 · UV — tuốt vỏ HDMI, Type-C, USB, cáp y tế không hại lõi dẫn.</div>
+          <span class="ps-badge-link">Xem chi tiết →</span>
+        </div>
+      </div>
+      <div class="ps-panel" id="p-welding">
+        <img src="https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=900&q=80&fit=crop" alt="Laser welding"/>
+        <div class="ps-badge">
+          <div class="ps-badge-tag">Welding</div>
+          <div class="ps-badge-title">Máy Hàn Laser</div>
+          <div class="ps-badge-desc">Fiber · hàn thiếc bi/dây · QCW — pin EV, bảng CCS, đầu nối chính xác.</div>
+          <span class="ps-badge-link">Xem chi tiết →</span>
+        </div>
+      </div>
+      <div class="ps-panel" id="p-cutting">
+        <img src="https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=900&q=80&fit=crop" alt="Laser cutting"/>
+        <div class="ps-badge">
+          <div class="ps-badge-tag">Cutting</div>
+          <div class="ps-badge-title">Máy Cắt Laser</div>
+          <div class="ps-badge-desc">Cắt kim loại, thủy tinh, nhựa — nền granite chống rung tuyệt đối.</div>
+          <span class="ps-badge-link">Xem chi tiết →</span>
+        </div>
+      </div>
+      <div class="ps-panel" id="p-automation">
+        <img src="https://images.unsplash.com/photo-1567789884554-0b844b597180?w=900&q=80&fit=crop" alt="Automation"/>
+        <div class="ps-badge">
+          <div class="ps-badge-tag">Automation</div>
+          <div class="ps-badge-title">Tự Động Hóa Phi Tiêu Chuẩn</div>
+          <div class="ps-badge-desc">Dây chuyền tích hợp theo yêu cầu — linh kiện quang học, galvanometer chính hãng.</div>
+          <span class="ps-badge-link">Xem chi tiết →</span>
+        </div>
+      </div>
+    </div>
+
   </div>
 </section>
 
@@ -1078,7 +1233,7 @@ ul{list-style:none}
   <div class="slide-inner">
     <div class="pd-grid">
       <div class="pd-media anim">
-        <iframe id="yt-marking" src="https://www.youtube.com/embed/__KAQzgCbyU?rel=0&modestbranding=1&autoplay=0&mute=1&enablejsapi=1" allow="autoplay; encrypted-media" allowfullscreen loading="lazy"></iframe>
+        <iframe src="https://www.youtube.com/embed/__KAQzgCbyU?rel=0&modestbranding=1" allowfullscreen loading="lazy"></iframe>
         <div class="pd-media-badge">▶ Video demo</div>
       </div>
       <div class="pd-content">
@@ -1598,6 +1753,26 @@ window.addEventListener('scroll', () => {
   if (!isMobile()) return;
   navbar.classList.toggle('solid', window.scrollY > 10);
 }, { passive: true });
+// ── Split screen product switcher ──────────────────
+(function(){
+  const items = document.querySelectorAll('.ps-item');
+  const panels = document.querySelectorAll('.ps-panel');
+  if (!items.length) return;
+
+  function activate(panelId) {
+    items.forEach(i => i.classList.toggle('active', i.dataset.panel === panelId));
+    panels.forEach(p => p.classList.toggle('active', p.id === panelId));
+  }
+
+  items.forEach(item => {
+    // hover
+    item.addEventListener('mouseenter', e => {
+      e.preventDefault();
+      activate(item.dataset.panel);
+    });
+  });
+})();
+
 // ── YouTube autoplay on slide ─────────────────────
 // sp1 = index 6 (slides: s0,s1,sp1..sp5,s7,s8,s9,s10 → sp1 = index 2)
 (function() {

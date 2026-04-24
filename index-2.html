@@ -1666,12 +1666,14 @@ document.getElementById('mobClose').addEventListener('click', () => {
 
 // ── Scroll To Top button ────────────────────────────
 const scrollTopBtn = document.getElementById('scrollTop');
-scrollTopBtn.addEventListener('click', () => {
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-});
-window.addEventListener('scroll', () => {
-  scrollTopBtn.classList.toggle('show', window.scrollY > 300);
-}, { passive: true });
+if (scrollTopBtn) {
+  scrollTopBtn.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+  window.addEventListener('scroll', () => {
+    scrollTopBtn.classList.toggle('show', window.scrollY > 300);
+  }, { passive: true });
+}
 
 // ── Split screen product switcher (bg-image swap) ──────
 (function(){

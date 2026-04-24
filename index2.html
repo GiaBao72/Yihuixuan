@@ -1,0 +1,2060 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="description" content="Borna Laser (Nghệ Huy Hiên) — thiết bị laser công nghiệp chính xác: Marking, Skinning, Welding, Cutting & tự động hóa phi tiêu chuẩn. Thành lập 2022 tại Bắc Ninh, Việt Nam."/>
+<title>Borna Laser | Thiết Bị Laser Công Nghiệp</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800;900&display=swap" rel="stylesheet"/>
+<style>
+/* ═══════════════════════════════════
+   RESET & BASE
+═══════════════════════════════════ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;height:100%;overflow:hidden;font-family:'Nunito',sans-serif}
+body{background:#000510;color:#fff}
+a{text-decoration:none;color:inherit}
+ul{list-style:none}
+
+/* ═══════════════════════════════════
+   VARIABLES — Glassmorphism Stack 3D
+═══════════════════════════════════ */
+:root{
+  --blue:#1b5fd4;
+  --blue2:#4a90e2;
+  --glass-blue:rgba(27,95,212,.25);
+  --glass-white:rgba(255,255,255,.07);
+  --glow:rgba(27,95,212,.45);
+  --text-muted:rgba(255,255,255,.55);
+  --slide-dur:900ms;
+  --ease:cubic-bezier(0.77,0,0.175,1);
+  /* Glass panel recipe */
+  --glass-bg:rgba(255,255,255,.04);
+  --glass-border:rgba(255,255,255,.12);
+  --glass-shine:rgba(255,255,255,.15);
+  --glass-shadow:0 8px 32px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.15);
+  --glass-blur:blur(24px);
+}
+
+/* ═══════════════════════════════════
+   STARFIELD CANVAS (behind everything)
+═══════════════════════════════════ */
+#starfield{
+  position:fixed;
+  inset:0;
+  z-index:0;
+  pointer-events:none;
+}
+
+/* ═══════════════════════════════════
+   FULL-PAGE SCROLL WRAPPER
+═══════════════════════════════════ */
+#fp-wrapper{
+  position:fixed;
+  top:0;left:0;
+  width:100%;height:100%;
+  overflow:hidden;
+  z-index:1;
+}
+
+/* The vertical strip that moves */
+#fp-track{
+  display:flex;
+  flex-direction:column;
+  width:100%;
+  will-change:transform;
+  transition:transform var(--slide-dur) var(--ease);
+}
+
+/* Each slide = 100vh */
+.fp-slide{
+  flex:none;
+  width:100%;
+  height:100vh;
+  position:relative;
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  /* Deep space base - transparent to show starfield */
+  background:transparent;
+}
+
+/* ═══════════════════════════════════
+   NAVBAR — glass frosted
+═══════════════════════════════════ */
+#navbar{
+  position:fixed;
+  top:0;left:0;right:0;
+  z-index:500;
+  padding:0 60px;
+  height:68px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  background:rgba(255,255,255,.06);
+  backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+  border-bottom:1px solid rgba(255,255,255,.08);
+  transition:background .4s ease,border-color .4s ease;
+}
+#navbar.solid{
+  background:rgba(0,5,16,.7);
+  backdrop-filter:blur(24px);
+  -webkit-backdrop-filter:blur(24px);
+  border-color:rgba(255,255,255,.1);
+}
+.logo{font-size:24px;font-weight:800;letter-spacing:1px}
+.logo em{font-style:normal;color:#4a90e2}
+.nav-links{display:flex;gap:36px;align-items:center}
+.nav-links a{font-size:13px;font-weight:500;color:rgba(255,255,255,.65);letter-spacing:.4px;transition:color .2s}
+.nav-links a:hover,.nav-links a.active{color:#fff}
+.nav-cta{
+  background:var(--glass-blue);
+  color:#fff!important;
+  padding:8px 22px;
+  border-radius:40px;
+  font-size:13px;
+  font-weight:600;
+  border:1px solid rgba(27,95,212,.5);
+  transition:background .2s,transform .2s,box-shadow .2s;
+}
+.nav-cta:hover{
+  background:var(--blue);
+  transform:translateY(-1px);
+  box-shadow:0 8px 24px rgba(27,95,212,.45);
+}
+
+/* ═══════════════════════════════════
+   PROGRESS DOTS — glass pill vertical
+═══════════════════════════════════ */
+#fp-dots{
+  position:fixed;
+  right:28px;
+  top:50%;
+  transform:translateY(-50%);
+  z-index:500;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  align-items:center;
+  /* glass pill container */
+  background:rgba(255,255,255,.05);
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:20px;
+  padding:10px 6px;
+}
+.fp-dot{
+  width:3px;
+  height:20px;
+  border-radius:3px;
+  background:rgba(255,255,255,.2);
+  cursor:pointer;
+  transition:background .3s,width .3s,height .3s,box-shadow .3s;
+}
+.fp-dot.active{
+  width:3px;
+  height:28px;
+  background:rgba(27,95,212,.9);
+  box-shadow:0 0 10px rgba(27,95,212,.7);
+}
+.fp-dot:hover{background:rgba(255,255,255,.5)}
+
+/* ═══════════════════════════════════
+   SLIDE CONTENT — common
+═══════════════════════════════════ */
+.slide-inner{
+  width:100%;
+  max-width:1320px;
+  padding:0 48px;
+  position:relative;
+  z-index:2;
+}
+
+/* Animated entry per element */
+.fp-slide .anim{
+  opacity:0;
+  transform:translateY(36px);
+  transition:opacity .7s var(--ease),transform .7s var(--ease);
+}
+.fp-slide.visible .anim{opacity:1;transform:translateY(0)}
+.fp-slide .anim:nth-child(1){transition-delay:.05s}
+.fp-slide .anim:nth-child(2){transition-delay:.15s}
+.fp-slide .anim:nth-child(3){transition-delay:.25s}
+.fp-slide .anim:nth-child(4){transition-delay:.35s}
+.fp-slide .anim:nth-child(5){transition-delay:.45s}
+.fp-slide .anim:nth-child(6){transition-delay:.55s}
+.fp-slide .anim:nth-child(7){transition-delay:.65s}
+.fp-slide .anim:nth-child(8){transition-delay:.75s}
+
+/* ═══════════════════════════════════
+   SLIDE BACKGROUNDS — deep space
+═══════════════════════════════════ */
+
+/* Subtle grid overlay */
+.grid-bg{
+  position:absolute;inset:0;
+  background:
+    repeating-linear-gradient(0deg,transparent,transparent 80px,rgba(255,255,255,.012) 80px,rgba(255,255,255,.012) 81px),
+    repeating-linear-gradient(90deg,transparent,transparent 80px,rgba(255,255,255,.012) 80px,rgba(255,255,255,.012) 81px);
+  z-index:0;pointer-events:none;
+}
+/* Orbs — deep blue nebula clouds */
+.orb{
+  position:absolute;
+  border-radius:50%;
+  pointer-events:none;
+  filter:blur(90px);
+  opacity:.45;
+  z-index:0;
+}
+
+/* ═══════════════════════════════════
+   SLIDE 0 — HERO (Glassmorphism)
+═══════════════════════════════════ */
+#s0{background:linear-gradient(160deg,#000510 0%,#000d22 60%,#001240 100%)}
+#s0 .orb1{width:700px;height:700px;top:-200px;right:-100px;background:radial-gradient(circle,rgba(27,95,212,.3),transparent 70%)}
+#s0 .orb2{width:400px;height:400px;bottom:-100px;left:-80px;background:radial-gradient(circle,rgba(74,144,226,.15),transparent 70%)}
+
+/* Hero glass badge */
+.badge{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(74,144,226,.1);
+  border:1px solid rgba(74,144,226,.25);
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+  color:#7ab8f5;
+  padding:6px 16px;border-radius:40px;
+  font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;
+  margin-bottom:28px;
+  box-shadow:0 2px 12px rgba(27,95,212,.15),inset 0 1px 0 rgba(255,255,255,.1);
+}
+.badge-dot{width:6px;height:6px;background:#4a90e2;border-radius:50%;animation:blink 2s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
+
+.hero-h1{
+  font-size:clamp(44px,5.5vw,76px);
+  font-weight:900;line-height:1.05;
+  letter-spacing:-1.5px;
+  margin-bottom:22px;
+}
+.hero-h1 em{font-style:normal;color:#4a90e2;text-shadow:0 0 40px rgba(74,144,226,.4)}
+.hero-sub{
+  font-size:18px;font-weight:300;
+  color:rgba(255,255,255,.65);
+  line-height:1.75;max-width:540px;
+  margin-bottom:40px;
+  font-family:'Nunito',sans-serif;
+}
+.hero-actions{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:64px}
+
+.btn{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:14px 32px;border-radius:40px;
+  font-size:15px;font-weight:600;
+  cursor:pointer;border:none;
+  transition:all .25s ease;
+}
+.btn-fill{background:var(--blue);color:#fff}
+.btn-fill:hover{background:#1348b0;transform:translateY(-2px);box-shadow:0 16px 40px rgba(27,95,212,.5)}
+.btn-ghost{
+  background:rgba(255,255,255,.06);
+  color:#fff;
+  border:1px solid rgba(255,255,255,.15);
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+}
+.btn-ghost:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.3);box-shadow:0 4px 20px rgba(0,0,0,.3)}
+.btn-arr{transition:transform .25s ease;display:inline-block}
+.btn:hover .btn-arr{transform:translateX(5px)}
+
+/* Hero stats — glass panel */
+.hero-stats{
+  display:flex;gap:0;
+  border-top:1px solid rgba(255,255,255,.07);
+  padding-top:32px;
+}
+.stat{
+  flex:1;
+  padding-right:32px;
+  border-right:1px solid rgba(255,255,255,.06);
+  margin-right:32px;
+}
+.stat:last-child{border-right:none;margin-right:0}
+.stat-num{
+  font-size:42px;font-weight:800;line-height:1;
+  color:#fff;margin-bottom:4px;
+}
+.stat-num span{color:#4a90e2}
+.stat-lbl{font-size:12px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.8px}
+
+/* Hero floating glass cards (parallax) */
+.hero-float-cards{
+  position:absolute;
+  right:60px;top:50%;
+  transform:translateY(-50%);
+  width:260px;
+  perspective:800px;
+  pointer-events:none;
+  z-index:3;
+}
+.hfc{
+  position:absolute;
+  width:220px;
+  background:var(--glass-bg);
+  border:1px solid var(--glass-border);
+  backdrop-filter:var(--glass-blur);
+  -webkit-backdrop-filter:var(--glass-blur);
+  border-radius:20px;
+  box-shadow:var(--glass-shadow);
+  padding:18px 20px;
+  transition:transform .15s ease;
+}
+/* Shine top-left */
+.hfc::before{
+  content:'';
+  position:absolute;top:0;left:0;
+  width:60%;height:1px;
+  background:linear-gradient(90deg,rgba(255,255,255,.3),transparent);
+  border-radius:20px 0 0 0;
+}
+.hfc-1{top:0;left:20px;transform:translateZ(40px) rotate(-3deg)}
+.hfc-2{top:90px;left:0;transform:translateZ(20px) rotate(2deg)}
+.hfc-3{top:180px;left:30px;transform:translateZ(0px) rotate(-1deg)}
+.hfc-label{font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:6px}
+.hfc-val{font-size:22px;font-weight:800;color:#fff}
+.hfc-val span{color:#4a90e2;font-size:14px}
+.hfc-sub{font-size:11px;color:rgba(255,255,255,.45);margin-top:2px}
+
+/* ═══════════════════════════════════
+   SLIDE 1 — PRODUCT GRID — 3D Glass Stack
+═══════════════════════════════════ */
+#s1{background:linear-gradient(160deg,#000510 0%,#000d20 100%)}
+#s1 .orb1{width:600px;height:600px;top:-200px;left:-100px;background:radial-gradient(circle,rgba(27,95,212,.18),transparent 70%)}
+
+.sec-label{
+  font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;
+  color:#4a90e2;margin-bottom:10px;
+}
+.sec-title{
+  font-size:clamp(28px,3vw,44px);
+  font-weight:800;letter-spacing:-.5px;
+  margin-bottom:40px;line-height:1.1;
+}
+.sec-title em{font-style:normal;color:#4a90e2}
+
+/* 3D card stack container */
+.products-grid{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:20px;
+  transform-style:preserve-3d;
+  perspective:1000px;
+}
+
+/* ─── PRODUCT CARD — glass 3D ─── */
+.p-card{
+  background:var(--glass-bg);
+  border:1px solid var(--glass-border);
+  backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+  border-radius:20px;
+  padding:0 0 20px;
+  cursor:pointer;
+  transition:transform .5s cubic-bezier(.22,1,.36,1),
+             box-shadow .5s ease,
+             border-color .3s;
+  position:relative;overflow:hidden;
+  display:flex;flex-direction:column;
+  box-shadow:var(--glass-shadow);
+  transform-style:preserve-3d;
+}
+/* Shine highlight top-left corner */
+.p-card::before{
+  content:'';
+  position:absolute;top:0;left:0;
+  width:70%;height:1px;
+  background:linear-gradient(90deg,rgba(255,255,255,.35),transparent);
+  pointer-events:none;z-index:2;
+  border-radius:20px 0 0 0;
+}
+/* Left-side vertical shine */
+.p-card::after{
+  content:'';
+  position:absolute;top:0;left:0;
+  width:1px;height:40%;
+  background:linear-gradient(180deg,rgba(255,255,255,.2),transparent);
+  pointer-events:none;z-index:2;
+}
+/* Hover sweep shine */
+.p-card-shine{
+  position:absolute;top:0;left:-100%;
+  width:60%;height:100%;
+  background:linear-gradient(105deg,transparent,rgba(255,255,255,.06),transparent);
+  transition:left .6s ease;
+  z-index:1;pointer-events:none;
+}
+.p-card:hover .p-card-shine{left:140%}
+
+.p-card:hover{
+  transform:translateY(-12px) scale(1.03);
+  box-shadow:
+    0 32px 64px rgba(0,0,0,.5),
+    0 0 0 1px rgba(74,144,226,.3),
+    inset 0 1px 0 rgba(255,255,255,.2);
+  border-color:rgba(74,144,226,.35);
+}
+/* Fan effect: siblings tilt on hover */
+.products-grid:hover .p-card:not(:hover){
+  transform:translateY(4px) scale(.98);
+  opacity:.85;
+}
+
+/* Thumb */
+.p-thumb{
+  width:100%;height:140px;
+  border-radius:20px 20px 0 0;
+  overflow:hidden;
+  margin-bottom:16px;
+  position:relative;
+}
+.p-thumb::after{
+  content:'';
+  position:absolute;inset:0;
+  background:linear-gradient(180deg,transparent 40%,rgba(0,5,16,.85));
+  transition:opacity .3s;
+}
+.p-card:hover .p-thumb::after{opacity:.6}
+.p-thumb img{
+  width:100%;height:100%;
+  object-fit:cover;
+  filter:brightness(.65) saturate(.85);
+  transition:transform .5s cubic-bezier(.22,1,.36,1),filter .5s ease;
+}
+.p-card:hover .p-thumb img{
+  transform:scale(1.1);
+  filter:brightness(.85) saturate(1.1);
+}
+
+/* Card body */
+.p-card-body{padding:0 18px}
+
+.p-icon{
+  width:44px;height:44px;
+  background:var(--glass-blue);
+  border:1px solid rgba(27,95,212,.3);
+  border-radius:10px;
+  display:flex;align-items:center;justify-content:center;
+  margin-bottom:14px;
+  transition:background .3s,transform .3s,box-shadow .3s;
+}
+.p-card:hover .p-icon{
+  background:rgba(27,95,212,.4);
+  transform:scale(1.1) rotate(-5deg);
+  box-shadow:0 4px 16px rgba(27,95,212,.4);
+}
+.p-icon svg{color:#7ab8f5}
+.p-tag{
+  display:inline-block;
+  background:rgba(74,144,226,.12);
+  border:1px solid rgba(74,144,226,.15);
+  color:#7ab8f5;
+  font-size:10px;font-weight:700;letter-spacing:.8px;
+  text-transform:uppercase;padding:3px 10px;border-radius:20px;
+  margin-bottom:10px;
+}
+.p-card h3{font-size:14px;font-weight:700;margin-bottom:8px;line-height:1.3}
+.p-card p{font-size:11px;color:rgba(255,255,255,.5);line-height:1.65;margin-bottom:14px;font-family:'Nunito',sans-serif}
+.p-specs{display:flex;flex-direction:column;gap:5px}
+.p-spec{display:flex;align-items:center;gap:6px;font-size:11px;color:rgba(255,255,255,.45)}
+.p-spec svg{color:#4a90e2;flex-shrink:0}
+
+.p-arrow{
+  display:inline-flex;align-items:center;gap:4px;
+  font-size:11px;font-weight:600;color:#4a90e2;
+  margin-top:14px;
+  opacity:0;transform:translateX(-6px);
+  transition:opacity .3s,transform .3s;
+}
+.p-card:hover .p-arrow{opacity:1;transform:translateX(0)}
+
+/* ═══════════════════════════════════
+   SLIDE 2 — ABOUT (glass 2-col)
+═══════════════════════════════════ */
+#s2{background:linear-gradient(160deg,#000510 0%,#00091a 100%)}
+#s2 .orb1{width:600px;height:600px;top:-150px;right:-150px;background:radial-gradient(circle,rgba(27,95,212,.15),transparent 70%)}
+
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+
+.about-visual{
+  position:relative;
+  height:420px;
+}
+.about-main-card{
+  position:absolute;
+  inset:0;
+  border-radius:24px;
+  background:linear-gradient(135deg,rgba(0,5,16,.8),rgba(10,26,62,.6),rgba(27,95,212,.2));
+  border:1px solid var(--glass-border);
+  backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+  box-shadow:var(--glass-shadow);
+  display:flex;align-items:center;justify-content:center;
+  overflow:hidden;
+}
+/* Glass shine on about card */
+.about-main-card::before{
+  content:'';
+  position:absolute;top:0;left:0;right:0;
+  height:1px;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.2),transparent);
+}
+.about-wordmark{
+  font-size:70px;font-weight:900;
+  color:rgba(255,255,255,.05);
+  letter-spacing:-2px;line-height:1;
+  text-align:center;user-select:none;
+}
+.about-wordmark span{display:block;font-size:28px;letter-spacing:10px;color:rgba(255,255,255,.03)}
+.about-badge-card{
+  position:absolute;
+  bottom:-16px;right:-16px;
+  background:var(--blue);
+  border:1px solid rgba(255,255,255,.1);
+  padding:22px 26px;
+  border-radius:18px;
+  text-align:center;
+  box-shadow:0 20px 60px rgba(27,95,212,.45),inset 0 1px 0 rgba(255,255,255,.15);
+}
+.about-badge-card h3{font-size:34px;font-weight:900;line-height:1}
+.about-badge-card p{font-size:11px;opacity:.8;margin-top:4px;letter-spacing:.5px;text-transform:uppercase}
+.about-badge-card2{
+  position:absolute;
+  top:-16px;left:-16px;
+  background:rgba(255,255,255,.06);
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+  border:1px solid rgba(255,255,255,.12);
+  padding:16px 20px;
+  border-radius:16px;
+  box-shadow:var(--glass-shadow);
+}
+.about-badge-card2 p{font-size:11px;color:rgba(255,255,255,.5);margin-bottom:4px;text-transform:uppercase;letter-spacing:.5px}
+.about-badge-card2 h4{font-size:14px;font-weight:600;color:#7ab8f5}
+
+.about-content p{
+  font-size:15px;color:rgba(255,255,255,.6);
+  line-height:1.85;margin-bottom:16px;
+  font-family:'Nunito',sans-serif;
+}
+.about-values{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:14px;margin-top:28px;
+}
+.av-item{
+  display:flex;align-items:flex-start;gap:10px;
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.08);
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+  border-radius:14px;padding:14px;
+  box-shadow:0 4px 16px rgba(0,0,0,.2),inset 0 1px 0 rgba(255,255,255,.07);
+  transition:border-color .3s,box-shadow .3s;
+}
+.av-item:hover{
+  border-color:rgba(74,144,226,.3);
+  box-shadow:0 8px 24px rgba(27,95,212,.15),inset 0 1px 0 rgba(255,255,255,.1);
+}
+.av-icon{
+  width:34px;height:34px;flex-shrink:0;
+  background:var(--glass-blue);
+  border:1px solid rgba(27,95,212,.25);
+  border-radius:8px;
+  display:flex;align-items:center;justify-content:center;
+}
+.av-icon svg{color:#7ab8f5}
+.av-item h4{font-size:12px;font-weight:600;margin-bottom:3px}
+.av-item p{font-size:11px;color:rgba(255,255,255,.45);margin:0;font-family:'Nunito',sans-serif;line-height:1.4}
+
+/* ═══════════════════════════════════
+   SLIDE 3 — INDUSTRIES (glass cards)
+═══════════════════════════════════ */
+#s3{background:linear-gradient(160deg,#000510 0%,#000d20 100%)}
+#s3 .orb1{width:700px;height:700px;bottom:-200px;right:-200px;background:radial-gradient(circle,rgba(27,95,212,.18),transparent 70%)}
+
+.ind-grid{
+  display:grid;
+  grid-template-columns:repeat(7,1fr);
+  gap:14px;
+  margin-top:0;
+}
+.ind-item{
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.08);
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+  border-radius:18px;
+  padding:22px 14px;
+  text-align:center;
+  cursor:default;
+  transition:all .3s ease;
+  box-shadow:0 4px 16px rgba(0,0,0,.2),inset 0 1px 0 rgba(255,255,255,.08);
+}
+.ind-item:hover{
+  background:rgba(27,95,212,.12);
+  border-color:rgba(74,144,226,.3);
+  transform:translateY(-6px);
+  box-shadow:0 16px 32px rgba(27,95,212,.2),inset 0 1px 0 rgba(255,255,255,.12);
+}
+.ind-icon-wrap{
+  width:48px;height:48px;
+  background:var(--glass-blue);
+  border:1px solid rgba(27,95,212,.2);
+  border-radius:12px;
+  display:flex;align-items:center;justify-content:center;
+  margin:0 auto 12px;
+  transition:background .3s,box-shadow .3s;
+}
+.ind-item:hover .ind-icon-wrap{
+  background:rgba(27,95,212,.35);
+  box-shadow:0 4px 16px rgba(27,95,212,.35);
+}
+.ind-icon-wrap svg{color:#7ab8f5}
+.ind-item h4{font-size:12px;font-weight:600;line-height:1.4;color:rgba(255,255,255,.85)}
+
+.why-row{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:20px;
+  margin-top:32px;
+}
+.why-item{
+  border-left:2px solid rgba(27,95,212,.5);
+  padding:4px 0 4px 18px;
+}
+.why-item h4{font-size:13px;font-weight:600;margin-bottom:5px}
+.why-item p{font-size:12px;color:rgba(255,255,255,.45);line-height:1.5;font-family:'Nunito',sans-serif}
+
+/* ═══════════════════════════════════
+   SLIDE 4 — TESTIMONIAL + CTA (glass)
+═══════════════════════════════════ */
+#s4{background:linear-gradient(160deg,#000510 0%,#00091a 100%)}
+#s4 .orb1{width:600px;height:600px;top:50%;left:50%;transform:translate(-50%,-50%);background:radial-gradient(circle,rgba(27,95,212,.12),transparent 65%)}
+
+.testi-wrap{
+  max-width:700px;
+  margin:0 auto;
+  text-align:center;
+}
+.quote-mark{
+  width:52px;height:52px;
+  background:linear-gradient(135deg,var(--blue),rgba(27,95,212,.6));
+  border:1px solid rgba(27,95,212,.4);
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  margin:0 auto 28px;
+  box-shadow:0 8px 24px rgba(27,95,212,.35);
+}
+.testi-text{
+  font-size:20px;font-weight:300;
+  color:rgba(255,255,255,.8);
+  line-height:1.8;font-style:italic;
+  margin-bottom:28px;font-family:'Nunito',sans-serif;
+}
+.testi-author{
+  display:flex;align-items:center;justify-content:center;gap:14px;
+  margin-bottom:60px;
+}
+.testi-av{
+  width:46px;height:46px;
+  background:linear-gradient(135deg,var(--blue),rgba(27,95,212,.5));
+  border:1px solid rgba(27,95,212,.4);
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:18px;font-weight:700;
+  box-shadow:0 4px 16px rgba(27,95,212,.3);
+}
+.testi-info h4{font-size:14px;font-weight:600;text-align:left}
+.testi-info p{font-size:12px;color:rgba(255,255,255,.45);margin:0;text-align:left}
+
+/* CTA block — glass panel */
+.cta-block{
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.12);
+  backdrop-filter:blur(24px);
+  -webkit-backdrop-filter:blur(24px);
+  border-radius:24px;
+  padding:44px 52px;
+  display:flex;align-items:center;justify-content:space-between;gap:32px;
+  box-shadow:var(--glass-shadow);
+  position:relative;overflow:hidden;
+}
+/* Glass shine on CTA */
+.cta-block::before{
+  content:'';
+  position:absolute;top:0;left:0;right:0;
+  height:1px;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.2),transparent);
+}
+.cta-block h2{font-size:26px;font-weight:700;margin-bottom:8px}
+.cta-block p{font-size:15px;color:rgba(255,255,255,.6);font-family:'Nunito',sans-serif}
+
+/* ═══════════════════════════════════
+   SLIDE 5 — CONTACT (glass form)
+═══════════════════════════════════ */
+#s5{background:linear-gradient(160deg,#000510 0%,#000d20 100%)}
+#s5 .orb1{width:500px;height:500px;top:-100px;right:-100px;background:radial-gradient(circle,rgba(27,95,212,.18),transparent 70%)}
+
+.contact-grid{
+  display:grid;
+  grid-template-columns:1fr 1.5fr;
+  gap:60px;
+  align-items:start;
+}
+.contact-info h3{font-size:20px;font-weight:700;margin-bottom:22px}
+.ci-list{display:flex;flex-direction:column;gap:16px}
+.ci-item{display:flex;align-items:flex-start;gap:12px}
+.ci-icon{
+  width:38px;height:38px;flex-shrink:0;
+  background:var(--glass-blue);
+  border:1px solid rgba(27,95,212,.25);
+  border-radius:10px;
+  display:flex;align-items:center;justify-content:center;
+}
+.ci-icon svg{color:#7ab8f5}
+.ci-item h4{font-size:12px;font-weight:600;margin-bottom:2px;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.5px}
+.ci-item p{font-size:13px;color:rgba(255,255,255,.8);margin:0;font-family:'Nunito',sans-serif;line-height:1.5}
+.ci-item a{color:#7ab8f5}
+
+/* Glass form */
+.form-wrap{
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.12);
+  backdrop-filter:blur(24px);
+  -webkit-backdrop-filter:blur(24px);
+  border-radius:24px;
+  padding:36px 32px;
+  box-shadow:var(--glass-shadow);
+  position:relative;overflow:hidden;
+}
+.form-wrap::before{
+  content:'';
+  position:absolute;top:0;left:0;right:0;
+  height:1px;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.2),transparent);
+}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.fg{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
+.fg.full{grid-column:1/-1}
+.fg label{font-size:11px;font-weight:600;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.5px}
+.fg input,.fg textarea,.fg select{
+  background:rgba(255,255,255,.05);
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:10px;
+  padding:11px 14px;
+  font-family:'Nunito',sans-serif;
+  font-size:14px;color:#fff;
+  outline:none;width:100%;
+  transition:border-color .2s,background .2s,box-shadow .2s;
+}
+.fg input::placeholder,.fg textarea::placeholder{color:rgba(255,255,255,.2)}
+.fg input:focus,.fg textarea:focus,.fg select:focus{
+  border-color:rgba(74,144,226,.6);
+  background:rgba(27,95,212,.08);
+  box-shadow:0 0 0 3px rgba(27,95,212,.12);
+}
+.fg select option{background:#000d20}
+.fg textarea{min-height:90px;resize:none}
+
+/* ═══════════════════════════════════
+   FOOTER (last slide) — glass
+═══════════════════════════════════ */
+.foot{
+  position:absolute;
+  bottom:0;left:0;right:0;
+  padding:16px 60px;
+  border-top:1px solid rgba(255,255,255,.07);
+  background:rgba(255,255,255,.02);
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+  display:flex;align-items:center;justify-content:space-between;
+  font-size:12px;color:rgba(255,255,255,.3);
+}
+.foot a{color:rgba(74,144,226,.7)}
+
+/* ═══════════════════════════════════
+   SCROLL HINT (slide 0)
+═══════════════════════════════════ */
+.scroll-hint{
+  position:absolute;bottom:32px;left:50%;
+  transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+  color:rgba(255,255,255,.25);font-size:11px;letter-spacing:1px;text-transform:uppercase;
+}
+.scroll-hint-line{
+  width:1px;height:40px;
+  background:linear-gradient(to bottom,rgba(74,144,226,.5),transparent);
+  animation:scrollLine 2s infinite;
+}
+@keyframes scrollLine{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform:scaleY(1);transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+
+/* ═══════════════════════════════════
+   MOBILE MENU — glass overlay
+═══════════════════════════════════ */
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:6px}
+.hamburger span{display:block;width:24px;height:2px;background:rgba(255,255,255,.7);border-radius:2px;transition:all .3s}
+.mob-menu{
+  display:none;
+  position:fixed;inset:0;
+  background:rgba(0,5,16,.92);
+  backdrop-filter:blur(24px);
+  -webkit-backdrop-filter:blur(24px);
+  z-index:600;
+  flex-direction:column;
+  align-items:center;justify-content:center;
+  gap:32px;
+}
+.mob-menu.open{display:flex}
+.mob-menu a{font-size:22px;font-weight:600;color:rgba(255,255,255,.75);transition:color .2s}
+.mob-menu a:hover{color:#fff}
+.mob-close{
+  position:absolute;top:20px;right:24px;
+  width:40px;height:40px;
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:10px;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;font-size:18px;color:rgba(255,255,255,.6);
+  backdrop-filter:blur(8px);
+}
+
+/* ═══════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════ */
+
+/* Tablet landscape 1024px */
+@media(max-width:1024px){
+  #navbar{padding:0 32px}
+  .slide-inner{padding:0 32px}
+  .products-grid{grid-template-columns:repeat(3,1fr);gap:12px}
+  .ind-grid{grid-template-columns:repeat(4,1fr)}
+  .about-grid{grid-template-columns:1fr;gap:40px}
+  .about-visual{height:280px}
+  .contact-grid{grid-template-columns:1fr;gap:32px}
+  .hero-h1{font-size:52px}
+  .p-thumb{height:100px}
+  .hero-float-cards{display:none}
+}
+
+/* Tablet portrait 768px — disable fullpage scroll, dùng scroll tự nhiên */
+@media(max-width:768px){
+  /* Tắt 3D transforms, giữ glass aesthetic thuần 2D */
+  .products-grid{transform-style:flat!important;perspective:none!important}
+  .p-card{transform-style:flat!important;backdrop-filter:blur(12px)!important}
+  .products-grid:hover .p-card:not(:hover){transform:none!important;opacity:1!important}
+  .hfc{transform:none!important}
+  .hero-float-cards{display:none!important}
+
+  /* Ẩn grid kẻ và orb màu — nền thuần đen trên mobile */
+  .grid-bg,.orb{display:none!important}
+  /* Reset overflow để body cuộn bình thường */
+  html,body{overflow:auto!important;height:auto!important}
+
+  /* Bỏ fixed wrapper */
+  #fp-wrapper{position:static!important;overflow:visible!important;height:auto!important}
+  #fp-track{display:block!important;transform:none!important;transition:none!important;width:100%!important}
+
+  /* Mỗi slide thành block thông thường */
+  .fp-slide{
+    position:static!important;
+    height:auto!important;
+    min-height:100svh;
+    overflow:visible!important;
+    display:flex;
+    align-items:flex-start;
+    padding-top:80px;
+    padding-bottom:40px;
+    /* Keep glass backgrounds on mobile */
+    background:#000510!important;
+  }
+
+  /* Dots ẩn */
+  #fp-dots{display:none!important}
+
+  #navbar{padding:0 20px}
+  .nav-links{display:none}
+  .hamburger{display:flex}
+  .slide-inner{padding:0 16px}
+
+  /* Hero */
+  #s0{}
+  .hero-h1{font-size:32px;letter-spacing:-.5px}
+  .hero-sub{font-size:15px}
+  .hero-actions{gap:10px}
+  .btn{padding:12px 22px;font-size:14px}
+  .hero-stats{
+    display:grid;grid-template-columns:1fr 1fr;
+    gap:12px;padding-top:20px;
+  }
+  .stat{
+    border-right:none;border-bottom:none;
+    padding:12px;margin:0;
+    background:rgba(255,255,255,.04);
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:12px;
+    backdrop-filter:blur(12px);
+  }
+  .stat-num{font-size:32px}
+
+  /* Hiện tất cả .anim trên mobile */
+  .fp-slide .anim{opacity:1!important;transform:none!important;transition:none!important}
+  .fp-slide.visible .anim{opacity:1!important;transform:none!important}
+
+  /* Products */
+  .sec-title{font-size:26px;margin-bottom:20px}
+  .products-grid{grid-template-columns:1fr 1fr;gap:10px}
+  .p-thumb{height:90px}
+  .p-card{padding:16px 14px 14px}
+  .p-card h3{font-size:13px}
+  .p-card p{font-size:11px}
+
+  /* About */
+  .about-grid{grid-template-columns:1fr;gap:24px}
+  .about-visual{height:200px}
+  .about-badge-card{padding:14px 18px;bottom:-10px;right:-10px}
+  .about-badge-card h3{font-size:24px}
+  .about-badge-card2{top:-10px;left:-10px;padding:10px 14px}
+  .about-values{grid-template-columns:1fr;gap:10px}
+  .about-wordmark{font-size:48px}
+
+  /* Slide 8 — Industries + Why */
+  .s8-grid{
+    grid-template-columns:1fr!important;
+    gap:36px!important;
+  }
+  .ind-grid{grid-template-columns:repeat(3,1fr)!important;gap:10px}
+
+  .testi-text{font-size:16px}
+  .cta-block{flex-direction:column;text-align:center;padding:28px 20px;gap:20px}
+  .cta-block h2{font-size:20px}
+  .contact-grid{grid-template-columns:1fr;gap:24px}
+  .form-row{grid-template-columns:1fr}
+  .form-wrap{padding:24px 18px}
+
+  /* Footer */
+  .foot{padding:14px 16px;flex-direction:column;gap:6px;text-align:center;font-size:11px}
+}
+
+/* ═══════════════════════════════════
+   SCROLL TO TOP BUTTON — glass
+═══════════════════════════════════ */
+#scrollTop{
+  position:fixed;
+  bottom:32px;right:32px;
+  width:46px;height:46px;
+  border-radius:50%;
+  background:rgba(27,95,212,.7);
+  border:1px solid rgba(27,95,212,.5);
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+  color:#fff;
+  cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 8px 24px rgba(27,95,212,.4),inset 0 1px 0 rgba(255,255,255,.15);
+  opacity:0;transform:translateY(16px) scale(.85);
+  transition:opacity .3s,transform .3s,background .2s;
+  z-index:400;
+  pointer-events:none;
+}
+#scrollTop.show{opacity:1;transform:translateY(0) scale(1);pointer-events:auto}
+#scrollTop:hover{background:var(--blue);transform:translateY(-3px) scale(1.05);box-shadow:0 12px 32px rgba(27,95,212,.5)}
+@media(max-width:768px){
+  #scrollTop{bottom:20px;right:16px;width:40px;height:40px}
+}
+@media(max-width:480px){
+  .hero-h1{font-size:28px}
+  .products-grid{grid-template-columns:1fr}
+  .p-thumb{height:140px}
+  .hero-stats{grid-template-columns:1fr 1fr}
+  .ind-grid{grid-template-columns:repeat(2,1fr)!important}
+  .badge{font-size:10px;padding:5px 12px}
+  .testi-wrap{padding:0 4px}
+  .cta-block{padding:22px 16px}
+  .about-visual{height:160px}
+}
+
+/* ═══════════════════════════════════
+   PRODUCT DETAIL SLIDES — glass 2-col
+═══════════════════════════════════ */
+.pd-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:70px;
+  align-items:center;
+  width:100%;
+}
+.pd-grid.reverse{direction:rtl}
+.pd-grid.reverse > *{direction:ltr}
+
+/* Media side — glass frame with double border glow */
+.pd-media{
+  position:relative;
+  border-radius:24px;
+  overflow:hidden;
+  background:rgba(0,5,16,.6);
+  aspect-ratio:16/10;
+  border:1px solid rgba(255,255,255,.12);
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+  box-shadow:
+    0 0 0 1px rgba(27,95,212,.2),
+    0 0 30px rgba(27,95,212,.15),
+    0 8px 32px rgba(0,0,0,.4),
+    inset 0 1px 0 rgba(255,255,255,.12);
+}
+/* Double border glow — blue outer ring */
+.pd-media::before{
+  content:'';
+  position:absolute;inset:-2px;
+  border-radius:26px;
+  background:linear-gradient(135deg,rgba(27,95,212,.4),transparent 50%,rgba(74,144,226,.2));
+  z-index:-1;
+  pointer-events:none;
+}
+/* Top shine */
+.pd-media::after{
+  content:'';
+  position:absolute;top:0;left:0;right:0;
+  height:1px;
+  background:linear-gradient(90deg,transparent,rgba(74,144,226,.5),transparent);
+  z-index:2;
+  pointer-events:none;
+}
+.pd-media img{
+  width:100%;height:100%;
+  object-fit:cover;
+  display:block;
+  filter:brightness(.82) saturate(.95);
+  transition:transform .5s ease,filter .5s ease;
+}
+.pd-media:hover img{transform:scale(1.04);filter:brightness(.95) saturate(1)}
+.pd-media iframe{
+  width:100%;height:100%;
+  border:none;display:block;
+}
+.pd-media-badge{
+  position:absolute;bottom:14px;left:14px;
+  background:rgba(27,95,212,.75);
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+  border:1px solid rgba(27,95,212,.4);
+  padding:6px 14px;border-radius:30px;
+  font-size:11px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;
+  color:#fff;
+  box-shadow:0 4px 16px rgba(0,0,0,.3);
+}
+
+/* Text side — glass content card */
+.pd-content{}
+.pd-num{
+  font-size:56px;font-weight:900;
+  color:rgba(27,95,212,.15);
+  line-height:1;margin-bottom:-8px;
+  letter-spacing:-2px;
+}
+.pd-title{
+  font-size:clamp(26px,2.8vw,40px);
+  font-weight:800;line-height:1.1;
+  letter-spacing:-.5px;margin-bottom:14px;
+}
+.pd-title em{font-style:normal;color:#4a90e2;text-shadow:0 0 30px rgba(74,144,226,.3)}
+.pd-desc{
+  font-size:15px;color:rgba(255,255,255,.6);
+  line-height:1.8;margin-bottom:22px;
+  font-family:'Nunito',sans-serif;
+}
+.pd-feats{
+  display:flex;flex-direction:column;gap:10px;
+  margin-bottom:28px;
+}
+.pd-feat{
+  display:flex;align-items:center;gap:10px;
+  font-size:13px;color:rgba(255,255,255,.75);
+  font-family:'Nunito',sans-serif;
+}
+.pd-feat-dot{
+  width:6px;height:6px;border-radius:50%;
+  background:#4a90e2;flex-shrink:0;
+  box-shadow:0 0 8px rgba(74,144,226,.5);
+}
+.pd-apps{
+  display:flex;flex-wrap:wrap;gap:8px;
+  margin-bottom:28px;
+}
+.pd-app{
+  background:rgba(74,144,226,.1);
+  border:1px solid rgba(74,144,226,.2);
+  color:#7ab8f5;
+  font-size:11px;font-weight:600;letter-spacing:.4px;
+  padding:5px 12px;border-radius:20px;
+  backdrop-filter:blur(8px);
+  transition:background .2s,border-color .2s;
+}
+.pd-app:hover{background:rgba(74,144,226,.2);border-color:rgba(74,144,226,.4)}
+.pd-cta-row{display:flex;gap:12px;align-items:center}
+
+/* BG tones for product slides — deep space */
+#sp1{background:linear-gradient(150deg,#000510 0%,#000c1e 100%)}
+#sp2{background:linear-gradient(150deg,#000510 0%,#00091a 100%)}
+#sp3{background:linear-gradient(150deg,#000510 0%,#000c1e 100%)}
+#sp4{background:linear-gradient(150deg,#000510 0%,#00091a 100%)}
+#sp5{background:linear-gradient(150deg,#000510 0%,#000c1e 100%)}
+
+/* Responsive product slides */
+@media(max-width:1024px){
+  .pd-grid{gap:40px}
+}
+@media(max-width:768px){
+  .pd-grid,.pd-grid.reverse{
+    grid-template-columns:1fr;
+    direction:ltr;
+    gap:24px;
+  }
+  .pd-media{aspect-ratio:16/9}
+  .pd-num{font-size:40px}
+  [id^="sp"]{overflow-y:auto;align-items:flex-start;padding-top:80px;padding-bottom:24px}
+  /* Disable double glow on mobile */
+  .pd-media::before{display:none}
+}
+
+/* ═══════════════════════════════════
+   TOUCH — disable body scroll on mobile
+   (we handle with JS)
+═══════════════════════════════════ */
+
+/* Remaining slide BG overrides — deep space */
+#s7{background:linear-gradient(160deg,#000510 0%,#00091a 100%)}
+#s7 .orb1{width:600px;height:600px;top:-150px;right:-150px;background:radial-gradient(circle,rgba(27,95,212,.14),transparent 70%)}
+#s8{background:linear-gradient(160deg,#000510 0%,#000d20 100%)}
+#s8 .orb1{width:700px;height:700px;bottom:-200px;right:-200px;background:radial-gradient(circle,rgba(27,95,212,.14),transparent 70%)}
+#s9{background:linear-gradient(160deg,#000510 0%,#00091a 100%)}
+#s9 .orb1{width:600px;height:600px;top:50%;left:50%;transform:translate(-50%,-50%);background:radial-gradient(circle,rgba(27,95,212,.1),transparent 65%)}
+#s10{background:linear-gradient(160deg,#000510 0%,#000d20 100%)}
+#s10 .orb1{width:500px;height:500px;top:-100px;right:-100px;background:radial-gradient(circle,rgba(27,95,212,.15),transparent 70%)}
+
+/* Why items in s8 — glass style */
+[data-why]{
+  background:rgba(255,255,255,.04)!important;
+  border:1px solid rgba(255,255,255,.08)!important;
+  border-radius:16px!important;
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+}
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav id="navbar">
+  <a href="#" class="logo">BORNA<em>LASER</em></a>
+  <div class="nav-links">
+    <a href="#" data-go="0">Trang chủ</a>
+    <a href="#" data-go="1">Sản phẩm</a>
+    <a href="#" data-go="7">Về chúng tôi</a>
+    <a href="#" data-go="8">Ngành ứng dụng</a>
+    <a href="#" data-go="9">Đánh giá</a>
+    <a href="#" class="nav-cta" data-go="10">Liên hệ →</a>
+  </div>
+  <div class="hamburger" id="hamBtn"><span></span><span></span><span></span></div>
+</nav>
+
+<!-- PROGRESS DOTS -->
+<div id="fp-dots">
+  <div class="fp-dot active" data-go="0"></div>
+  <div class="fp-dot" data-go="1"></div>
+  <div class="fp-dot" data-go="2"></div>
+  <div class="fp-dot" data-go="3"></div>
+  <div class="fp-dot" data-go="4"></div>
+  <div class="fp-dot" data-go="5"></div>
+  <div class="fp-dot" data-go="6"></div>
+  <div class="fp-dot" data-go="7"></div>
+  <div class="fp-dot" data-go="8"></div>
+  <div class="fp-dot" data-go="9"></div>
+  <div class="fp-dot" data-go="10"></div>
+</div>
+
+<!-- MOBILE MENU -->
+<div class="mob-menu" id="mobMenu">
+  <div class="mob-close" id="mobClose">✕</div>
+  <a href="#" data-go="0" class="mob-nav-link">Trang chủ</a>
+  <a href="#" data-go="1" class="mob-nav-link">Sản phẩm</a>
+  <a href="#" data-go="2" class="mob-nav-link">↳ Đánh Dấu Laser</a>
+  <a href="#" data-go="3" class="mob-nav-link">↳ Tuốt Vỏ Dây</a>
+  <a href="#" data-go="4" class="mob-nav-link">↳ Hàn Laser</a>
+  <a href="#" data-go="5" class="mob-nav-link">↳ Cắt Laser</a>
+  <a href="#" data-go="6" class="mob-nav-link">↳ Tự Động Hóa</a>
+  <a href="#" data-go="7" class="mob-nav-link">Về chúng tôi</a>
+  <a href="#" data-go="8" class="mob-nav-link">Ngành ứng dụng</a>
+  <a href="#" data-go="9" class="mob-nav-link">Đánh giá</a>
+  <a href="#" data-go="10" class="mob-nav-link">Liên hệ</a>
+</div>
+
+<!-- FULL-PAGE WRAPPER -->
+<div id="fp-wrapper">
+<div id="fp-track">
+
+<!-- ═══ SLIDE 0 — HERO ═══ -->
+<section class="fp-slide" id="s0">
+  <div class="grid-bg"></div>
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+  <div class="slide-inner">
+      <div class="badge anim"><span class="badge-dot"></span>Tập trung vào tùy chỉnh laser · Phục vụ bằng cả trái tim</div>
+    <h1 class="hero-h1 anim">Thiết bị <em>Laser</em><br/>Công nghiệp<br/>chính xác tuyệt đối</h1>
+    <p class="hero-sub anim">Suzhou Borna &amp; Vietnam Yihuixuan (Nghệ Huy Hiên) — cung cấp thiết bị laser công nghiệp, tự động hóa và giải pháp xử lý quy trình hoàn chỉnh cho nhà máy hiện đại tại Việt Nam.</p>
+    <div class="hero-actions anim">
+      <a href="#" class="btn btn-fill" data-go="10">Tư vấn miễn phí <span class="btn-arr">→</span></a>
+      <a href="#" class="btn btn-ghost" data-go="1">Xem sản phẩm <span class="btn-arr">→</span></a>
+    </div>
+    <div class="hero-stats anim">
+      <div class="stat">
+        <div class="stat-num">5<span>+</span></div>
+        <div class="stat-lbl">Dòng sản phẩm</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">7<span>+</span></div>
+        <div class="stat-lbl">Ngành ứng dụng</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">2022</div>
+        <div class="stat-lbl">Thành lập tại VN</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">100<span>%</span></div>
+        <div class="stat-lbl">Hỗ trợ kỹ thuật</div>
+      </div>
+    </div>
+  </div>
+  <!-- Floating glass stats cards for parallax -->
+  <div class="hero-float-cards" id="heroFloatCards">
+    <div class="hfc hfc-1" data-depth="0.06">
+      <div class="hfc-label">Dòng sản phẩm</div>
+      <div class="hfc-val">5<span>+</span></div>
+      <div class="hfc-sub">Laser solutions</div>
+    </div>
+    <div class="hfc hfc-2" data-depth="0.04">
+      <div class="hfc-label">Ngành ứng dụng</div>
+      <div class="hfc-val">7<span>+</span></div>
+      <div class="hfc-sub">Industrial sectors</div>
+    </div>
+    <div class="hfc hfc-3" data-depth="0.02">
+      <div class="hfc-label">Thành lập</div>
+      <div class="hfc-val">2022</div>
+      <div class="hfc-sub">Bắc Ninh, Vietnam</div>
+    </div>
+  </div>
+  <div class="scroll-hint">
+    <div class="scroll-hint-line"></div>
+    <span>Scroll</span>
+  </div>
+</section>
+
+<!-- ═══ SLIDE 1 — PRODUCTS ═══ -->
+<section class="fp-slide" id="s1">
+  <div class="grid-bg"></div>
+  <div class="orb orb1"></div>
+  <div class="slide-inner">
+    <div class="sec-label anim">Dòng sản phẩm</div>
+    <h2 class="sec-title anim">Giải pháp laser <em>toàn diện</em></h2>
+    <div class="products-grid">
+
+      <a class="p-card anim" href="product.html?p=marking" style="display:block;text-decoration:none;color:inherit">
+        <div class="p-card-shine"></div>
+        <div class="p-thumb"><img src="https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=400&q=70&fit=crop" alt="Laser marking machine"/></div>
+        <div class="p-card-body">
+                <div class="p-tag">Marking</div>
+        <h3>Máy Đánh Dấu Laser</h3>
+        <p>Laser UV, CO2, Fiber &amp; dây chuyền tự động — khắc mã vạch, QR, UDI, ngày SX trên nhựa, kim loại, thủy tinh, bao bì.</p>
+        <div class="p-specs">
+          <div class="p-spec"><svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>UV 355nm · CO2 · Sợi quang Fiber</div>
+          <div class="p-spec"><svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Tích hợp dây chuyền inline</div>
+
+        <span class="p-arrow">Xem chi tiết →</span>        </div><!-- /p-card-body -->
+        </div>
+      </a>
+
+      <a class="p-card anim" href="product.html?p=skinning" style="display:block;text-decoration:none;color:inherit">
+        <div class="p-card-shine"></div>
+        <div class="p-thumb"><img src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=400&q=70&fit=crop" alt="Cable wire stripping laser"/></div>
+        <div class="p-card-body">
+                <div class="p-tag">Skinning</div>
+        <h3>Máy Tuốt Vỏ Laser</h3>
+        <p>Công nghệ YAG, CO2, UV — tuốt vỏ dây HDMI, Type-C, USB, dây đồng trục, cáp y tế &amp; ô tô không hại lõi dẫn.</p>
+        <div class="p-specs">
+          <div class="p-spec"><svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>YAG · CO2 · UV tốc độ cao</div>
+          <div class="p-spec"><svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Tuốt vòng, tuốt sơn, cắt chính xác</div>
+
+        <span class="p-arrow">Xem chi tiết →</span>        </div><!-- /p-card-body -->
+        </div>
+      </a>
+
+      <a class="p-card anim" href="product.html?p=welding" style="display:block;text-decoration:none;color:inherit">
+        <div class="p-card-shine"></div>
+        <div class="p-thumb"><img src="https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=400&q=70&fit=crop" alt="Laser welding machine"/></div>
+        <div class="p-card-body">
+                <div class="p-tag">Welding</div>
+        <h3>Máy Hàn Laser</h3>
+        <p>Hàn sợi quang, hàn thiếc (đầu bi/dây), hàn xung, hàn QCW — pin năng lượng, bảng CCS, đầu nối điện thoại, linh kiện chính xác.</p>
+        <div class="p-specs">
+          <div class="p-spec"><svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Fiber · Hàn thiếc bi/dây · QCW</div>
+          <div class="p-spec"><svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Không biến dạng nhiệt lõi</div>
+
+        <span class="p-arrow">Xem chi tiết →</span>        </div><!-- /p-card-body -->
+        </div>
+      </a>
+
+      <a class="p-card anim" href="product.html?p=cutting" style="display:block;text-decoration:none;color:inherit">
+        <div class="p-card-shine"></div>
+        <div class="p-thumb"><img src="https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=400&q=70&fit=crop" alt="Laser cutting machine"/></div>
+        <div class="p-card-body">
+                <div class="p-tag">Cutting</div>
+        <h3>Máy Cắt Laser</h3>
+        <p>Cắt chính xác kim loại, thủy tinh, nhựa — nền đá cẩm thạch siêu ổn định cho linh kiện điện tử &amp; pin EV.</p>
+        <div class="p-specs">
+          <div class="p-spec"><svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Kim loại · Thủy tinh · Nhựa</div>
+          <div class="p-spec"><svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Nền granite chống rung tuyệt đối</div>
+
+        <span class="p-arrow">Xem chi tiết →</span>        </div><!-- /p-card-body -->
+        </div>
+      </a>
+
+      <a class="p-card anim" href="product.html?p=automation" style="display:block;text-decoration:none;color:inherit">
+        <div class="p-card-shine"></div>
+        <div class="p-thumb"><img src="https://images.unsplash.com/photo-1567789884554-0b844b597180?w=400&q=70&fit=crop" alt="Industrial automation line"/></div>
+        <div class="p-card-body">
+                <div class="p-tag">Automation</div>
+        <h3>Tự Động Hóa Phi Tiêu Chuẩn</h3>
+        <p>Dây chuyền xử lý lõi dây, máy排线, hàn kết hợp &amp; linh kiện thay thế: thấu kính quang học, galvanometer (振镜).</p>
+        <div class="p-specs">
+          <div class="p-spec"><svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Thiết kế riêng theo yêu cầu</div>
+          <div class="p-spec"><svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Linh kiện quang học chính hãng</div>
+
+        <span class="p-arrow">Xem chi tiết →</span>        </div><!-- /p-card-body -->
+        </div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SLIDE sp1 — MARKING ═══ -->
+<section class="fp-slide" id="sp1">
+  <div class="grid-bg"></div>
+  <div class="orb orb1" style="width:500px;height:500px;top:-150px;right:-100px;background:radial-gradient(circle,rgba(27,95,212,.2),transparent 70%)"></div>
+  <div class="slide-inner">
+    <div class="pd-grid">
+      <div class="pd-media anim">
+        <iframe src="https://www.youtube.com/embed/__KAQzgCbyU?rel=0&modestbranding=1" allowfullscreen loading="lazy"></iframe>
+        <div class="pd-media-badge">▶ Video demo</div>
+      </div>
+      <div class="pd-content">
+        <div class="pd-num anim">01</div>
+        <div class="sec-label anim">Marking Series</div>
+        <h2 class="pd-title anim">Máy Đánh Dấu<br/><em>Laser</em></h2>
+        <p class="pd-desc anim">Khắc mã vạch, QR code, UDI, số serial, ngày sản xuất lên nhựa, kim loại, thủy tinh, bao bì — đạt tiêu chuẩn truy xuất nguồn gốc cho điện tử, y tế, dược phẩm.</p>
+        <div class="pd-feats anim">
+          <div class="pd-feat"><span class="pd-feat-dot"></span>Laser UV 355nm — khắc lạnh, không biến màu nhựa</div>
+          <div class="pd-feat"><span class="pd-feat-dot"></span>Laser CO2 — bao bì, thủy tinh, gỗ, vải</div>
+          <div class="pd-feat"><span class="pd-feat-dot"></span>Laser Fiber (sợi quang) — kim loại, linh kiện điện tử</div>
+          <div class="pd-feat"><span class="pd-feat-dot"></span>Tích hợp inline vào dây chuyền sản xuất</div>
+        </div>
+        <div class="pd-apps anim">
+          <span class="pd-app">Điện tử 3C</span>
+          <span class="pd-app">Y tế &amp; UDI</span>
+          <span class="pd-app">Dược phẩm</span>
+          <span class="pd-app">Ô tô</span>
+          <span class="pd-app">Thực phẩm</span>
+        </div>
+        <div class="pd-cta-row anim">
+          <a href="product.html?p=marking" class="btn btn-ghost">Xem chi tiết sản phẩm →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SLIDE sp2 — SKINNING ═══ -->
+<section class="fp-slide" id="sp2">
+  <div class="grid-bg"></div>
+  <div class="orb orb1" style="width:500px;height:500px;top:-150px;left:-100px;background:radial-gradient(circle,rgba(27,95,212,.2),transparent 70%)"></div>
+  <div class="slide-inner">
+    <div class="pd-grid reverse">
+      <div class="pd-media anim">
+        <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&q=80&fit=crop" alt="Máy tuốt vỏ dây laser"/>
+        <div class="pd-media-badge">Skinning Series</div>
+      </div>
+      <div class="pd-content">
+        <div class="pd-num anim">02</div>
+        <div class="sec-label anim">Skinning Series</div>
+        <h2 class="pd-title anim">Máy Tuốt Vỏ<br/><em>Laser</em></h2>
+        <p class="pd-desc anim">Tuốt vỏ cáp HDMI, Type-C, USB, dây đồng trục, cáp y tế &amp; ô tô với độ chính xác ±0.01mm — không làm hỏng lõi dẫn điện, không tạo ba-via.</p>
+        <div class="pd-feats anim">
+          <div class="pd-feat"><span class="pd-feat-dot"></span>CO2 / UV / YAG — tốc độ cao, không tiếp xúc cơ học</div>
+          <div class="pd-feat"><span class="pd-feat-dot"></span>Tuốt vòng, tuốt sơn cách điện, cắt khoanh chính xác</div>
+          <div class="pd-feat"><span class="pd-feat-dot"></span>Xử lý dây từ Ø0.1mm đến Ø10mm</div>
+          <div class="pd-feat"><span class="pd-feat-dot"></span>Tích hợp cảm biến kiểm tra lõi sau tuốt</div>
+        </div>
+        <div class="pd-apps anim">
+          <span class="pd-app">Cáp dữ liệu</span>
+          <span class="pd-app">Đầu nối</span>
+          <span class="pd-app">Y tế</span>
+          <span class="pd-app">Ô tô</span>
+          <span class="pd-app">Năng lượng</span>
+        </div>
+        <div class="pd-cta-row anim">
+          <a href="product.html?p=skinning" class="btn btn-ghost">Xem chi tiết sản phẩm →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SLIDE sp3 — WELDING ═══ -->
+<section class="fp-slide" id="sp3">
+  <div class="grid-bg"></div>
+  <div class="orb orb1" style="width:500px;height:500px;bottom:-150px;right:-100px;background:radial-gradient(circle,rgba(27,95,212,.2),transparent 70%)"></div>
+  <div class="slide-inner">
+    <div class="pd-grid">
+      <div class="pd-media anim">
+        <img src="https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=800&q=80&fit=crop" alt="Máy hàn laser"/>
+        <div class="pd-media-badge">Welding Series</div>
+      </div>
+      <div class="pd-content">
+        <div class="pd-num anim">03</div>
+        <div class="sec-label anim">Welding Series</div>
+        <h2 class="pd-title anim">Máy Hàn<br/><em>Laser</em></h2>
+        <p class="pd-desc anim">Hàn điểm chính xác cho pin năng lượng, bảng CCS, đầu nối điện thoại, linh kiện nhỏ — không biến dạng nhiệt, không cần chất trợ dung, đạt độ bền cao.</p>
+        <div class="pd-feats anim">
+          <div class="pd-feat"><span class="pd-feat-dot"></span>Hàn sợi quang Fiber — công suất cao, vùng ảnh hưởng nhiệt nhỏ</div>
+          <div class="pd-feat"><span class="pd-feat-dot"></span>Hàn thiếc laser (đầu bi / dây) — linh kiện SMD, PCB</div>
+          <div class="pd-feat"><span class="pd-feat-dot"></span>Hàn QCW / xung — kim loại mỏng, bạch kim, vàng</div>
+          <div class="pd-feat"><span class="pd-feat-dot"></span>Hàn CCS — bản cực pin EV, module lưu trữ điện</div>
+        </div>
+        <div class="pd-apps anim">
+          <span class="pd-app">Pin EV</span>
+          <span class="pd-app">Bảng mạch PCB</span>
+          <span class="pd-app">Đầu nối</span>
+          <span class="pd-app">Y tế</span>
+          <span class="pd-app">Đồ trang sức</span>
+        </div>
+        <div class="pd-cta-row anim">
+          <a href="product.html?p=welding" class="btn btn-ghost">Xem chi tiết sản phẩm →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SLIDE sp4 — CUTTING ═══ -->
+<section class="fp-slide" id="sp4">
+  <div class="grid-bg"></div>
+  <div class="orb orb1" style="width:500px;height:500px;top:-150px;left:-100px;background:radial-gradient(circle,rgba(27,95,212,.2),transparent 70%)"></div>
+  <div class="slide-inner">
+    <div class="pd-grid reverse">
+      <div class="pd-media anim">
+        <img src="https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=800&q=80&fit=crop" alt="Máy cắt laser"/>
+        <div class="pd-media-badge">Cutting Series</div>
+      </div>
+      <div class="pd-content">
+        <div class="pd-num anim">04</div>
+        <div class="sec-label anim">Cutting Series</div>
+        <h2 class="pd-title anim">Máy Cắt<br/><em>Laser</em></h2>
+        <p class="pd-desc anim">Cắt chính xác kim loại, thủy tinh borosilicate, FPC, nhựa kỹ thuật — nền đá cẩm thạch tự nhiên siêu ổn định, lý tưởng cho linh kiện điện tử &amp; pin EV yêu cầu dung sai cực nhỏ.</p>
+        <div class="pd-feats anim">
+          <div class="pd-feat"><span class="pd-feat-dot"></span>Cắt kim loại mỏng — inox, nhôm, đồng, titan</div>
+          <div class="pd-feat"><span class="pd-feat-dot"></span>Cắt &amp; đục lỗ vi mô thủy tinh, ceramic</div>
+          <div class="pd-feat"><span class="pd-feat-dot"></span>Nền granite chống rung — lặp lại ±2μm</div>
+          <div class="pd-feat"><span class="pd-feat-dot"></span>Tốc độ cắt cao, mép cắt không cần gia công lại</div>
+        </div>
+        <div class="pd-apps anim">
+          <span class="pd-app">Điện tử</span>
+          <span class="pd-app">Pin EV</span>
+          <span class="pd-app">Bán dẫn</span>
+          <span class="pd-app">Quang học</span>
+          <span class="pd-app">Y tế</span>
+        </div>
+        <div class="pd-cta-row anim">
+          <a href="product.html?p=cutting" class="btn btn-ghost">Xem chi tiết sản phẩm →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SLIDE sp5 — AUTOMATION ═══ -->
+<section class="fp-slide" id="sp5">
+  <div class="grid-bg"></div>
+  <div class="orb orb1" style="width:500px;height:500px;bottom:-150px;right:-100px;background:radial-gradient(circle,rgba(27,95,212,.2),transparent 70%)"></div>
+  <div class="slide-inner">
+    <div class="pd-grid">
+      <div class="pd-media anim">
+        <img src="https://images.unsplash.com/photo-1567789884554-0b844b597180?w=800&q=80&fit=crop" alt="Dây chuyền tự động hóa"/>
+        <div class="pd-media-badge">Custom Automation</div>
+      </div>
+      <div class="pd-content">
+        <div class="pd-num anim">05</div>
+        <div class="sec-label anim">Custom Automation</div>
+        <h2 class="pd-title anim">Tự Động Hóa<br/><em>Phi Tiêu Chuẩn</em></h2>
+        <p class="pd-desc anim">Thiết kế và chế tạo dây chuyền tự động hoàn toàn theo yêu cầu — từ xả dây, xử lý lõi, xếp cáp, đến hàn laser tích hợp. Linh kiện quang học chính hãng sẵn có tại kho Bắc Ninh.</p>
+        <div class="pd-feats anim">
+          <div class="pd-feat"><span class="pd-feat-dot"></span>Dây chuyền xử lý lõi dây tích hợp đầu cuối</div>
+          <div class="pd-feat"><span class="pd-feat-dot"></span>Máy xếp dây (排线机) tốc độ cao</div>
+          <div class="pd-feat"><span class="pd-feat-dot"></span>Nguồn laser, thấu kính, galvanometer (振镜) chính hãng</div>
+          <div class="pd-feat"><span class="pd-feat-dot"></span>Tư vấn — thiết kế — lắp đặt — đào tạo vận hành</div>
+        </div>
+        <div class="pd-apps anim">
+          <span class="pd-app">Cáp &amp; Dây điện</span>
+          <span class="pd-app">Điện tử</span>
+          <span class="pd-app">Ô tô</span>
+          <span class="pd-app">Năng lượng</span>
+          <span class="pd-app">Tất cả ngành</span>
+        </div>
+        <div class="pd-cta-row anim">
+          <a href="#" class="btn btn-fill" data-go="10">Tư vấn giải pháp →</a>
+          <a href="product.html?p=automation" class="btn btn-ghost">Xem chi tiết sản phẩm →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="fp-slide" id="s7">
+  <div class="grid-bg"></div>
+  <div class="orb orb1"></div>
+  <div class="slide-inner">
+    <div class="about-grid">
+      <div class="about-visual anim">
+        <div class="about-main-card">
+          <div class="about-wordmark">BORNA<span>LASER</span></div>
+        </div>
+        <div class="about-badge-card">
+          <h3>2022</h3>
+          <p>Thành lập tại VN</p>
+        </div>
+        <div class="about-badge-card2">
+          <p>Giá trị cốt lõi</p>
+          <h4>"Tùy chỉnh laser · Tận tâm phục vụ"</h4>
+        </div>
+      </div>
+      <div class="about-content">
+        <div class="sec-label anim">Về chúng tôi</div>
+        <h2 class="sec-title anim">Đối tác laser <em>tin cậy</em><br/>của nhà máy Việt Nam</h2>
+        <p class="anim"><strong>Suzhou Borna Intelligent Equipment Co., Ltd.</strong> (苏州博尔纳智能装备有限公司) — nhà sản xuất thiết bị laser &amp; tự động hóa hàng đầu tại Côn Sơn, Giang Tô, Trung Quốc.</p>
+        <p class="anim"><strong>Vietnam Yihuixuan Co., Ltd.</strong> (越南艺辉轩责任有限公司) — thành lập 2022 tại Bắc Ninh để trực tiếp kết nối thị trường Việt Nam. Cung cấp thiết bị, giải pháp quy trình và chế tạo thiết bị hoàn chỉnh.</p>
+        <div class="about-values anim">
+          <div class="av-item">
+            <div class="av-icon"><svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg></div>
+            <div><h4>Giá trị cốt lõi</h4><p>"Tập trung vào tùy chỉnh laser, phục vụ khách hàng bằng cả trái tim"</p></div>
+          </div>
+          <div class="av-item">
+            <div class="av-icon"><svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg></div>
+            <div><h4>Thiết bị đa dạng</h4><p>Marking · Skinning · Welding · Cutting · Tự động hóa phi tiêu chuẩn</p></div>
+          </div>
+          <div class="av-item">
+            <div class="av-icon"><svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/></svg></div>
+            <div><h4>Thị trường đa ngành</h4><p>3C tiêu dùng, điện tử, y tế, thực phẩm, mỹ phẩm, ô tô, gia dụng</p></div>
+          </div>
+          <div class="av-item">
+            <div class="av-icon"><svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg></div>
+            <div><h4>Kết nối trực tiếp</h4><p>Vietnam Yihuixuan — cầu nối giữa Borna TQ và nhà máy Việt Nam</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SLIDE 8 — INDUSTRIES + WHY ═══ -->
+<section class="fp-slide" id="s8">
+  <div class="grid-bg"></div>
+  <div class="orb orb1"></div>
+  <div class="slide-inner">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start" class="s8-grid">
+      <div>
+        <div class="sec-label anim">Ngành ứng dụng</div>
+        <h2 class="sec-title anim" style="font-size:32px">Phục vụ đa dạng<br/><em>ngành công nghiệp</em></h2>
+        <div class="ind-grid anim" style="grid-template-columns:repeat(3,1fr)">
+          <div class="ind-item">
+            <div class="ind-icon-wrap"><svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18"/></svg></div>
+            <h4>Điện tử 3C</h4>
+          </div>
+          <div class="ind-item">
+            <div class="ind-icon-wrap"><svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg></div>
+            <h4>Cáp & Đầu nối</h4>
+          </div>
+          <div class="ind-item">
+            <div class="ind-icon-wrap"><svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg></div>
+            <h4>Y tế & Thẩm mỹ</h4>
+          </div>
+          <div class="ind-item">
+            <div class="ind-icon-wrap"><svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10l2-2h7M13 16l2-2h3l2 2m-7-10h4l2 4"/></svg></div>
+            <h4>Pin xe điện</h4>
+          </div>
+          <div class="ind-item">
+            <div class="ind-icon-wrap"><svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/></svg></div>
+            <h4>Dược phẩm</h4>
+          </div>
+          <div class="ind-item">
+            <div class="ind-icon-wrap"><svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg></div>
+            <h4>Ô tô & Gia dụng</h4>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="sec-label anim">Tại sao chọn chúng tôi</div>
+        <h2 class="sec-title anim" style="font-size:32px">4 lý do <em>khác biệt</em></h2>
+        <div style="display:flex;flex-direction:column;gap:18px">
+          <div class="anim" style="display:flex;align-items:flex-start;gap:16px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:18px 20px">
+            <div style="font-size:32px;font-weight:900;color:rgba(27,95,212,.4);line-height:1;min-width:40px">01</div>
+            <div><h4 style="font-size:14px;font-weight:600;margin-bottom:5px">Đối tác chính thức Borna</h4><p style="font-size:13px;color:rgba(255,255,255,.45);line-height:1.6;font-family:'Nunito',sans-serif">Đại lý ủy quyền của Suzhou Borna — thiết bị chính hãng, hỗ trợ kỹ thuật trực tiếp từ nhà sản xuất.</p></div>
+          </div>
+          <div class="anim" style="display:flex;align-items:flex-start;gap:16px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:18px 20px">
+            <div style="font-size:32px;font-weight:900;color:rgba(27,95,212,.4);line-height:1;min-width:40px">02</div>
+            <div><h4 style="font-size:14px;font-weight:600;margin-bottom:5px">Tư vấn kỹ thuật miễn phí</h4><p style="font-size:13px;color:rgba(255,255,255,.45);line-height:1.6;font-family:'Nunito',sans-serif">Đội kỹ sư phân tích quy trình, đề xuất giải pháp tối ưu trước khi ký hợp đồng.</p></div>
+          </div>
+          <div class="anim" style="display:flex;align-items:flex-start;gap:16px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:18px 20px">
+            <div style="font-size:32px;font-weight:900;color:rgba(27,95,212,.4);line-height:1;min-width:40px">03</div>
+            <div><h4 style="font-size:14px;font-weight:600;margin-bottom:5px">Linh kiện sẵn có tại kho</h4><p style="font-size:13px;color:rgba(255,255,255,.45);line-height:1.6;font-family:'Nunito',sans-serif">Nguồn laser, thấu kính, gương quét chính hãng tại Bắc Ninh — giảm thời gian dừng máy.</p></div>
+          </div>
+          <div class="anim" style="display:flex;align-items:flex-start;gap:16px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:18px 20px">
+            <div style="font-size:32px;font-weight:900;color:rgba(27,95,212,.4);line-height:1;min-width:40px">04</div>
+            <div><h4 style="font-size:14px;font-weight:600;margin-bottom:5px">Hỗ trợ sau bán hàng dài hạn</h4><p style="font-size:13px;color:rgba(255,255,255,.45);line-height:1.6;font-family:'Nunito',sans-serif">Bảo hành, đào tạo, hỗ trợ sự cố từ xa và tại chỗ — cam kết đồng hành lâu dài.</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SLIDE 9 — TESTIMONIAL + CTA ═══ -->
+<section class="fp-slide" id="s9">
+  <div class="grid-bg"></div>
+  <div class="orb orb1"></div>
+  <div class="slide-inner" style="max-width:840px;margin:0 auto">
+    <div class="testi-wrap">
+      <div class="quote-mark anim">
+        <svg width="20" height="20" fill="#fff" viewBox="0 0 24 24"><path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/></svg>
+      </div>
+      <p class="testi-text anim">"Máy tuốt vỏ laser của Borna giúp chúng tôi xử lý cáp Type-C với độ chính xác tuyệt vời. Không còn tình trạng đứt lõi, năng suất tăng gấp đôi. Đội ngũ Nghệ Huy Hiên hỗ trợ lắp đặt rất chuyên nghiệp."</p>
+      <div class="testi-author anim">
+        <div class="testi-av">M</div>
+        <div class="testi-info">
+          <h4>Nguyễn Văn Minh</h4>
+          <p>Giám đốc sản xuất · Công ty Điện tử Hà Nội</p>
+        </div>
+      </div>
+    </div>
+    <div class="cta-block anim">
+      <div>
+        <h2>Sẵn sàng nâng cấp dây chuyền?</h2>
+        <p>Tư vấn miễn phí — chúng tôi thiết kế giải pháp laser phù hợp nhất cho quy trình của bạn.</p>
+      </div>
+      <a href="#" class="btn btn-fill" data-go="10" style="white-space:nowrap">Liên hệ ngay <span class="btn-arr">→</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SLIDE 10 — CONTACT ═══ -->
+<section class="fp-slide" id="s10">
+  <div class="grid-bg"></div>
+  <div class="orb orb1"></div>
+  <div class="slide-inner">
+    <div class="contact-grid">
+      <div>
+        <div class="sec-label anim">Liên hệ</div>
+        <h2 class="sec-title anim" style="font-size:34px">Gửi yêu cầu<br/><em>tư vấn ngay</em></h2>
+        <div class="ci-list">
+          <div class="ci-item anim">
+            <div class="ci-icon"><svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg></div>
+            <div><h4>Địa chỉ</h4><p>Cụm CN Hạp Lĩnh, P. Hạp Lĩnh, TP. Bắc Ninh</p></div>
+          </div>
+          <div class="ci-item anim">
+            <div class="ci-icon"><svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg></div>
+            <div><h4>Email Việt Nam</h4><p><a href="mailto:nghehuyhienvn@gmail.com">nghehuyhienvn@gmail.com</a></p></div>
+          </div>
+          <div class="ci-item anim">
+            <div class="ci-icon"><svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064"/></svg></div>
+            <div><h4>Trụ sở Trung Quốc</h4><p>Côn Sơn, Giang Tô · <a href="mailto:boernazn@163.com">boernazn@163.com</a></p></div>
+          </div>
+        </div>
+      </div>
+      <div class="form-wrap anim">
+        <form id="cForm">
+          <div class="form-row">
+            <div class="fg"><label>Họ và tên *</label><input type="text" placeholder="Nguyễn Văn A" required/></div>
+            <div class="fg"><label>Công ty</label><input type="text" placeholder="Công ty ABC"/></div>
+            <div class="fg"><label>Email *</label><input type="email" placeholder="email@congty.com" required/></div>
+            <div class="fg"><label>Điện thoại</label><input type="tel" placeholder="0901 234 567"/></div>
+          </div>
+          <div class="fg full"><label>Sản phẩm quan tâm</label>
+            <select>
+              <option value="">-- Chọn sản phẩm --</option>
+              <option>Máy Đánh Dấu Laser (Marking)</option>
+              <option>Máy Tuốt Vỏ Dây (Skinning)</option>
+              <option>Máy Hàn Laser (Welding)</option>
+              <option>Máy Cắt Laser (Cutting)</option>
+              <option>Tự Động Hóa Phi Tiêu Chuẩn</option>
+            </select>
+          </div>
+          <div class="fg full"><label>Mô tả yêu cầu *</label><textarea placeholder="Vật liệu, quy trình, sản lượng, yêu cầu đặc biệt..." required></textarea></div>
+          <button type="submit" class="btn btn-fill" style="width:100%;justify-content:center;margin-top:4px">Gửi yêu cầu tư vấn <span class="btn-arr">→</span></button>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="foot">
+    <span>&copy; 2022–2025 Công ty TNHH Nghệ Huy Hiên. Bảo lưu mọi quyền.</span>
+    <span>Hạp Lĩnh, Bắc Ninh · <a href="mailto:nghehuyhienvn@gmail.com">nghehuyhienvn@gmail.com</a></span>
+  </div>
+</section>
+
+</div><!-- /fp-track -->
+</div><!-- /fp-wrapper -->
+
+<script>
+/* ═══════════════════════════════════
+   FULL-PAGE SCROLL ENGINE
+═══════════════════════════════════ */
+const TOTAL = 11;
+let current = 0;
+let isAnimating = false;
+let animTimer = null;
+
+// Detect mobile — disable fullpage scroll engine
+const isMobile = () => window.innerWidth <= 768;
+
+const track = document.getElementById('fp-track');
+const dots = document.querySelectorAll('.fp-dot');
+const slides = document.querySelectorAll('.fp-slide');
+const navbar = document.getElementById('navbar');
+
+function finishAnim() {
+  isAnimating = false;
+  if (animTimer) { clearTimeout(animTimer); animTimer = null; }
+}
+
+function goTo(idx, force) {
+  if (isMobile()) return; // mobile: scroll tự nhiên, không dùng engine
+  if (idx < 0 || idx >= TOTAL) return;
+  if (!force && (idx === current || isAnimating)) return;
+  // Reset any stuck animation state
+  finishAnim();
+  isAnimating = true;
+  current = idx;
+
+  // Move track
+  track.style.transform = `translateY(-${idx * 100}vh)`;
+
+  // Update dots
+  dots.forEach((d,i) => d.classList.toggle('active', i === idx));
+
+  // Update nav links
+  document.querySelectorAll('.nav-links a[data-go]').forEach(a => {
+    a.classList.toggle('active', +a.dataset.go === idx);
+  });
+
+  // Navbar solid after slide 0
+  navbar.classList.toggle('solid', idx > 0);
+
+  // Mark visible for animation
+  slides.forEach((s,i) => s.classList.toggle('visible', i === idx));
+  updateScrollTopBtn();
+  // Release lock after transition + buffer — use transitionend as primary
+  animTimer = setTimeout(finishAnim, 1050);
+}
+
+// transitionend as reliable unlock
+track.addEventListener('transitionend', finishAnim);
+
+// Init — mark first slide visible
+slides[0].classList.add('visible');
+navbar.classList.remove('solid');
+
+// Mobile: mark tất cả slides visible ngay (không dùng scroll engine)
+if (isMobile()) {
+  slides.forEach(s => s.classList.add('visible'));
+}
+
+// ── Wheel ──────────────────────────────────────────
+let lastWheel = 0;
+window.addEventListener('wheel', e => {
+  if (isMobile()) return;
+  const now = Date.now();
+  if (now - lastWheel < 900) return; // cooldown 900ms
+  if (isAnimating) return;
+  lastWheel = now;
+  if (e.deltaY > 0) goTo(current + 1);
+  else goTo(current - 1);
+}, { passive: true });
+
+// ── Touch ──────────────────────────────────────────
+let touchStartY = 0;
+let lastTouch = 0;
+window.addEventListener('touchstart', e => {
+  if (isMobile()) return;
+  touchStartY = e.touches[0].clientY;
+}, { passive: true });
+window.addEventListener('touchend', e => {
+  if (isMobile()) return;
+  const now = Date.now();
+  if (now - lastTouch < 900 || isAnimating) return;
+  const dy = touchStartY - e.changedTouches[0].clientY;
+  if (Math.abs(dy) < 30) return;
+  lastTouch = now;
+  if (dy > 0) goTo(current + 1);
+  else goTo(current - 1);
+}, { passive: true });
+
+// ── Keyboard ───────────────────────────────────────
+window.addEventListener('keydown', e => {
+  if (isMobile()) return;
+  if (e.key === 'ArrowDown' || e.key === 'PageDown') goTo(current + 1);
+  if (e.key === 'ArrowUp' || e.key === 'PageUp') goTo(current - 1);
+});
+
+// ── Dot clicks ─────────────────────────────────────
+dots.forEach(d => d.addEventListener('click', () => goTo(+d.dataset.go, true)));
+
+// ── Nav link clicks ────────────────────────────────
+// Only bind nav-links and mob-menu links (not product slide buttons)
+document.querySelectorAll('#navbar [data-go], #mobMenu [data-go]').forEach(el => {
+  el.addEventListener('click', e => {
+    e.preventDefault();
+    const idx = +el.dataset.go;
+    document.getElementById('mobMenu').classList.remove('open');
+    if (isMobile()) {
+      // Mobile: scroll đến slide tương ứng
+      const target = slides[idx];
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } else {
+      goTo(idx, true); // force=true: nav click luôn hoạt động dù đang animate
+    }
+  });
+});
+
+// ── Mobile menu ────────────────────────────────────
+document.getElementById('hamBtn').addEventListener('click', () => {
+  document.getElementById('mobMenu').classList.add('open');
+});
+document.getElementById('mobClose').addEventListener('click', () => {
+  document.getElementById('mobMenu').classList.remove('open');
+});
+
+// ── Scroll To Top button ────────────────────────────
+const scrollTopBtn = document.getElementById('scrollTop');
+scrollTopBtn.addEventListener('click', () => {
+  if (isMobile()) {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  } else {
+    goTo(0);
+  }
+});
+// Show/hide: desktop theo current slide, mobile theo scroll position
+function updateScrollTopBtn() {
+  if (isMobile()) {
+    scrollTopBtn.classList.toggle('show', window.scrollY > 300);
+  } else {
+    scrollTopBtn.classList.toggle('show', current > 0);
+  }
+}
+window.addEventListener('scroll', updateScrollTopBtn, { passive: true });
+
+// ── Mobile: navbar solid on scroll ─────────────────
+window.addEventListener('scroll', () => {
+  if (!isMobile()) return;
+  navbar.classList.toggle('solid', window.scrollY > 10);
+}, { passive: true });
+// ── YouTube autoplay on slide ─────────────────────
+// sp1 = index 6 (slides: s0,s1,sp1..sp5,s7,s8,s9,s10 → sp1 = index 2)
+(function() {
+  const YT_SLIDE_ID = 'sp1';
+  const iframeEl = document.getElementById('yt-marking');
+  if (!iframeEl) return;
+
+  // postMessage helpers
+  function ytCmd(cmd) {
+    try {
+      iframeEl.contentWindow.postMessage(JSON.stringify({ event:'command', func:cmd, args:[] }), '*');
+    } catch(e) {}
+  }
+
+  // Find slide index of sp1
+  const slideArr = Array.from(slides);
+  const sp1Index = slideArr.findIndex(s => s.id === YT_SLIDE_ID);
+
+  // Hook into goTo
+  const _origGoTo = goTo;
+  // Override: after goTo, check if sp1 is active
+  track.addEventListener('transitionend', () => {
+    if (current === sp1Index) {
+      ytCmd('playVideo');
+    } else {
+      ytCmd('pauseVideo');
+    }
+  });
+
+  // Mobile: use IntersectionObserver
+  if (typeof IntersectionObserver !== 'undefined') {
+    const sp1El = document.getElementById(YT_SLIDE_ID);
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) ytCmd('playVideo');
+        else ytCmd('pauseVideo');
+      });
+    }, { threshold: 0.5 });
+    if (sp1El) obs.observe(sp1El);
+  }
+})();
+
+document.getElementById('cForm').addEventListener('submit', e => {
+  e.preventDefault();
+  const btn = e.target.querySelector('button[type=submit]');
+  btn.innerHTML = '✓ Đã gửi! Chúng tôi sẽ liên hệ sớm.';
+  btn.style.background = '#16a34a';
+  btn.disabled = true;
+});
+</script>
+<!-- SCROLL TO TOP -->
+<button id="scrollTop" aria-label="Lên đầu trang" title="Lên đầu trang">
+  <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7"/></svg>
+</button>
+
+<!-- ══════════════════════════════════════════════
+  STARFIELD CANVAS + MOUSE PARALLAX (visual only)
+══════════════════════════════════════════════ -->
+<canvas id="starfield"></canvas>
+<script>
+/* ═══════════════════════════════════
+   STARFIELD BACKGROUND — ~150 stars
+═══════════════════════════════════ */
+(function() {
+  const canvas = document.getElementById('starfield');
+  const ctx = canvas.getContext('2d');
+  const STAR_COUNT = 150;
+  let stars = [];
+  let W, H;
+
+  function resize() {
+    W = canvas.width = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  }
+  window.addEventListener('resize', resize, { passive: true });
+  resize();
+
+  function randomBetween(a, b) { return a + Math.random() * (b - a); }
+
+  function initStars() {
+    stars = [];
+    for (let i = 0; i < STAR_COUNT; i++) {
+      stars.push({
+        x: Math.random() * W,
+        y: Math.random() * H,
+        r: randomBetween(0.3, 1.6),
+        alpha: randomBetween(0.2, 0.85),
+        alphaDir: Math.random() > 0.5 ? 1 : -1,
+        alphaDelta: randomBetween(0.003, 0.012),
+        color: Math.random() > 0.7
+          ? `hsl(${randomBetween(200, 240)}, 80%, 80%)`
+          : '#fff',
+      });
+    }
+  }
+  initStars();
+
+  let raf;
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+    const now = Date.now() * 0.001;
+    for (let i = 0; i < stars.length; i++) {
+      const s = stars[i];
+      // Twinkle
+      s.alpha += s.alphaDelta * s.alphaDir;
+      if (s.alpha >= 0.85) { s.alpha = 0.85; s.alphaDir = -1; }
+      if (s.alpha <= 0.08) { s.alpha = 0.08; s.alphaDir = 1; }
+
+      ctx.save();
+      ctx.globalAlpha = s.alpha;
+      ctx.fillStyle = s.color;
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+    }
+    raf = requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+/* ═══════════════════════════════════
+   HERO MOUSE PARALLAX — glass cards
+═══════════════════════════════════ */
+(function() {
+  if (window.innerWidth <= 768) return;
+
+  const heroSlide = document.getElementById('s0');
+  const cards = document.querySelectorAll('#heroFloatCards .hfc');
+  const MAX_SHIFT = 15;
+
+  function isMob() { return window.innerWidth <= 768; }
+
+  document.addEventListener('mousemove', function(e) {
+    if (isMob()) return;
+    // Only active on hero slide (slide 0 in viewport)
+    const rect = heroSlide.getBoundingClientRect();
+    if (rect.top > 50 || rect.bottom < -50) return;
+
+    const cx = window.innerWidth / 2;
+    const cy = window.innerHeight / 2;
+    const dx = (e.clientX - cx) / cx; // -1 to +1
+    const dy = (e.clientY - cy) / cy;
+
+    cards.forEach(function(card) {
+      const depth = parseFloat(card.getAttribute('data-depth') || '0.05');
+      const shiftX = dx * MAX_SHIFT * depth * 100;
+      const shiftY = dy * MAX_SHIFT * depth * 100;
+
+      // Parse existing translateZ from class
+      let tz = 0;
+      if (card.classList.contains('hfc-1')) tz = 40;
+      else if (card.classList.contains('hfc-2')) tz = 20;
+
+      let rotate = 0;
+      if (card.classList.contains('hfc-1')) rotate = -3;
+      else if (card.classList.contains('hfc-2')) rotate = 2;
+      else if (card.classList.contains('hfc-3')) rotate = -1;
+
+      card.style.transform = `translate(${shiftX}px, ${shiftY}px) translateZ(${tz}px) rotate(${rotate}deg)`;
+    });
+  });
+
+  // Reset on mouse leave
+  heroSlide.addEventListener('mouseleave', function() {
+    cards.forEach(function(card) {
+      let tz = 0;
+      if (card.classList.contains('hfc-1')) tz = 40;
+      else if (card.classList.contains('hfc-2')) tz = 20;
+      let rotate = 0;
+      if (card.classList.contains('hfc-1')) rotate = -3;
+      else if (card.classList.contains('hfc-2')) rotate = 2;
+      else if (card.classList.contains('hfc-3')) rotate = -1;
+      card.style.transform = `translateZ(${tz}px) rotate(${rotate}deg)`;
+    });
+  });
+})();
+</script>
+</body>
+</html>

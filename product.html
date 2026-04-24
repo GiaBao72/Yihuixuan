@@ -24,6 +24,163 @@ img{display:block;max-width:100%}
   --blue2:#4a90e2;
   --text-muted:rgba(255,255,255,.55);
 }
+.theme-toggle{
+  background:linear-gradient(135deg, rgba(255,255,255,.1), rgba(255,255,255,.04));
+  border:1px solid rgba(255,255,255,.16);
+  color:rgba(255,255,255,.82);
+  font-size:12px;
+  font-weight:700;
+  letter-spacing:.3px;
+  padding:7px 13px;
+  border-radius:999px;
+  cursor:pointer;
+  transition:all .22s ease;
+  font-family:'Rubik',sans-serif;
+  box-shadow:0 10px 24px rgba(0,0,0,.12);
+}
+.theme-toggle:hover{
+  transform:translateY(-1px);
+  border-color:rgba(255,255,255,.32);
+  background:linear-gradient(135deg, rgba(255,255,255,.16), rgba(255,255,255,.06));
+}
+.theme-toggle.light-active{
+  background:linear-gradient(135deg, #fff3bf, #ffd166);
+  border-color:rgba(180,120,0,.22);
+  color:#7a4b00;
+  box-shadow:0 14px 30px rgba(255,193,7,.22);
+}
+body.theme-light{
+  background:linear-gradient(180deg, #f8efe1 0%, #f7f3ea 22%, #eef5fb 60%, #e7f0f8 100%);
+  color:#16314c;
+}
+body.theme-light #navbar{
+  background:rgba(247, 241, 231, .88);
+  border-bottom:1px solid rgba(22,49,76,.08);
+}
+body.theme-light .logo,
+body.theme-light .prod-name,
+body.theme-light .section-title,
+body.theme-light .cta-inner h2,
+body.theme-light .prod-specs-title,
+body.theme-light .prod-feats-title,
+body.theme-light .other-card-name{
+  color:#16314c;
+}
+body.theme-light .logo em,
+body.theme-light .section-title em,
+body.theme-light .prod-name em,
+body.theme-light .prod-series,
+body.theme-light .prod-app,
+body.theme-light .section-label,
+body.theme-light .other-card-tag,
+body.theme-light footer a{
+  color:#d58b18;
+}
+body.theme-light .nav-links a,
+body.theme-light .mob-menu a,
+body.theme-light .breadcrumb,
+body.theme-light .breadcrumb a,
+body.theme-light .prod-sub,
+body.theme-light .prod-desc,
+body.theme-light .spec-key,
+body.theme-light .feat-item,
+body.theme-light .other-card-desc,
+body.theme-light .cta-inner p,
+body.theme-light footer,
+body.theme-light #lightbox-close{
+  color:rgba(22,49,76,.72);
+}
+body.theme-light .nav-links a:hover,
+body.theme-light .nav-links a.active,
+body.theme-light .breadcrumb a:hover,
+body.theme-light .mob-menu a:hover{
+  color:#16314c;
+}
+body.theme-light .hamburger span{
+  background:rgba(22,49,76,.72);
+}
+body.theme-light .lang-toggle,
+body.theme-light .theme-toggle,
+body.theme-light .btn-ghost,
+body.theme-light #lightbox-close{
+  background:rgba(255,255,255,.78);
+  border-color:rgba(22,49,76,.12);
+  color:#16314c;
+}
+body.theme-light .lang-toggle:hover,
+body.theme-light .btn-ghost:hover,
+body.theme-light #lightbox-close:hover{
+  background:rgba(255,255,255,.94);
+  border-color:rgba(22,49,76,.22);
+}
+body.theme-light .mob-menu{
+  background:rgba(247, 241, 231, .96);
+}
+body.theme-light .mob-close{
+  background:rgba(255,255,255,.7);
+  border-color:rgba(22,49,76,.12);
+  color:#16314c;
+}
+body.theme-light .gallery-main,
+body.theme-light .g-thumb.video-thumb,
+body.theme-light .other-card-img,
+body.theme-light .specs-table,
+body.theme-light .other-card,
+body.theme-light .cta-inner{
+  background:rgba(255,255,255,.66);
+  border-color:rgba(22,49,76,.1);
+  box-shadow:0 24px 60px rgba(62,88,118,.12);
+}
+body.theme-light .gallery-main{
+  background:linear-gradient(180deg, rgba(255,255,255,.8), rgba(232,240,248,.88));
+}
+body.theme-light .spec-row{
+  border-bottom:1px solid rgba(22,49,76,.08);
+}
+body.theme-light .spec-key{
+  background:rgba(22,49,76,.04);
+}
+body.theme-light .spec-val{
+  color:rgba(22,49,76,.88);
+}
+body.theme-light .prod-desc{
+  border-left-color:rgba(213,139,24,.4);
+}
+body.theme-light .btn-fill,
+body.theme-light .nav-cta{
+  background:linear-gradient(135deg, #d58b18, #f0b549);
+  color:#fff !important;
+  box-shadow:0 16px 32px rgba(213,139,24,.22);
+}
+body.theme-light .other-card{
+  color:#16314c;
+}
+body.theme-light .other-card:hover{
+  background:rgba(213,139,24,.08);
+  border-color:rgba(213,139,24,.24);
+}
+body.theme-light .other-card-img img{
+  filter:brightness(.94);
+}
+body.theme-light .other-card:hover .other-card-img img{
+  filter:brightness(1);
+}
+body.theme-light .cta-inner{
+  background:linear-gradient(135deg, rgba(245, 204, 126, .22), rgba(231, 240, 248, .92));
+  border-color:rgba(213,139,24,.18);
+}
+body.theme-light .other-products,
+body.theme-light footer{
+  border-top-color:rgba(22,49,76,.08);
+}
+body.theme-light #lightbox{
+  background:rgba(242, 238, 230, .94);
+}
+@media(max-width:768px){
+  body.theme-light{
+    background:linear-gradient(180deg, #fbf5eb 0%, #f6efe4 34%, #edf4fa 100%);
+  }
+}
 
 /* ═══════════════════════════════════
    NAVBAR
@@ -449,6 +606,7 @@ footer a{color:rgba(74,144,226,.7)}
     <a href="index.html#about" data-i18n="nav_about">Về chúng tôi</a>
     <a href="index.html#industries" data-i18n="nav_industries">Ngành ứng dụng</a>
     <button id="langToggle" class="lang-toggle" title="切换语言 / Đổi ngôn ngữ">🇨🇳 中文</button>
+    <button id="themeToggle" class="theme-toggle" title="切换为浅色界面" aria-pressed="false">☾ 深色</button>
     <a href="index.html#contact" class="nav-cta" data-i18n="nav_contact">Liên hệ →</a>
   </div>
   <div class="hamburger" id="hamBtn"><span></span><span></span><span></span></div>
@@ -461,6 +619,7 @@ footer a{color:rgba(74,144,226,.7)}
   <a href="index.html#products" data-i18n="mob_products">Sản phẩm</a>
   <a href="index.html#about" data-i18n="mob_about">Về chúng tôi</a>
   <a href="index.html#industries" data-i18n="mob_industries">Ngành ứng dụng</a>
+  <button id="themeToggleMob" class="theme-toggle" title="切换为浅色界面" aria-pressed="false">☾ 深色</button>
   <a href="index.html#contact" data-i18n="mob_contact">Liên hệ</a>
 </div>
 
@@ -823,6 +982,26 @@ document.getElementById('hamBtn').addEventListener('click', () => {
 document.getElementById('mobClose').addEventListener('click', () => {
   document.getElementById('mobMenu').classList.remove('open');
 });
+
+const themeButtons = [document.getElementById('themeToggle'), document.getElementById('themeToggleMob')].filter(Boolean);
+let theme = localStorage.getItem('borna_theme') || 'dark';
+
+function applyTheme(nextTheme) {
+  theme = nextTheme;
+  document.body.classList.toggle('theme-light', nextTheme === 'light');
+  themeButtons.forEach(toggleBtn => {
+    const isLight = nextTheme === 'light';
+    toggleBtn.classList.toggle('light-active', isLight);
+    toggleBtn.setAttribute('aria-pressed', String(isLight));
+    toggleBtn.textContent = isLight ? '☀ 浅色' : '☾ 深色';
+    toggleBtn.title = isLight ? '切换为深色界面' : '切换为浅色界面';
+  });
+}
+
+themeButtons.forEach(toggleBtn => {
+  toggleBtn.addEventListener('click', () => applyTheme(theme === 'light' ? 'dark' : 'light'));
+});
+applyTheme(theme);
 
 /* ═══════════════════════════════════
    I18N — BILINGUAL VI / ZH

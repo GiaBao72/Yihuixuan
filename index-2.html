@@ -1309,6 +1309,52 @@ body.theme-light .grid-bg {
     repeating-linear-gradient(90deg, transparent, transparent 70px, rgba(27, 62, 91, .045) 70px, rgba(27, 62, 91, .045) 71px);
 }
 body.theme-light .orb { opacity: .32; }
+body.theme-light .fp-slide,
+body.theme-light #s0,
+body.theme-light #s1,
+body.theme-light #s2,
+body.theme-light #s3,
+body.theme-light #s4,
+body.theme-light #s5,
+body.theme-light #sp1,
+body.theme-light #sp2,
+body.theme-light #sp3,
+body.theme-light #sp4,
+body.theme-light #sp5,
+body.theme-light #s7,
+body.theme-light #s8,
+body.theme-light #s9,
+body.theme-light #s10 {
+  background: linear-gradient(180deg, #f8efe1 0%, #f7f3ea 20%, #eef5fb 58%, #e7f0f8 100%) !important;
+}
+body.theme-light #s1 {
+  background: linear-gradient(180deg, #fbf4e8 0%, #f6efe5 28%, #edf5fb 100%) !important;
+}
+body.theme-light .slide-inner,
+body.theme-light .ps-wrap {
+  position: relative;
+  z-index: 1;
+}
+body.theme-light .ps-panel::after {
+  background: linear-gradient(180deg, rgba(247, 242, 233, .14) 0%, rgba(239, 245, 251, .68) 54%, rgba(227, 236, 245, .94) 100%);
+}
+body.theme-light .pd-media::after {
+  background: linear-gradient(180deg, rgba(247, 242, 233, .05) 0%, rgba(239, 245, 251, .2) 55%, rgba(227, 236, 245, .5) 100%);
+}
+body.theme-light .pd-media,
+body.theme-light .ps-panel,
+body.theme-light .about-media,
+body.theme-light .testi-av {
+  box-shadow: 0 28px 70px rgba(62, 88, 118, .12);
+}
+body.theme-light .hero-stats,
+body.theme-light .ps-left,
+body.theme-light .ps-right,
+body.theme-light .why-grid,
+body.theme-light .ind-grid,
+body.theme-light .about-visual {
+  filter: none;
+}
 body.theme-light .scroll-hint-line {
   background: linear-gradient(to bottom, rgba(22,49,76,.3), transparent);
 }
@@ -1318,6 +1364,37 @@ body.theme-light .fp-dot {
 body.theme-light #zaloChat,
 body.theme-light #scrollTop {
   box-shadow: 0 20px 40px rgba(39, 74, 108, .16);
+}
+@media(max-width:768px){
+  body.theme-light,
+  body.theme-light .fp-slide,
+  body.theme-light #s0,
+  body.theme-light #s1,
+  body.theme-light #s2,
+  body.theme-light #s3,
+  body.theme-light #s4,
+  body.theme-light #s5,
+  body.theme-light #sp1,
+  body.theme-light #sp2,
+  body.theme-light #sp3,
+  body.theme-light #sp4,
+  body.theme-light #sp5,
+  body.theme-light #s7,
+  body.theme-light #s8,
+  body.theme-light #s9,
+  body.theme-light #s10 {
+    background: linear-gradient(180deg, #fbf5eb 0%, #f6efe4 34%, #edf4fa 100%) !important;
+  }
+  body.theme-light .grid-bg,
+  body.theme-light .orb {
+    display: block !important;
+  }
+  body.theme-light .grid-bg {
+    opacity: .65;
+  }
+  body.theme-light .orb {
+    opacity: .18;
+  }
 }
 
 </style>

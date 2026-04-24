@@ -909,15 +909,38 @@ ul{list-style:none}
     display:flex!important;
     flex:0 0 100%;width:100%;
     flex-direction:column;
-    background:rgba(255,255,255,.04);
     border:1px solid rgba(255,255,255,.08);
     border-radius:16px;
     padding:24px 20px 20px;
     opacity:1!important;
-    position:static!important;
+    position:relative!important;
+    overflow:hidden;
     gap:10px;
     box-sizing:border-box;
+    isolation:isolate;
+    background:rgba(2,11,26,.55);
   }
+  .ps-info::before{
+    content:'';
+    position:absolute;
+    inset:0;
+    background-image:var(--mob-bg);
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
+    opacity:.3;
+    z-index:0;
+    pointer-events:none;
+  }
+  .ps-info::after{
+    content:'';
+    position:absolute;
+    inset:0;
+    background:linear-gradient(to top,rgba(2,11,26,.88),rgba(2,11,26,.52));
+    z-index:0;
+    pointer-events:none;
+  }
+  .ps-info > *{position:relative;z-index:1}
   .ps-info:not(.active){opacity:.4!important;transform:scale(.97)}
   .ps-info.active{opacity:1!important;transform:none}
   .ps-info-tag{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(74,144,226,.7);margin-bottom:2px}
@@ -2172,17 +2195,26 @@ document.getElementById('cForm').addEventListener('submit', e => {
 
   let idx = 0;
   const total = panels.length;
+  const mobBg = Array.from(track.querySelectorAll('.ps-img-layer')).map(el => {
+    const bg = getComputedStyle(el).backgroundImage || el.style.backgroundImage;
+    return bg && bg !== 'none' ? bg : '';
+  });
 
   function goTo(i) {
     idx = (i + total) % total;
-    track.style.transform = `translateX(-${idx * 100}%)`;
-    panels.forEach((p,j) => p.classList.toggle('active', j === idx));
+    const viewportW = (track.parentElement && track.parentElement.clientWidth) || window.innerWidth;
+    track.style.transform = `translateX(-${idx * viewportW}px)`;
+    panels.forEach((p,j) => {
+      p.classList.toggle('active', j === idx);
+      if (mobBg[j]) p.style.setProperty('--mob-bg', mobBg[j]);
+    });
     dots.forEach((d,j) => d.classList.toggle('active', j === idx));
   }
 
   goTo(0);
 
   dots.forEach(d => d.addEventListener('click', () => goTo(+d.dataset.idx)));
+  window.addEventListener('resize', () => goTo(idx));
 
   let startX = 0, startY = 0, dragging = false;
   track.addEventListener('touchstart', e => {

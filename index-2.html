@@ -898,9 +898,15 @@ ul{list-style:none}
   /* Carousel track */
   #ps-right-main{
     display:flex;flex-direction:row;
-    transition:transform .4s cubic-bezier(.4,0,.2,1);
-    will-change:transform;
+    overflow-x:auto;
+    overflow-y:hidden;
+    scroll-snap-type:x mandatory;
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:none;
+    will-change:scroll-position;
+    touch-action:pan-x;
   }
+  #ps-right-main::-webkit-scrollbar{display:none}
   /* Mỗi panel thành 1 card full-width */
   .ps-img-layer{
     display:none!important;
@@ -918,7 +924,9 @@ ul{list-style:none}
     gap:10px;
     box-sizing:border-box;
     isolation:isolate;
-    background:rgba(2,11,26,.55);
+    background:rgba(2,11,26,.42);
+    visibility:visible!important;
+    pointer-events:auto!important;
   }
   .ps-info::before{
     content:'';
@@ -928,7 +936,7 @@ ul{list-style:none}
     background-size:cover;
     background-position:center;
     background-repeat:no-repeat;
-    opacity:.3;
+    opacity:.45;
     z-index:0;
     pointer-events:none;
   }
@@ -936,13 +944,14 @@ ul{list-style:none}
     content:'';
     position:absolute;
     inset:0;
-    background:linear-gradient(to top,rgba(2,11,26,.88),rgba(2,11,26,.52));
+    background:linear-gradient(to top,rgba(2,11,26,.70),rgba(2,11,26,.30));
     z-index:0;
     pointer-events:none;
   }
   .ps-info > *{position:relative;z-index:1}
-  .ps-info:not(.active){opacity:.4!important;transform:scale(.97)}
+  .ps-info:not(.active){opacity:.75!important;transform:none}
   .ps-info.active{opacity:1!important;transform:none}
+  .ps-info{scroll-snap-align:start}
   .ps-info-tag{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(74,144,226,.7);margin-bottom:2px}
   .ps-info-title{font-size:20px;font-weight:800;color:#fff;margin-bottom:4px}
   .ps-info-desc{font-size:13px;color:rgba(255,255,255,.6);line-height:1.6}
@@ -2200,37 +2209,39 @@ document.getElementById('cForm').addEventListener('submit', e => {
     return bg && bg !== 'none' ? bg : '';
   });
 
-  function goTo(i) {
-    idx = (i + total) % total;
-    const viewportW = (track.parentElement && track.parentElement.clientWidth) || window.innerWidth;
-    track.style.transform = `translateX(-${idx * viewportW}px)`;
-    panels.forEach((p,j) => {
-      p.classList.toggle('active', j === idx);
-      if (mobBg[j]) p.style.setProperty('--mob-bg', mobBg[j]);
-    });
-    dots.forEach((d,j) => d.classList.toggle('active', j === idx));
+  panels.forEach((p, j) => {
+    if (mobBg[j]) p.style.setProperty('--mob-bg', mobBg[j]);
+  });
+
+  function viewportWidth() {
+    return (track.parentElement && track.parentElement.clientWidth) || track.clientWidth || window.innerWidth;
   }
 
-  goTo(0);
+  function updateActiveFromScroll() {
+    const width = viewportWidth() || 1;
+    const next = Math.round(track.scrollLeft / width);
+    idx = Math.max(0, Math.min(total - 1, next));
+    panels.forEach((p, j) => p.classList.toggle('active', j === idx));
+    dots.forEach((d, j) => d.classList.toggle('active', j === idx));
+  }
 
-  dots.forEach(d => d.addEventListener('click', () => goTo(+d.dataset.idx)));
-  window.addEventListener('resize', () => goTo(idx));
+  function goTo(i, smooth = true) {
+    idx = (i + total) % total;
+    track.scrollTo({ left: idx * viewportWidth(), behavior: smooth ? 'smooth' : 'auto' });
+    updateActiveFromScroll();
+  }
 
-  let startX = 0, startY = 0, dragging = false;
-  track.addEventListener('touchstart', e => {
-    startX = e.touches[0].clientX;
-    startY = e.touches[0].clientY;
-    dragging = true;
+  goTo(0, false);
+
+  dots.forEach(d => d.addEventListener('click', () => goTo(+d.dataset.idx, true)));
+
+  let rafId = 0;
+  track.addEventListener('scroll', () => {
+    if (rafId) cancelAnimationFrame(rafId);
+    rafId = requestAnimationFrame(updateActiveFromScroll);
   }, { passive: true });
-  track.addEventListener('touchend', e => {
-    if(!dragging) return;
-    const dx = startX - e.changedTouches[0].clientX;
-    const dy = Math.abs(startY - e.changedTouches[0].clientY);
-    if(Math.abs(dx) > 40 && Math.abs(dx) > dy) {
-      goTo(dx > 0 ? idx + 1 : idx - 1);
-    }
-    dragging = false;
-  }, { passive: true });
+
+  window.addEventListener('resize', () => goTo(idx, false));
 })();
 </script>
 <!-- SCROLL TO TOP -->
